@@ -33,11 +33,12 @@ docker-shell:
 	docker pull kittymac/silkroad
 	docker run --rm -it --entrypoint bash kittymac/silkroad
 
-docker-export:
+docker-export: docker
 	docker pull kittymac/silkroad
+	rm -rf /tmp/jniLibs
 	mkdir -p /tmp/jniLibs
 	docker run --rm -v /tmp/jniLibs:/jniLibs kittymac/silkroad /bin/bash -lc 'cp -r /root/lib/* /jniLibs/'
-	cp -r /tmp/jniLibs ./SilkRoadAndroidTest/app/src/main/jniLibs/
+	cp -r /tmp/jniLibs/* ./SilkRoadAndroidTest/app/src/main/jniLibs/
 	
 
 docker-dev: docker docker-shell

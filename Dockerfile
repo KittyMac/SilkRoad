@@ -37,12 +37,15 @@ RUN ln -sf /usr/lib/clang/13.0.0 "/root/swift-5.6-android-armv7-24-sdk/usr/lib/s
 WORKDIR /root/lib
 WORKDIR /root/lib/x86_64
 RUN cp /root/swift-5.6-android-x86_64-24-sdk/usr/lib/swift/android/*.so ./
+RUN cp /root/swift-5.6-android-x86_64-24-sdk/usr/lib/*.so ./
 
-WORKDIR /root/lib/aarch64
+WORKDIR /root/lib/arm64-v8a
 RUN cp /root/swift-5.6-android-aarch64-24-sdk/usr/lib/swift/android/*.so ./
+RUN cp /root/swift-5.6-android-aarch64-24-sdk/usr/lib/*.so ./
 
-WORKDIR /root/lib/armv7
+WORKDIR /root/lib/armeabi-v7a
 RUN cp /root/swift-5.6-android-armv7-24-sdk/usr/lib/swift/android/*.so ./
+RUN cp /root/swift-5.6-android-armv7-24-sdk/usr/lib/*.so ./
 
 # Import your SPM project
 WORKDIR /root/SilkRoad
@@ -57,11 +60,11 @@ RUN cp *.so /root/lib/x86_64/
 
 # Cross-compile for aarch64 Android
 RUN /usr/bin/swift build --build-tests --destination "/root/android-aarch64.json" -Xlinker -rpath -Xlinker "/root/swift-5.6-android-aarch64-24-sdk/usr/lib/swift/android"
-RUN cp *.so /root/lib/aarch64/
+RUN cp *.so /root/lib/arm64-v8a/
 
 # Cross-compile for armv7 Android
 RUN /usr/bin/swift build --build-tests --destination "/root/android-armv7.json" -Xlinker -rpath -Xlinker "/root/swift-5.6-android-armv7-24-sdk/usr/lib/swift/android"
-RUN cp *.so /root/lib/armv7/
+RUN cp *.so /root/lib/armeabi-v7a/
 
 # At this point, all of the built dynamic libraries should exist in /root/lib. You can then use docker cp to copy the files out and into your Android studio
 # project's jniLibs folder.

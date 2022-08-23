@@ -1,4 +1,9 @@
-public struct SilkRoad {
-    public private(set) var text = "Hello, World!"
-    public init() { }
+
+public func helloWorld() -> String {
+    return SilkRoad().text
+}
+
+struct SilkRoad {
+    let text = "Hello, World!"
+    init() { }
 }

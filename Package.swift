@@ -10,9 +10,7 @@ let package = Package(
             targets: ["SilkRoadFramework"]
         ),
     ],
-    dependencies: [
-        
-    ],
+    dependencies: [],
     targets: [
         .target(
             name: "SilkRoadFramework",

@@ -5,6 +5,7 @@ plugins {
 
 android {
     compileSdk 32
+    ndkVersion "23.2.8568313"
 
     defaultConfig {
         applicationId "com.chimerasw.silkroadandroidtest"
