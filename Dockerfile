@@ -1,13 +1,7 @@
 FROM swiftarm/swift:5.6.2-ubuntu-focal as builder
 
-ARG TARGETARCH
-
 RUN export DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true && apt-get -q update && \
     apt-get install -y \
-    libpq-dev \
-    libpng-dev \
-    libjpeg-dev \
-    libjavascriptcoregtk-4.0-dev \
     libatomic1 \
     curl \
     unzip \
