@@ -11,22 +11,16 @@ RUN rm -rf /var/lib/apt/lists/*
 
 WORKDIR /root/
 COPY "./AndroidSDK/android-x86_64.json" "./android-x86_64.json"
-RUN sed -i "s%/home/butta/swift-5.6.2-RELEASE-ubuntu20.04%%" android-x86_64.json
-RUN sed -i "s%/home/butta/%/root/%" android-x86_64.json
 COPY "./AndroidSDK/swift-5.6-android-x86_64-24-sdk.tar.xz" ./tmp.tar.xz
 RUN tar -xf tmp.tar.xz
 RUN rm -rf ./tmp.tar.xz
 
 COPY "./AndroidSDK/android-aarch64.json" "./android-aarch64.json"
-RUN sed -i "s%/home/butta/swift-5.6.2-RELEASE-ubuntu20.04%%" android-aarch64.json
-RUN sed -i "s%/home/butta/%/root/%" android-aarch64.json
 COPY "./AndroidSDK/swift-5.6-android-aarch64-24-sdk.tar.xz" ./tmp.tar.xz
 RUN tar -xf tmp.tar.xz
 RUN rm -rf ./tmp.tar.xz
 
 COPY "./AndroidSDK/android-armv7.json" "./android-armv7.json"
-RUN sed -i "s%/home/butta/swift-5.6.2-RELEASE-ubuntu20.04%%" android-armv7.json
-RUN sed -i "s%/home/butta/%/root/%" android-armv7.json
 COPY "./AndroidSDK/swift-5.6-android-armv7-24-sdk.tar.xz" ./tmp.tar.xz
 RUN tar -xf tmp.tar.xz
 RUN rm -rf ./tmp.tar.xz
@@ -39,18 +33,59 @@ RUN ln -sf /usr/lib/clang/13.0.0 "/root/swift-5.6-android-x86_64-24-sdk/usr/lib/
 RUN ln -sf /usr/lib/clang/13.0.0 "/root/swift-5.6-android-aarch64-24-sdk/usr/lib/swift/clang"
 RUN ln -sf /usr/lib/clang/13.0.0 "/root/swift-5.6-android-armv7-24-sdk/usr/lib/swift/clang"
 
-# Confirm we can compile for Android
+# Generate the lib folder for output libraries
+WORKDIR /root/lib
+WORKDIR /root/lib/x86_64
+RUN cp /root/swift-5.6-android-x86_64-24-sdk/usr/lib/swift/android/*.so ./
+
+WORKDIR /root/lib/aarch64
+RUN cp /root/swift-5.6-android-aarch64-24-sdk/usr/lib/swift/android/*.so ./
+
+WORKDIR /root/lib/armv7
+RUN cp /root/swift-5.6-android-armv7-24-sdk/usr/lib/swift/android/*.so ./
+
+# Import your SPM project
 WORKDIR /root/SilkRoad
 COPY ./Makefile ./Makefile
 COPY ./Package.swift ./Package.swift
 COPY ./Sources ./Sources
 COPY ./Tests ./Tests
 
-# Test cross-compile for x86_64 Android
+# Cross-compile for x86_64 Android
 RUN /usr/bin/swift build --build-tests --destination "/root/android-x86_64.json" -Xlinker -rpath -Xlinker "/root/swift-5.6-android-x86_64-24-sdk/usr/lib/swift/android"
+RUN cp *.so /root/lib/x86_64/
 
-# Test cross-compile for aarch64 Android
+# Cross-compile for aarch64 Android
 RUN /usr/bin/swift build --build-tests --destination "/root/android-aarch64.json" -Xlinker -rpath -Xlinker "/root/swift-5.6-android-aarch64-24-sdk/usr/lib/swift/android"
+RUN cp *.so /root/lib/aarch64/
 
-# Test cross-compile for armv7 Android
+# Cross-compile for armv7 Android
 RUN /usr/bin/swift build --build-tests --destination "/root/android-armv7.json" -Xlinker -rpath -Xlinker "/root/swift-5.6-android-armv7-24-sdk/usr/lib/swift/android"
+RUN cp *.so /root/lib/armv7/
+
+# At this point, all of the built dynamic libraries should exist in /root/lib. You can then use docker cp to copy the files out and into your Android studio
+# project's jniLibs folder.
+
+# By default everything is set up to build dynamic libraries. This is done by passing -emit-library in the extra-swiftc-flags of the *.json build config files
+# After each build, the relevant files will be in the SPM folder (ie ./libSilkRoadFramework.so). This is the file you will need to copy out of the container
+# to include in your Android project.
+
+# You will also need the Swift runtime libraries from the following paths (for each architecture you want to support):
+# /root/swift-5.6-android-aarch64-24-sdk/usr/lib/swift/android
+# /root/swift-5.6-android-armv7-24-sdk/usr/lib/swift/android
+# /root/swift-5.6-android-x86_64-24-sdk/usr/lib/swift/android
+#
+# And the libraries you will likely need:
+# libBlocksRuntime.so
+# libFoundation.so
+# libdispatch.so
+# libswiftDispatch.so
+# libswiftCore.so
+# libswiftGlibc.so
+# libswiftSwiftOnoneSupport.so
+# libswift_Concurrency.so
+# libswift_Differentiation.so
+# libswift_MatchingEngine.so
+# libswift_StringProcessing.so
+# libFoundationNetworking.so
+# libFoundationXML.so

@@ -6,18 +6,21 @@ let package = Package(
     name: "SilkRoad",
     products: [
         .library(
-            name: "SilkRoad",
-            targets: ["SilkRoad"]),
+            name: "SilkRoadFramework",
+            targets: ["SilkRoadFramework"]
+        ),
     ],
     dependencies: [
         
     ],
     targets: [
         .target(
-            name: "SilkRoad",
-            dependencies: []),
+            name: "SilkRoadFramework",
+            dependencies: []
+        ),
         .testTarget(
             name: "SilkRoadTests",
-            dependencies: ["SilkRoad"]),
+            dependencies: ["SilkRoadFramework"]
+        ),
     ]
 )

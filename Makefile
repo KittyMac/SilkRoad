@@ -2,7 +2,9 @@ all: docker
 	
 clean:
 	rm -rf ./AndroidNDK
-	rm -rf ./AndroidSDK
+	rm -f ./AndroidSDK/swift-5.6-android-aarch64-24-sdk.tar.xz
+	rm -f ./AndroidSDK/swift-5.6-android-x86_64-24-sdk.tar.xz
+	rm -f ./AndroidSDK/swift-5.6-android-armv7-24-sdk.tar.xz
 
 android-ndk:
 	mkdir -p ./AndroidNDK
@@ -30,3 +32,13 @@ docker: android-ndk android-sdk
 docker-shell:
 	docker pull kittymac/silkroad
 	docker run --rm -it --entrypoint bash kittymac/silkroad
+
+docker-export:
+	docker pull kittymac/silkroad
+	mkdir -p /tmp/jniLibs
+	docker run --rm -v /tmp/jniLibs:/jniLibs kittymac/silkroad /bin/bash -lc 'cp -r /root/lib/* /jniLibs/'
+	cp -r /tmp/jniLibs ./SilkRoadAndroidTest/app/src/main/jniLibs/
+	
+
+docker-dev: docker docker-shell
+
