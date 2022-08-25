@@ -1,9 +1,6 @@
 
-public func helloWorld() -> String {
-    return SilkRoad().text
+@_cdecl("Java_com_chimerasw_silkroadandroidtest_MainActivity_add")
+public func add(env: Int, this: Int, x: Int, y: Int) -> Int {
+    return x + y
 }
 
-struct SilkRoad {
-    let text = "Hello, World!"
-    init() { }
-}

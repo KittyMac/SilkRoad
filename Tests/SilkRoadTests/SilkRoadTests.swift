@@ -7,6 +7,6 @@ final class SilkRoadTests: XCTestCase {
     }
     
     func testPublicSwiftFunc() throws {
-        XCTAssertEqual(helloWorld(), "Hello, World!")
+        helloWorld()
     }
 }
