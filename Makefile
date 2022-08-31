@@ -28,26 +28,26 @@ docker-release: android-ndk android-sdk
 	-docker login
 	docker buildx build --platform linux/amd64 --push -t kittymac/silkroad .
 
-docker-shell:
+docker-shell: docker-release
 	docker pull kittymac/silkroad
 	docker run --rm -it --entrypoint bash kittymac/silkroad
 
-docker-test: android-ndk android-sdk
+docker-test: docker-release
 	docker pull kittymac/silkroad:latest
 	
-	docker build -f Dockerfile.silkroad --platform linux/amd64 -t silkroad-local ./
+	#docker build -f Dockerfile.silkroad --platform linux/amd64 -t silkroad-local ./
 	
-	#-docker buildx create --name local_builder
-	#-DOCKER_HOST=tcp://192.168.1.198:2376 docker buildx create --name local_builder --platform linux/amd64 --append
-	#-docker buildx use local_builder
-	#-docker buildx inspect --bootstrap
-	#-docker login
-	#docker buildx build -f Dockerfile.silkroad --platform linux/amd64 --push -t kittymac/silkroadtest .
-	#docker pull kittymac/silkroadtest:latest
+	-docker buildx create --name local_builder
+	-DOCKER_HOST=tcp://192.168.1.198:2376 docker buildx create --name local_builder --platform linux/amd64 --append
+	-docker buildx use local_builder
+	-docker buildx inspect --bootstrap
+	-docker login
+	docker buildx build -f Dockerfile.silkroad --platform linux/amd64 --push -t kittymac/silkroadtest .
+	docker pull kittymac/silkroadtest:latest
 	
 	rm -rf /tmp/jniLibs
 	mkdir -p /tmp/jniLibs
-	docker run --rm -v /tmp/jniLibs:/jniLibs silkroad-local /bin/bash -lc 'cp -r /root/lib/* /jniLibs/'
+	docker run --rm -v /tmp/jniLibs:/jniLibs kittymac/silkroadtest /bin/bash -lc 'cp -r /root/lib/* /jniLibs/'
 	rm -rf ./SilkRoadAndroidTest/app/src/main/jniLibs/
 	mkdir -p ./SilkRoadAndroidTest/app/src/main/jniLibs/
 	cp -r /tmp/jniLibs/* ./SilkRoadAndroidTest/app/src/main/jniLibs/

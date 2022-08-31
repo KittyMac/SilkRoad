@@ -1,5 +1,5 @@
 import XCTest
-@testable import SilkRoadFramework
+import SilkRoadFramework
 
 final class SilkRoadTests: XCTestCase {
     func testSilkRoadHelloWorld() throws {

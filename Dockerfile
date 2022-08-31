@@ -6,7 +6,9 @@ RUN export DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true && ap
     curl \
     unzip \
     xz-utils \
-    patchelf
+    patchelf \
+    binutils \
+    libjavascriptcoregtk-4.0-dev
 
 RUN rm -rf /var/lib/apt/lists/*
 
@@ -54,8 +56,13 @@ RUN cp /root/swift-5.6-android-armv7-24-sdk/usr/lib/*.so ./
 # Import helper scripts
 COPY ./Scripts/swift-build-all /usr/bin/swift-build-all
 COPY ./Scripts/patch-dependency /usr/bin/patch-dependency
+COPY ./Scripts/termux-install /usr/bin/termux-install
 RUN chmod 755 /usr/bin/swift-build-all
 RUN chmod 755 /usr/bin/patch-dependency
+RUN chmod 755 /usr/bin/termux-install
+
+# from https://packages.termux.dev/apt/termux-main/pool/main/
+RUN /usr/bin/termux-install z/zlib/zlib_1.2.12-1 libz
 
 # At this point, all of the built dynamic libraries should exist in /root/lib. You can then use docker cp to copy the files out and 
 # into your Android studio project's jniLibs folder. Your script should delete any of the .so files your app does not actually use.

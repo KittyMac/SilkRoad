@@ -11,6 +11,7 @@ let package = Package(
         .library(name: "SilkRoadFramework", targets: ["SilkRoadFramework"]),
     ],
     dependencies: [
+        .package(url: "https://github.com/KittyMac/Pamphlet.git", from: "0.3.0"),
         .package(url: "https://github.com/KittyMac/Hitch.git", from: "0.4.0"),
         .package(url: "https://github.com/KittyMac/Spanker.git", from: "0.2.0"),
     ],
@@ -19,7 +20,11 @@ let package = Package(
             name: "SilkRoadFramework",
             dependencies: [
                 "Hitch",
-                "Spanker"
+                "Spanker",
+                .product(name: "PamphletTool", package: "Pamphlet"),
+            ],
+            plugins: [
+                .plugin(name: "PamphletReleaseOnlyPlugin", package: "Pamphlet")
             ]
         ),
         .testTarget(

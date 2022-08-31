@@ -1,0 +1,38 @@
+#/bin/sh
+
+set -e
+
+# Simple script to install termux dependencies into the Android SDK for all architectures
+# https://packages.termux.dev/apt/termux-main/pool/main/
+
+mkdir -p /root/termux
+cd /root/termux
+
+curl -o termux.deb https://packages.termux.dev/apt/termux-main/pool/main/$1_aarch64.deb
+ar x termux.deb
+tar xf data.tar.xz
+patchelf --set-rpath \$ORIGIN ./data/data/com.termux/files/usr/lib/$2.so
+patchelf --set-soname $2.so ./data/data/com.termux/files/usr/lib/$2.so
+cp -r ./data/data/com.termux/files/usr /root/swift-5.6-android-aarch64-24-sdk
+cp ./data/data/com.termux/files/usr/lib/$2.so /root/lib/arm64-v8a
+
+rm -rf *
+
+curl -o termux.deb https://packages.termux.dev/apt/termux-main/pool/main/$1_arm.deb
+ar x termux.deb
+tar xf data.tar.xz
+patchelf --set-rpath \$ORIGIN ./data/data/com.termux/files/usr/lib/$2.so
+patchelf --set-soname $2.so ./data/data/com.termux/files/usr/lib/$2.so
+cp -r ./data/data/com.termux/files/usr /root/swift-5.6-android-armv7-24-sdk
+cp ./data/data/com.termux/files/usr/lib/*.so /root/lib/armeabi-v7a
+rm -rf *
+
+curl -o termux.deb https://packages.termux.dev/apt/termux-main/pool/main/$1_x86_64.deb
+ar x termux.deb
+tar xf data.tar.xz
+patchelf --set-rpath \$ORIGIN ./data/data/com.termux/files/usr/lib/$2.so
+patchelf --set-soname $2.so ./data/data/com.termux/files/usr/lib/$2.so
+cp -r ./data/data/com.termux/files/usr /root/swift-5.6-android-x86_64-24-sdk
+cp ./data/data/com.termux/files/usr/lib/*.so /root/lib/x86_64
+rm -rf *
+
