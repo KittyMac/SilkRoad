@@ -7,6 +7,7 @@ final class SilkRoadTests: XCTestCase {
     }
     
     func testPublicSwiftFunc() throws {
+        print(SilkRoadFramework.add(env: 0, this: 0, x: 0, y: 0))
         //helloWorld()
     }
 }

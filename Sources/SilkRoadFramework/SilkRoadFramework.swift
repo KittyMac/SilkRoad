@@ -4,9 +4,13 @@ import Spanker
 
 @_cdecl("Java_com_chimerasw_silkroadandroidtest_MainActivity_add")
 public func add(env: Int, this: Int, x: Int, y: Int) -> Int {
+    return Pamphlet.version.components(separatedBy: ".").count
+    
+    /*
     let someJson: Hitch = #"{"value":96}"#
     return someJson.parsed { root in
         return root?[int: "value"]
     } ?? 0
+     */
 }
 
