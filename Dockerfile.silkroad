@@ -1,0 +1,13 @@
+FROM kittymac/silkroad:latest
+
+WORKDIR /root/SilkRoad
+
+COPY ./Makefile ./Makefile
+COPY ./Package.swift ./Package.swift
+COPY ./Sources ./Sources
+COPY ./Tests ./Tests
+
+RUN /usr/bin/swift-build-all
+
+RUN patch-dependency Hitch SilkRoadFramework
+RUN patch-dependency Spanker SilkRoadFramework

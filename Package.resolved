@@ -1,0 +1,23 @@
+{
+  "pins" : [
+    {
+      "identity" : "hitch",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/KittyMac/Hitch.git",
+      "state" : {
+        "revision" : "6c4eeb3a675c5649a27e51a8dfd67ab0439357d1",
+        "version" : "0.4.48"
+      }
+    },
+    {
+      "identity" : "spanker",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/KittyMac/Spanker.git",
+      "state" : {
+        "revision" : "c383c78d988f925d071b0f204e4591c8a198843e",
+        "version" : "0.2.27"
+      }
+    }
+  ],
+  "version" : 2
+}

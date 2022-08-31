@@ -4,17 +4,23 @@ import PackageDescription
 
 let package = Package(
     name: "SilkRoad",
-    products: [
-        .library(
-            name: "SilkRoadFramework",
-            targets: ["SilkRoadFramework"]
-        ),
+    platforms: [
+        .macOS(.v10_15), .iOS(.v11)
     ],
-    dependencies: [],
+    products: [
+        .library(name: "SilkRoadFramework", targets: ["SilkRoadFramework"]),
+    ],
+    dependencies: [
+        .package(url: "https://github.com/KittyMac/Hitch.git", from: "0.4.0"),
+        .package(url: "https://github.com/KittyMac/Spanker.git", from: "0.2.0"),
+    ],
     targets: [
         .target(
             name: "SilkRoadFramework",
-            dependencies: []
+            dependencies: [
+                "Hitch",
+                "Spanker"
+            ]
         ),
         .testTarget(
             name: "SilkRoadTests",

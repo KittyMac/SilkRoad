@@ -13,6 +13,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun testSilkRoad() {
+        System.loadLibrary("icuuc")
+        System.loadLibrary("icui18n")
         System.loadLibrary("SilkRoadFramework")
 
         val x = add(40, 2)

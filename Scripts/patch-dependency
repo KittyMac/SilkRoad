@@ -1,0 +1,7 @@
+#/bin/sh
+
+patchelf --add-needed "lib$1.so" "/root/lib/x86_64/lib$2.so"
+patchelf --add-needed "lib$1.so" "/root/lib/arm64-v8a/lib$2.so"
+patchelf --add-needed "lib$1.so" "/root/lib/armeabi-v7a/lib$2.so"
+
+
