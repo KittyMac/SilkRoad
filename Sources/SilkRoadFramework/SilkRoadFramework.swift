@@ -1,6 +1,7 @@
 import Foundation
 import Hitch
 import Spanker
+import Sextant
 
 public typealias UTF8Ptr = UnsafePointer<UInt8>
 
@@ -13,5 +14,22 @@ public func add(x: Int, y: Int) -> Int {
 public func uppercase(string: UTF8Ptr?) -> UTF8Ptr? {
     guard let string = string else { return nil }
     return Hitch(utf8: string).uppercase().export().0
+}
+
+@_cdecl("silkroad_jsonpath")
+public func jsonpath(queryUTF8: UTF8Ptr?, jsonUTF8: UTF8Ptr?) -> UTF8Ptr? {
+    guard let queryUTF8 = queryUTF8 else { return nil }
+    guard let jsonUTF8 = jsonUTF8 else { return nil }
+    let query = Hitch(utf8: queryUTF8)
+    let json = Hitch(utf8: jsonUTF8)
+    let results = JsonElement(unknown: [])
+    
+    json.parsed { root in
+        root?.query(forEach: query) { result in
+            results.append(value: result)
+        }
+    }
+    
+    return results.toHitch().export().0
 }
 

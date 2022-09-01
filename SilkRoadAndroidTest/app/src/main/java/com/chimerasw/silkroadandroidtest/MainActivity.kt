@@ -6,12 +6,17 @@ import android.util.Log
 
 external fun add(x: Long, y: Long): Long
 external fun uppercase(string: String): String
+external fun jsonpath(path: String, json: String): String
 
 class MainActivity : AppCompatActivity() {
     companion object {
         init {
             System.loadLibrary("icuuc")
             System.loadLibrary("icui18n")
+            System.loadLibrary("Hitch")
+            System.loadLibrary("Chronometer")
+            System.loadLibrary("Spanker")
+            System.loadLibrary("Sextant")
             System.loadLibrary("SilkRoadFramework")
             System.loadLibrary("silkroadAndroidJNI")
         }
@@ -30,6 +35,9 @@ class MainActivity : AppCompatActivity() {
 
         val hello = uppercase("hello world!")
         Log.d("TAG", "uppercase: ${hello}")
+
+        val results = jsonpath("$[3,6,-2]", "[0,1,2,3,4,5,6,7,8,9]")
+        Log.d("TAG", "jsonpath: ${results}")
     }
 }
 

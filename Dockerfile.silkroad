@@ -9,6 +9,10 @@ COPY ./Tests ./Tests
 
 RUN /usr/bin/swift-build-all
 
-RUN /usr/bin/patch-dependency Hitch SilkRoadFramework
+RUN /usr/bin/patch-dependency Hitch Spanker
+RUN /usr/bin/patch-dependency Spanker Sextant
+RUN /usr/bin/patch-dependency Chronometer Sextant
+
 RUN /usr/bin/patch-dependency Spanker SilkRoadFramework
+RUN /usr/bin/patch-dependency Sextant SilkRoadFramework
 

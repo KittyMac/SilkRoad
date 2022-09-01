@@ -14,6 +14,7 @@ let package = Package(
         .package(url: "https://github.com/KittyMac/Pamphlet.git", from: "0.3.0"),
         .package(url: "https://github.com/KittyMac/Hitch.git", from: "0.4.0"),
         .package(url: "https://github.com/KittyMac/Spanker.git", from: "0.2.0"),
+        .package(url: "https://github.com/KittyMac/Sextant.git", from: "0.4.0"),
     ],
     targets: [
         .target(
@@ -21,6 +22,7 @@ let package = Package(
             dependencies: [
                 "Hitch",
                 "Spanker",
+                "Sextant",
                 .product(name: "PamphletTool", package: "Pamphlet"),
             ],
             plugins: [

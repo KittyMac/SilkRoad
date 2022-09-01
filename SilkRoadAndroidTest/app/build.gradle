@@ -10,7 +10,7 @@ android {
     defaultConfig {
         applicationId "com.chimerasw.silkroadandroidtest"
         minSdk 24
-        targetSdk 32
+        targetSdk 28
         versionCode 1
         versionName "1.0"
 

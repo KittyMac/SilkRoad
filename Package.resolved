@@ -46,6 +46,15 @@
       }
     },
     {
+      "identity" : "sextant",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/KittyMac/Sextant.git",
+      "state" : {
+        "revision" : "7080eaf2f5173fa97349d97aed73966387beb799",
+        "version" : "0.4.12"
+      }
+    },
+    {
       "identity" : "spanker",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/KittyMac/Spanker.git",
