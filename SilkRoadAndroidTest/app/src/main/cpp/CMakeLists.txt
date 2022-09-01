@@ -1,13 +1,12 @@
 cmake_minimum_required(VERSION 3.4.1)
 
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -Werror -Wno-unused-function")
+set(jniLibs_DIR ${CMAKE_SOURCE_DIR}/../jniLibs)
 
-add_library(silkroad SHARED
-            silkroad.c)
+add_library(silkroadAndroidJNI SHARED silkroadAndroidJNI.cpp)
 
 # Include libraries needed for silkroad lib
-target_link_libraries(silkroad
-                      android
-                      jnigraphics
-                      log
-                      m)
+target_link_libraries(
+        silkroadAndroidJNI
+        android
+        "-lSilkRoadFramework -L ${jniLibs_DIR}/${ANDROID_ABI}/"
+        )

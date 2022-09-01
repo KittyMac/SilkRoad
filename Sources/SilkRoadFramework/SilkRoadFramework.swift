@@ -2,8 +2,8 @@ import Foundation
 import Hitch
 import Spanker
 
-@_cdecl("Java_com_chimerasw_silkroadandroidtest_MainActivity_add")
-public func add(env: Int, this: Int, x: Int, y: Int) -> Int {
+@_cdecl("silkroad_add")
+public func add(x: Int, y: Int) -> Int {
     return Pamphlet.version.components(separatedBy: ".").count
     
     /*
