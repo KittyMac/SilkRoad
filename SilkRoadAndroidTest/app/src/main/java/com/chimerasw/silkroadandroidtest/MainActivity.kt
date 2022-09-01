@@ -4,7 +4,8 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 
-external fun addLocal(x: Long, y: Long): Long
+external fun add(x: Long, y: Long): Long
+external fun uppercase(string: String): String
 
 class MainActivity : AppCompatActivity() {
     companion object {
@@ -24,8 +25,11 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun testSilkRoad() {
-        val x = addLocal(40, 2)
+        val x = add(40, 2)
         Log.d("TAG", "the value is ${x}")
+
+        val hello = uppercase("hello world!")
+        Log.d("TAG", "uppercase: ${hello}")
     }
 }
 
