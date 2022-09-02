@@ -7,9 +7,7 @@ import android.util.Log
 external fun add(x: Long, y: Long): Long
 external fun uppercase(string: String): String
 external fun jsonpath(path: String, json: String): String
-external fun flynnTest(tolower: String): String
-
-typealias JNICallback = (String) -> Unit
+external fun flynnTest(tolower: String, returnCallback: (String) -> Unit)
 
 class MainActivity : AppCompatActivity() {
     companion object {
@@ -38,8 +36,9 @@ class MainActivity : AppCompatActivity() {
         val results = jsonpath("$[3,6,-2]", "[0,1,2,3,4,5,6,7,8,9]")
         Log.d("TAG", "jsonpath: ${results}")
 
-        val flynnResult = flynnTest("HELLO WORLD")
-        Log.d("TAG", "flynnResult: ${flynnResult}")
+        flynnTest("HELLO WORLD") {
+            Log.d("TAG", "flynnResult: ${it}")
+        }
     }
 }
 
