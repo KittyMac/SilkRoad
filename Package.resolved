@@ -10,6 +10,15 @@
       }
     },
     {
+      "identity" : "flynn",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/KittyMac/Flynn.git",
+      "state" : {
+        "branch" : "master",
+        "revision" : "45fb517cca629b13a3fb9f5f555c8dff6d752241"
+      }
+    },
+    {
       "identity" : "gzipswift",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/KittyMac/GzipSwift.git",
@@ -41,8 +50,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/KittyMac/Pamphlet.git",
       "state" : {
-        "revision" : "f1c4d15aa4b9a3b1ee58d918ea60043885c7de22",
-        "version" : "0.3.46"
+        "revision" : "a4eedf5e848e74272228684fdc4415ee3bc7cda7",
+        "version" : "0.3.47"
       }
     },
     {

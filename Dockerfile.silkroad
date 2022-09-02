@@ -1,18 +1,35 @@
 FROM kittymac/silkroad:latest
 
 WORKDIR /root/SilkRoad
-
-COPY ./Makefile ./Makefile
+COPY ./Package.resolved ./Package.resolved
 COPY ./Package.swift ./Package.swift
 COPY ./Sources ./Sources
 COPY ./Tests ./Tests
 
+# Note: When SPM builds shared libraries, the shared libraries are not formed as correctly
+# as we need them to be. They are lacking in two areas:
+# 1. They lack the soname field being populated
+# 2. They lack the NEEDED fields being populated for the other libs they depend on
+#
+# For the libraries we need to recreate these fields using patchelf. There is a script
+# (/usr/bin/patch-elf) included which will run the patchelf command on all architectures
+# of the .so provided.
+#
+# Warning: we have experienced issues with calling patchelf too many times on the same
+# .so and/or adding soname field to all .so. To combat this, the recommendation is to
+# call patch-elf only once per .so, sending multiple modification commads at the same time
+# and to add the soname only when absolutely necessary.
+
+RUN /usr/bin/swift-build-all --product PonyLib
+
+RUN /usr/bin/patch-elf libPonyLib.so --set-soname "libPonyLib.so"
+
 RUN /usr/bin/swift-build-all
 
-RUN /usr/bin/patch-dependency Hitch Spanker
-RUN /usr/bin/patch-dependency Spanker Sextant
-RUN /usr/bin/patch-dependency Chronometer Sextant
+RUN /usr/bin/patch-elf libHitch.so --set-soname "libHitch.so"
+RUN /usr/bin/patch-elf libSpanker.so --add-needed "libHitch.so"
+RUN /usr/bin/patch-elf libSextant.so --add-needed "libSpanker.so" --add-needed "libChronometer.so" --add-needed "libHitch.so"
 
-RUN /usr/bin/patch-dependency Spanker SilkRoadFramework
-RUN /usr/bin/patch-dependency Sextant SilkRoadFramework
+RUN /usr/bin/patch-elf libFlynn.so --add-needed "libPonyLib.so"
 
+RUN /usr/bin/patch-elf libSilkRoadFramework.so --add-needed "libFlynn.so" --add-needed "libSextant.so"

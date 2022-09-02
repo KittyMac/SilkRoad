@@ -3,6 +3,7 @@
 extern "C" int silkroad_add(int x, int y);
 extern "C" const char * silkroad_uppercase(const char * ptr);
 extern "C" const char * silkroad_jsonpath(const char * path, const char * json);
+extern "C" const char * silkroad_flynnTest(const char * ptr);
 
 extern "C" JNIEXPORT jlong JNICALL
 Java_com_chimerasw_silkroadandroidtest_MainActivityKt_add(JNIEnv *env, jclass clazz, jlong x, jlong y) {
@@ -26,5 +27,13 @@ Java_com_chimerasw_silkroadandroidtest_MainActivityKt_jsonpath(JNIEnv *env, jcla
     env->ReleaseStringUTFChars(pathJString, pathCString);
     env->ReleaseStringUTFChars(jsonJString, jsonCString);
     return result;
-
+}
+extern "C"
+JNIEXPORT jstring JNICALL
+Java_com_chimerasw_silkroadandroidtest_MainActivityKt_flynnTest(JNIEnv *env, jclass clazz,
+                                                                jstring jsString) {
+    const char *cString = env->GetStringUTFChars(jsString, 0);
+    jstring result = env->NewStringUTF(silkroad_flynnTest(cString));
+    env->ReleaseStringUTFChars(jsString, cString);
+    return result;
 }

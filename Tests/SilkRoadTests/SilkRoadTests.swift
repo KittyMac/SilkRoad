@@ -1,6 +1,7 @@
 import XCTest
 import SilkRoadFramework
 import Hitch
+import Flynn
 
 final class SilkRoadTests: XCTestCase {
     func testSilkRoadHelloWorld() throws {
@@ -17,5 +18,15 @@ final class SilkRoadTests: XCTestCase {
         let resultsPtr = SilkRoadFramework.jsonpath(queryUTF8: path.raw(), jsonUTF8: json.raw())!
         let results = Hitch(utf8: resultsPtr)
         XCTAssertEqual(results, "[3,6,8]")
+    }
+    
+    func testFlynnActors() throws {
+        let expectation = XCTestExpectation(description: "wait for result")
+        let lowercase = Lowercase()
+        lowercase.beToLowercase(string: "HELLO WORLD", Flynn.any) { result in
+            XCTAssertEqual(result, "hello world")
+            expectation.fulfill()
+        }
+        wait(for: [expectation], timeout: 10.0)
     }
 }

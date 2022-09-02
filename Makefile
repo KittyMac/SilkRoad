@@ -1,4 +1,7 @@
 all: docker
+
+update:
+	swift package update
 	
 clean:
 	rm -rf ./AndroidNDK
@@ -53,5 +56,7 @@ docker-test: docker-release
 	cp -r /tmp/jniLibs/* ./SilkRoadAndroidTest/app/src/main/jniLibs/
 	
 
-docker-dev: docker docker-shell
+docker-test-shell: docker-test
+	docker pull kittymac/silkroadtest
+	docker run --rm -it --entrypoint bash kittymac/silkroadtest
 

@@ -1,0 +1,10 @@
+#/bin/sh
+
+SONAME="$1"
+shift
+
+set -e
+
+patchelf "$@" "/root/lib/x86_64/$SONAME"
+patchelf "$@" "/root/lib/arm64-v8a/$SONAME"
+patchelf "$@" "/root/lib/armeabi-v7a/$SONAME"
