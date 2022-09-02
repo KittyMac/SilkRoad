@@ -72,8 +72,25 @@ JNIEnv * GetJniEnv() {
 
 void function1Invoke(jobject function1, jstring argument) {
     JNIEnv *env = GetJniEnv();
-
     jclass classFunction1 = env->GetObjectClass(function1);
     jmethodID invoke = env->GetMethodID(classFunction1, "invoke", "(Ljava/lang/String;)V");
     env->CallVoidMethod(function1, invoke, argument);
+    env->DeleteGlobalRef(function1);
+}
+
+void function1Callback(void * function1, const char * resultCString) {
+    JNIEnv *env = GetJniEnv();
+    jstring resultJString = env->NewStringUTF(resultCString);
+    function1Invoke((jobject) function1, resultJString);
+    env->ReleaseStringUTFChars(resultJString, resultCString);
+}
+
+void * retain(jobject obj) {
+    JNIEnv * env = GetJniEnv();
+    return env->NewGlobalRef(obj);
+}
+
+void release(jobject obj) {
+    JNIEnv * env = GetJniEnv();
+    env->DeleteGlobalRef(obj);
 }

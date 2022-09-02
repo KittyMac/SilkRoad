@@ -48,13 +48,11 @@ public class Lowercase: Actor {
 }
 
 @_cdecl("silkroad_flynnTest")
-public func flynnTest(string: UTF8Ptr?) -> UTF8Ptr? {
-    guard let string = string else { return nil }
+public func flynnTest(string: UTF8Ptr?, _ returnCallback: CallbackPtr?, _ returnInfo: VoidPtr?) {
+    guard let string = string else { return }
+    
     let lowercase = Lowercase()
-    var finalResult: UTF8Ptr? = nil
     lowercase.beToLowercase(hitch: Hitch(utf8: string), Flynn.any) { result in
-        finalResult = result.export().0
+        returnCallback?(returnInfo, result.export().0)
     }
-    lowercase.unsafeWait()
-    return finalResult
 }
