@@ -8,6 +8,7 @@ external fun add(x: Long, y: Long): Long
 external fun uppercase(string: String): String
 external fun jsonpath(path: String, json: String): String
 external fun flynnTest(tolower: String, returnCallback: (String) -> Unit)
+external fun eval(javascript: String): String
 
 class MainActivity : AppCompatActivity() {
     companion object {
@@ -39,6 +40,12 @@ class MainActivity : AppCompatActivity() {
         flynnTest("HELLO WORLD") {
             Log.d("TAG", "flynnResult: ${it}")
         }
+
+        val jsResult = eval("""
+            function f(x,y) { return x + y; }
+            f(2, 42);
+        """)
+        Log.d("TAG", "javascript: ${jsResult}")
     }
 }
 

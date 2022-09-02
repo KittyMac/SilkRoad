@@ -3,6 +3,7 @@ import Hitch
 import Spanker
 import Sextant
 import Flynn
+import Jib
 
 public typealias VoidPtr = UnsafePointer<UInt8>
 public typealias UTF8Ptr = UnsafePointer<UInt8>
@@ -55,4 +56,11 @@ public func flynnTest(string: UTF8Ptr?, _ returnCallback: CallbackPtr?, _ return
     lowercase.beToLowercase(hitch: Hitch(utf8: string), Flynn.any) { result in
         returnCallback?(returnInfo, result.export().0)
     }
+}
+
+@_cdecl("silkroad_eval")
+public func eval(javascriptUTF8: UTF8Ptr?) -> UTF8Ptr? {
+    guard let javascriptUTF8 = javascriptUTF8 else { return nil }
+    let jib = Jib()
+    return jib[hitch: HalfHitch(utf8: javascriptUTF8)]?.export().0
 }

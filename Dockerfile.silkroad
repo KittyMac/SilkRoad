@@ -27,9 +27,25 @@ RUN /usr/bin/patch-elf libPonyLib.so --set-soname "libPonyLib.so"
 RUN /usr/bin/swift-build-all
 
 RUN /usr/bin/patch-elf libHitch.so --set-soname "libHitch.so"
-RUN /usr/bin/patch-elf libSpanker.so --add-needed "libHitch.so"
-RUN /usr/bin/patch-elf libSextant.so --add-needed "libSpanker.so" --add-needed "libChronometer.so" --add-needed "libHitch.so"
 
-RUN /usr/bin/patch-elf libFlynn.so --add-needed "libPonyLib.so"
+RUN /usr/bin/patch-elf libSpanker.so \
+    --add-needed "libHitch.so"
+    
+RUN /usr/bin/patch-elf libSextant.so \
+    --add-needed "libSpanker.so" \
+    --add-needed "libChronometer.so" \
+    --add-needed "libHitch.so"
 
-RUN /usr/bin/patch-elf libSilkRoadFramework.so --add-needed "libFlynn.so" --add-needed "libSextant.so"
+RUN /usr/bin/patch-elf libJib.so \
+    --add-needed "libSpanker.so" \
+    --add-needed "libChronometer.so" \
+    --add-needed "libHitch.so" \
+    --add-needed "libjsc.so"
+
+RUN /usr/bin/patch-elf libFlynn.so \
+    --add-needed "libPonyLib.so"
+
+RUN /usr/bin/patch-elf libSilkRoadFramework.so \
+    --add-needed "libFlynn.so" \
+    --add-needed "libSextant.so" \
+    --add-needed "libJib.so"
