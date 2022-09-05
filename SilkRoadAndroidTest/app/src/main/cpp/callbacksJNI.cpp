@@ -1,6 +1,7 @@
 #include <jni.h>
 #include <pthread.h>
 #include <android/log.h>
+#include <string.h>
 
 // https://stackoverflow.com/questions/30026030/what-is-the-best-way-to-save-jnienv
 static JavaVM* g_vm = nullptr;
@@ -81,6 +82,26 @@ JNIEnv *GetJniEnv() {
     return env;
 }
 
+jstring utf8ToJString(const char * utf8String) {
+    // Note: Java uses "Modified" UTF8, which is not directly compatible with the utf8
+    // we get from Swift. This method handle the conversion correctly.
+    // https://stackoverflow.com/questions/60722231/jni-detected-error-in-application-input-is-not-valid-modified-utf-8-illegal-st
+    JNIEnv *env = GetJniEnv();
+    jobject bb = env->NewDirectByteBuffer((void *)utf8String, strlen(utf8String));
+
+    jclass cls_Charset = env->FindClass("java/nio/charset/Charset");
+    jmethodID mid_Charset_forName = env->GetStaticMethodID(cls_Charset, "forName", "(Ljava/lang/String;)Ljava/nio/charset/Charset;");
+    jobject charset = env->CallStaticObjectMethod(cls_Charset, mid_Charset_forName, env->NewStringUTF("UTF-8"));
+
+    jmethodID mid_Charset_decode = env->GetMethodID(cls_Charset, "decode", "(Ljava/nio/ByteBuffer;)Ljava/nio/CharBuffer;");
+    jobject cb = env->CallObjectMethod(charset, mid_Charset_decode, bb);
+    env->DeleteLocalRef(bb);
+
+    jclass cls_CharBuffer = env->FindClass("java/nio/CharBuffer");
+    jmethodID mid_CharBuffer_toString = env->GetMethodID(cls_CharBuffer, "toString", "()Ljava/lang/String;");
+    return (jstring)env->CallObjectMethod(cb, mid_CharBuffer_toString);
+}
+
 void function1Invoke(jobject function1, jstring argument) {
     JNIEnv *env = GetJniEnv();
     jclass classFunction1 = env->GetObjectClass(function1);
@@ -91,7 +112,7 @@ void function1Invoke(jobject function1, jstring argument) {
 
 void function1Callback(void * function1, const char * resultCString) {
     JNIEnv *env = GetJniEnv();
-    jstring resultJString = env->NewStringUTF(resultCString);
+    jstring resultJString = utf8ToJString(resultCString);
     function1Invoke((jobject) function1, resultJString);
     env->ReleaseStringUTFChars(resultJString, resultCString);
 }

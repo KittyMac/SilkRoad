@@ -59,8 +59,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/KittyMac/Picaroon.git",
       "state" : {
-        "revision" : "0f8b641acfcd22b61fc10a9b706891ac150d50a7",
-        "version" : "0.4.7"
+        "revision" : "1ee3628f4bdf3cb08a251e46a1d0c080bf0d873f",
+        "version" : "0.4.8"
       }
     },
     {

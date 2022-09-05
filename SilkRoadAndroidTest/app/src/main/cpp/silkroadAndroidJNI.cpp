@@ -2,8 +2,10 @@
 
 // From callbacksJNI.cpp
 extern JNIEnv * GetJniEnv();
+extern jstring utf8ToJString(const char * utf8String);
 extern void function1Callback(void * function1, const char * resultCString);
 extern void * retain(jobject obj);
+
 
 // From libSilkRoadFramework.so
 extern "C" int silkroad_add(jlong x, jlong y);
@@ -28,7 +30,7 @@ Java_com_chimerasw_silkroadandroidtest_MainActivityKt_uppercase(JNIEnv *env,
                                                                 jclass clazz,
                                                                 jstring string) {
     const char *jsonCString = env->GetStringUTFChars(string, nullptr);
-    jstring result = env->NewStringUTF(silkroad_uppercase(jsonCString));
+    jstring result = utf8ToJString(silkroad_uppercase(jsonCString));
     env->ReleaseStringUTFChars(string, jsonCString);
     return result;
 }
@@ -41,7 +43,7 @@ Java_com_chimerasw_silkroadandroidtest_MainActivityKt_jsonpath(JNIEnv *env,
                                                                jstring jsonJString) {
     const char *pathCString = env->GetStringUTFChars(pathJString, nullptr);
     const char *jsonCString = env->GetStringUTFChars(jsonJString, nullptr);
-    jstring result = env->NewStringUTF(silkroad_jsonpath(pathCString, jsonCString));
+    jstring result = utf8ToJString(silkroad_jsonpath(pathCString, jsonCString));
     env->ReleaseStringUTFChars(pathJString, pathCString);
     env->ReleaseStringUTFChars(jsonJString, jsonCString);
     return result;
@@ -64,7 +66,7 @@ Java_com_chimerasw_silkroadandroidtest_MainActivityKt_eval(JNIEnv *env,
                                                            jclass clazz,
                                                            jstring jsJString) {
     const char *jsCString = env->GetStringUTFChars(jsJString, nullptr);
-    jstring result = env->NewStringUTF(silkroad_eval(jsCString));
+    jstring result = utf8ToJString(silkroad_eval(jsCString));
     env->ReleaseStringUTFChars(jsJString, jsCString);
     return result;
 

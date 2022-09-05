@@ -31,28 +31,14 @@ final class SilkRoadTests: XCTestCase {
     func testDownload() {
         let expectation = XCTestExpectation(description: "wait for result")
         
-        print("BEFORE REQUEST")
-        Picaroon.urlRequest(url: "https://www.swift-linux.com/sextant/",
-                            httpMethod: "GET",
-                            params: [:],
-                            headers: [:],
-                            body: nil, Flynn.any) { data, httpResponse, error in
-            
-            print("data: \(data)")
-            print("httpResponse: \(httpResponse)")
-            print("error: \(error)")
-            
-            print("AFTER REQUEST")
-            
-            if let data = data {
-                print(String(data: data, encoding: .utf8)!)
-                expectation.fulfill()
-                return
-            }
-            
-            XCTAssertNil(error)
-            expectation.fulfill()
+        let url: Hitch = "https://www.swift-linux.com/sextant/"
+        
+        let result: CallbackPtr = { info, data in
+            print("DONE!")
         }
+        
+        SilkRoadFramework.download(url: url.export().0, result, nil)
+        
         wait(for: [expectation], timeout: 10.0)
     }
 }

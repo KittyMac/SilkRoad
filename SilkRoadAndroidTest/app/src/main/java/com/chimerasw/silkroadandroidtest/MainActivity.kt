@@ -16,6 +16,8 @@ class MainActivity : AppCompatActivity() {
         init {
             System.loadLibrary("icuuc")
             System.loadLibrary("icui18n")
+            System.loadLibrary("ssl.swift")
+            System.loadLibrary("crypto.swift")
             System.loadLibrary("SilkRoadFramework")
             System.loadLibrary("silkroadAndroidJNI")
         }
@@ -57,8 +59,17 @@ class MainActivity : AppCompatActivity() {
         Log.d("TAG", "javascript: ${jsResult}")
 
         Log.d("TAG", "BEFORE DOWNLOAD")
-        download("https://www.swift-linux.com/sextant/") {
-            Log.d("TAG", "download: ${it.subSequence(0, 256)}")
+        download("https://www.google.com/") {
+            Log.d("TAG", "download: ${it}")
+        }
+        download("https://www.google.com/") {
+            Log.d("TAG", "download: ${it}")
+        }
+        download("https://www.google.com/") {
+            Log.d("TAG", "download: ${it}")
+        }
+        download("https://www.google.com/") {
+            Log.d("TAG", "download: ${it}")
         }
         Log.d("TAG", "AFTER DOWNLOAD")
     }

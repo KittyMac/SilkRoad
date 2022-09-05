@@ -6,6 +6,11 @@ import Flynn
 import Jib
 import Picaroon
 
+#if canImport(FoundationNetworking)
+import FoundationNetworking
+#endif
+
+
 // Override print so that it goes to Android logcat
 public func print(_ items: Any..., separator: String = " ", terminator: String = "\n") {
     let output = items.map { "\($0)" }.joined(separator: separator)
@@ -65,18 +70,29 @@ public func eval(javascriptUTF8: UTF8Ptr?) -> UTF8Ptr? {
 }
 
 @_cdecl("silkroad_download")
-public func download(url: UTF8Ptr?,
+public func download(url urlUTF8: UTF8Ptr?,
                      _ returnCallback: CallbackPtr?,
                      _ returnInfo: VoidPtr?) {
-    guard let url = url else { return }
+    guard let urlUTF8 = urlUTF8 else { return }
+    let url = Hitch(utf8: urlUTF8)
     
-    print("BEFORE REQUEST")
-    Picaroon.urlRequest(url: Hitch(utf8: url).description,
+    print("BEFORE REQUEST: \(url)")
+    Picaroon.urlRequest(url: url.description,
                         httpMethod: "GET",
                         params: [:],
                         headers: [:],
                         body: nil, Flynn.any) { data, httpResponse, error in
-        print("AFTER REQUEST")
+        print("AFTER REQUEST: \(url)")
+        
+        print("=======================")
+        print("data: \(data)")
+        print("=======================")
+        print("httpResponse: \(httpResponse)")
+        print("=======================")
+        print("error: \(error)")
+        print("=======================")
+
+        
         if let data = data {
             returnCallback?(returnInfo, Hitch(data: data).export().0)
             return
