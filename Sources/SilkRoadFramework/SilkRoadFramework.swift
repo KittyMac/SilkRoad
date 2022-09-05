@@ -4,6 +4,13 @@ import Spanker
 import Sextant
 import Flynn
 import Jib
+import Picaroon
+
+// Override print so that it goes to Android logcat
+public func print(_ items: Any..., separator: String = " ", terminator: String = "\n") {
+    let output = items.map { "\($0)" }.joined(separator: separator)
+    Flynn.syslog(output)
+}
 
 public typealias VoidPtr = UnsafePointer<UInt8>
 public typealias UTF8Ptr = UnsafePointer<UInt8>
@@ -38,18 +45,10 @@ public func jsonpath(queryUTF8: UTF8Ptr?,
     return results.toHitch().export().0
 }
 
-
-public class Lowercase: Actor {
-    internal func _beToLowercase(string: String) -> String {
-        return string.lowercased()
-    }
-    internal func _beToLowercase(hitch: Hitch) -> Hitch {
-        return hitch.lowercase()
-    }
-}
-
 @_cdecl("silkroad_flynnTest")
-public func flynnTest(string: UTF8Ptr?, _ returnCallback: CallbackPtr?, _ returnInfo: VoidPtr?) {
+public func flynnTest(string: UTF8Ptr?,
+                      _ returnCallback: CallbackPtr?,
+                      _ returnInfo: VoidPtr?) {
     guard let string = string else { return }
     
     let lowercase = Lowercase()
@@ -63,4 +62,41 @@ public func eval(javascriptUTF8: UTF8Ptr?) -> UTF8Ptr? {
     guard let javascriptUTF8 = javascriptUTF8 else { return nil }
     let jib = Jib()
     return jib[hitch: HalfHitch(utf8: javascriptUTF8)]?.export().0
+}
+
+@_cdecl("silkroad_download")
+public func download(url: UTF8Ptr?,
+                     _ returnCallback: CallbackPtr?,
+                     _ returnInfo: VoidPtr?) {
+    guard let url = url else { return }
+    
+    print("BEFORE REQUEST")
+    Picaroon.urlRequest(url: Hitch(utf8: url).description,
+                        httpMethod: "GET",
+                        params: [:],
+                        headers: [:],
+                        body: nil, Flynn.any) { data, httpResponse, error in
+        print("AFTER REQUEST")
+        if let data = data {
+            returnCallback?(returnInfo, Hitch(data: data).export().0)
+            return
+        }
+        if let error = error {
+            returnCallback?(returnInfo, Hitch(string: error).export().0)
+            return
+        }
+        let hitch: Hitch = "unknown error"
+        returnCallback?(returnInfo, hitch.export().0)
+        return
+    }
+}
+
+
+public class Lowercase: Actor {
+    internal func _beToLowercase(string: String) -> String {
+        return string.lowercased()
+    }
+    internal func _beToLowercase(hitch: Hitch) -> Hitch {
+        return hitch.lowercase()
+    }
 }

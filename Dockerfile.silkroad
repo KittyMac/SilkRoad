@@ -45,7 +45,13 @@ RUN /usr/bin/patch-elf libJib.so \
 RUN /usr/bin/patch-elf libFlynn.so \
     --add-needed "libPonyLib.so"
 
+RUN /usr/bin/patch-elf libPicaroon.so \
+    --add-needed "libFlynn.so" \
+    --add-needed "libHitch.so" \
+    --add-needed "libSextant.so"
+
 RUN /usr/bin/patch-elf libSilkRoadFramework.so \
     --add-needed "libFlynn.so" \
     --add-needed "libSextant.so" \
-    --add-needed "libJib.so"
+    --add-needed "libJib.so" \
+    --add-needed "libPicaroon.so"

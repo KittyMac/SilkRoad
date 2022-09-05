@@ -1,5 +1,6 @@
 #include <jni.h>
 #include <pthread.h>
+#include <android/log.h>
 
 // https://stackoverflow.com/questions/30026030/what-is-the-best-way-to-save-jnienv
 static JavaVM* g_vm = nullptr;
@@ -19,6 +20,7 @@ jint JNI_OnLoad(JavaVM* vm, void* reserved) {
  * it will be attached, and then automatically detached when the
  * thread is destroyed.
  */
+
 void DeferThreadDetach(JNIEnv *env) {
     static pthread_key_t thread_key;
 
@@ -29,12 +31,18 @@ void DeferThreadDetach(JNIEnv *env) {
     // be NULL.
     static auto run_once = [] {
         const auto err = pthread_key_create(&thread_key, [] (void *ts_env) {
+
+            __android_log_write(ANDROID_LOG_ERROR, "TAG", "BEFORE DetachCurrentThread!!!!");
+
             if (ts_env) {
+                __android_log_write(ANDROID_LOG_ERROR, "TAG", "BEFORE DetachCurrentThread");
                 g_vm->DetachCurrentThread();
+                __android_log_write(ANDROID_LOG_ERROR, "TAG", "AFTER DetachCurrentThread");
             }
         });
         if (err) {
             // Failed to create TSD key. Throw an exception if you want to.
+            __android_log_write(ANDROID_LOG_ERROR, "TAG", "Failed to create TSD key");
         }
         return 0;
     }();
@@ -46,11 +54,12 @@ void DeferThreadDetach(JNIEnv *env) {
     if (!ts_env) {
         if (pthread_setspecific(thread_key, env)) {
             // Failed to set thread-specific value for key. Throw an exception if you want to.
+            __android_log_write(ANDROID_LOG_ERROR, "TAG", "Failed to set thread-specific value for key");
         }
     }
 }
 
-JNIEnv * GetJniEnv() {
+JNIEnv *GetJniEnv() {
     JNIEnv *env = nullptr;
     // We still call GetEnv first to detect if the thread already
     // is attached. This is done to avoid setting up a DetachCurrentThread
@@ -63,9 +72,11 @@ JNIEnv * GetJniEnv() {
             DeferThreadDetach(env);
         } else {
             // Failed to attach thread. Throw an exception if you want to.
+            __android_log_write(ANDROID_LOG_ERROR, "TAG", "Failed to attach thread");
         }
     } else if (get_env_result == JNI_EVERSION) {
         // Unsupported JNI version. Throw an exception if you want to.
+        __android_log_write(ANDROID_LOG_ERROR, "TAG", "Unsupported JNI version");
     }
     return env;
 }

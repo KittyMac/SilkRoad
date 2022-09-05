@@ -9,6 +9,7 @@ external fun uppercase(string: String): String
 external fun jsonpath(path: String, json: String): String
 external fun flynnTest(tolower: String, returnCallback: (String) -> Unit)
 external fun eval(javascript: String): String
+external fun download(url: String, returnCallback: (String) -> Unit)
 
 class MainActivity : AppCompatActivity() {
     companion object {
@@ -37,7 +38,15 @@ class MainActivity : AppCompatActivity() {
         val results = jsonpath("$[3,6,-2]", "[0,1,2,3,4,5,6,7,8,9]")
         Log.d("TAG", "jsonpath: ${results}")
 
-        flynnTest("HELLO WORLD") {
+        flynnTest("HELLO WORLD 1") {
+            Log.d("TAG", "flynnResult: ${it}")
+        }
+
+        flynnTest("HELLO WORLD 2") {
+            Log.d("TAG", "flynnResult: ${it}")
+        }
+
+        flynnTest("HELLO WORLD 3") {
             Log.d("TAG", "flynnResult: ${it}")
         }
 
@@ -46,6 +55,12 @@ class MainActivity : AppCompatActivity() {
             f(2, 42);
         """)
         Log.d("TAG", "javascript: ${jsResult}")
+
+        Log.d("TAG", "BEFORE DOWNLOAD")
+        download("https://www.swift-linux.com/sextant/") {
+            Log.d("TAG", "download: ${it.subSequence(0, 256)}")
+        }
+        Log.d("TAG", "AFTER DOWNLOAD")
     }
 }
 

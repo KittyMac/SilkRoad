@@ -62,7 +62,28 @@ RUN chmod 755 /usr/bin/patch-elf
 RUN chmod 755 /usr/bin/termux-install
 
 # from https://packages.termux.dev/apt/termux-main/pool/main/
-RUN /usr/bin/termux-install z/zlib/zlib_1.2.12-1 libz
+RUN /usr/bin/termux-install z/zlib/zlib_1.2.12-1 libz.so libz.so
+
+# Required for libFoundationNetworking.so
+RUN /usr/bin/termux-install libn/libnghttp2/libnghttp2_1.49.0 libnghttp2.so libnghttp2.so
+RUN /usr/bin/termux-install libs/libssh2/libssh2_1.10.0-2 libssh2.so libssh2.so
+
+RUN /usr/bin/termux-install o/openssl/openssl_3.0.5 libssl.so.3 libssl.so
+RUN /usr/bin/termux-install o/openssl/openssl_3.0.5 libcrypto.so.3 libcrypto.so
+
+RUN /usr/bin/patch-elf libssh2.so --replace-needed "libssl.so.3" "libssl.so"
+RUN /usr/bin/patch-elf libssh2.so --replace-needed "libcrypto.so.3" "libcrypto.so"
+RUN /usr/bin/patch-elf libssh2.so --replace-needed "libz.so.1" "libz.so"
+
+RUN /usr/bin/patch-elf libcurl.so --replace-needed "libssl.so.3" "libssl.so"
+RUN /usr/bin/patch-elf libcurl.so --replace-needed "libcrypto.so.3" "libcrypto.so"
+RUN /usr/bin/patch-elf libcurl.so --replace-needed "libz.so.1" "libz.so"
+
+RUN /usr/bin/patch-elf libssl.so --set-soname "libssl.so"
+RUN /usr/bin/patch-elf libssl.so --replace-needed "libcrypto.so.3" "libcrypto.so"
+
+RUN /usr/bin/patch-elf libcrypto.so --set-soname "libcrypto.so"
+
 
 # At this point, all of the built dynamic libraries should exist in /root/lib. You can then use docker cp to copy the files out and 
 # into your Android studio project's jniLibs folder. Your script should delete any of the .so files your app does not actually use.
