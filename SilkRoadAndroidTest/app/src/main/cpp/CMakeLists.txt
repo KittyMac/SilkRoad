@@ -6,11 +6,10 @@ add_library(silkroadAndroidJNI SHARED silkroadAndroidJNI.cpp callbacksJNI.cpp)
 
 find_library(log-lib  log)
 
-
 # Include libraries needed for silkroad lib
 target_link_libraries(
         silkroadAndroidJNI
         android
         ${log-lib}
-        "-lSilkRoadFramework -L ${jniLibs_DIR}/${ANDROID_ABI}/"
+        "-lSilkRoadFramework -L${jniLibs_DIR}/${ANDROID_ABI}/"
         )

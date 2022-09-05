@@ -76,23 +76,27 @@ public func download(url urlUTF8: UTF8Ptr?,
     guard let urlUTF8 = urlUTF8 else { return }
     let url = Hitch(utf8: urlUTF8)
     
-    print("BEFORE REQUEST: \(url)")
+    // For TLS to work in FoundationNetworking, we either need to disable
+    // peer validation (bad) or provide a cacert.pem file.
+    
+    // To disable peer validation
+    //setenv("URLSessionCertificateAuthorityInfoFile", "INSECURE_SSL_NO_VERIFY", 1)
+    
+    // To provide a cacert file. Note that this relies on Java -> JNI code to set the
+    // TMPDIR env variable so we know where we can write the file to
+    let tmpDir: String = String(cString: getenv("TMPDIR"))
+    let cacertPath = "\(tmpDir)/cacert.pem"
+    try? SilkRoadFrameworkPamphlet.CacertPem().description.write(toFile: cacertPath,
+                                                                 atomically: false,
+                                                                 encoding: .utf8)
+    setenv("URLSessionCertificateAuthorityInfoFile", cacertPath, 1)
+    
+    
     Picaroon.urlRequest(url: url.description,
                         httpMethod: "GET",
                         params: [:],
                         headers: [:],
                         body: nil, Flynn.any) { data, httpResponse, error in
-        print("AFTER REQUEST: \(url)")
-        
-        print("=======================")
-        print("data: \(data)")
-        print("=======================")
-        print("httpResponse: \(httpResponse)")
-        print("=======================")
-        print("error: \(error)")
-        print("=======================")
-
-        
         if let data = data {
             returnCallback?(returnInfo, Hitch(data: data).export().0)
             return

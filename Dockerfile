@@ -65,28 +65,34 @@ RUN chmod 755 /usr/bin/termux-install
 RUN /usr/bin/termux-install z/zlib/zlib_1.2.12-1 libz.so libz.so
 
 # Required for libFoundationNetworking.so
-# Note: Android includes its own libssl and libcrypto. We rename these libssl.swift
-# and libcrypto.swift to avoid conflicting with those prebuilts
+#
+# See https://curl.haxx.se/docs/sslcerts.html
+# For SSL on Android you need a "cacert.pem" to be
+# accessible at the path pointed to by this env var.
+# Downloadable here: https://curl.haxx.se/ca/cacert.pem
+#
 RUN /usr/bin/termux-install libc/libcurl/libcurl_7.85.0 libcurl.so libcurl.so
 
 RUN /usr/bin/termux-install libn/libnghttp2/libnghttp2_1.49.0 libnghttp2.so libnghttp2.so
 RUN /usr/bin/termux-install libs/libssh2/libssh2_1.10.0-2 libssh2.so libssh2.so
 
-RUN /usr/bin/termux-install o/openssl/openssl_3.0.5 libssl.so.3 libssl.swift.so
-RUN /usr/bin/termux-install o/openssl/openssl_3.0.5 libcrypto.so.3 libcrypto.swift.so
+RUN /usr/bin/termux-install o/openssl/openssl_3.0.5 libssl.so.3 libssl.so
+RUN /usr/bin/termux-install o/openssl/openssl_3.0.5 libcrypto.so.3 libcrypto.so
 
-RUN /usr/bin/patch-elf libssh2.so --replace-needed "libssl.so.3" "libssl.swift.so"
-RUN /usr/bin/patch-elf libssh2.so --replace-needed "libcrypto.so.3" "libcrypto.swift.so"
+RUN /usr/bin/patch-elf libssh2.so --replace-needed "libssl.so.3" "libssl.so"
+RUN /usr/bin/patch-elf libssh2.so --replace-needed "libcrypto.so.3" "libcrypto.so"
 RUN /usr/bin/patch-elf libssh2.so --replace-needed "libz.so.1" "libz.so"
 
-RUN /usr/bin/patch-elf libcurl.so --replace-needed "libssl.so.3" "libssl.swift.so"
-RUN /usr/bin/patch-elf libcurl.so --replace-needed "libcrypto.so.3" "libcrypto.swift.so"
+RUN /usr/bin/patch-elf libcurl.so --replace-needed "libnghttp2.so" "libnghttp2.so"
+RUN /usr/bin/patch-elf libcurl.so --replace-needed "libssh2.so" "libssh2.so"
+RUN /usr/bin/patch-elf libcurl.so --replace-needed "libssl.so.3" "libssl.so"
+RUN /usr/bin/patch-elf libcurl.so --replace-needed "libcrypto.so.3" "libcrypto.so"
 RUN /usr/bin/patch-elf libcurl.so --replace-needed "libz.so.1" "libz.so"
 
-RUN /usr/bin/patch-elf libssl.swift.so --set-soname "libssl.swift.so"
-RUN /usr/bin/patch-elf libssl.swift.so --replace-needed "libcrypto.so.3" "libcrypto.swift.so"
+RUN /usr/bin/patch-elf libssl.so --set-soname "libssl.so"
+RUN /usr/bin/patch-elf libssl.so --replace-needed "libcrypto.so.3" "libcrypto.so"
 
-RUN /usr/bin/patch-elf libcrypto.swift.so --set-soname "libcrypto.swift.so"
+RUN /usr/bin/patch-elf libcrypto.so --set-soname "libcrypto.so"
 
 
 # At this point, all of the built dynamic libraries should exist in /root/lib. You can then use docker cp to copy the files out and 

@@ -1,7 +1,19 @@
 #include <jni.h>
 #include <pthread.h>
 #include <android/log.h>
-#include <string.h>
+#include <cstdlib>
+#include <cstring>
+
+extern "C"
+JNIEXPORT void JNICALL
+Java_com_chimerasw_silkroadandroidtest_MainActivityKt_setup(JNIEnv *env,
+                                                            jclass clazz,
+                                                            jstring jTmpDir) {
+    const char *cTmpDir = env->GetStringUTFChars(jTmpDir, nullptr);
+    __android_log_write(ANDROID_LOG_ERROR, "TAG", cTmpDir);
+    setenv("TMPDIR", cTmpDir, 1);
+    env->ReleaseStringUTFChars(jTmpDir, cTmpDir);
+}
 
 // https://stackoverflow.com/questions/30026030/what-is-the-best-way-to-save-jnienv
 static JavaVM* g_vm = nullptr;
@@ -32,13 +44,8 @@ void DeferThreadDetach(JNIEnv *env) {
     // be NULL.
     static auto run_once = [] {
         const auto err = pthread_key_create(&thread_key, [] (void *ts_env) {
-
-            __android_log_write(ANDROID_LOG_ERROR, "TAG", "BEFORE DetachCurrentThread!!!!");
-
             if (ts_env) {
-                __android_log_write(ANDROID_LOG_ERROR, "TAG", "BEFORE DetachCurrentThread");
                 g_vm->DetachCurrentThread();
-                __android_log_write(ANDROID_LOG_ERROR, "TAG", "AFTER DetachCurrentThread");
             }
         });
         if (err) {
@@ -126,3 +133,4 @@ void release(jobject obj) {
     JNIEnv * env = GetJniEnv();
     env->DeleteGlobalRef(obj);
 }
+

@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 
+
+external fun setup(tmpPath: String)
 external fun add(x: Long, y: Long): Long
 external fun uppercase(string: String): String
 external fun jsonpath(path: String, json: String): String
@@ -16,8 +18,6 @@ class MainActivity : AppCompatActivity() {
         init {
             System.loadLibrary("icuuc")
             System.loadLibrary("icui18n")
-            System.loadLibrary("ssl.swift")
-            System.loadLibrary("crypto.swift")
             System.loadLibrary("SilkRoadFramework")
             System.loadLibrary("silkroadAndroidJNI")
         }
@@ -31,6 +31,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun testSilkRoad() {
+        setup(getApplicationContext().getCacheDir().getPath())
+
         val x = add(40, 2)
         Log.d("TAG", "the value is ${x}")
 
@@ -58,20 +60,9 @@ class MainActivity : AppCompatActivity() {
         """)
         Log.d("TAG", "javascript: ${jsResult}")
 
-        Log.d("TAG", "BEFORE DOWNLOAD")
         download("https://www.google.com/") {
             Log.d("TAG", "download: ${it}")
         }
-        download("https://www.google.com/") {
-            Log.d("TAG", "download: ${it}")
-        }
-        download("https://www.google.com/") {
-            Log.d("TAG", "download: ${it}")
-        }
-        download("https://www.google.com/") {
-            Log.d("TAG", "download: ${it}")
-        }
-        Log.d("TAG", "AFTER DOWNLOAD")
     }
 }
 
