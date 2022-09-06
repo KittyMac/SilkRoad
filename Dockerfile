@@ -56,9 +56,11 @@ RUN cp /root/swift-5.6-android-armv7-24-sdk/usr/lib/*.so ./
 # Import helper scripts
 COPY ./Scripts/swift-build-all /usr/bin/swift-build-all
 COPY ./Scripts/patch-elf /usr/bin/patch-elf
+COPY ./Scripts/remove-so /usr/bin/remove-so
 COPY ./Scripts/termux-install /usr/bin/termux-install
 RUN chmod 755 /usr/bin/swift-build-all
 RUN chmod 755 /usr/bin/patch-elf
+RUN chmod 755 /usr/bin/remove-so
 RUN chmod 755 /usr/bin/termux-install
 
 # from https://packages.termux.dev/apt/termux-main/pool/main/

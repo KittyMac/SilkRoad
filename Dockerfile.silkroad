@@ -55,3 +55,12 @@ RUN /usr/bin/patch-elf libSilkRoadFramework.so \
     --add-needed "libSextant.so" \
     --add-needed "libJib.so" \
     --add-needed "libPicaroon.so"
+
+# Remove any .so we don't actually need
+RUN /usr/bin/remove-so libFoundationXML.so
+RUN /usr/bin/remove-so libswift_Differentiation.so
+RUN /usr/bin/remove-so libswift_MatchingEngine.so
+RUN /usr/bin/remove-so libswift_StringProcessing.so
+RUN /usr/bin/remove-so libswiftSwiftOnoneSupport.so
+RUN /usr/bin/remove-so libXCTest.so
+RUN /usr/bin/remove-so libxml2.so
