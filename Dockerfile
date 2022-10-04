@@ -75,7 +75,7 @@ RUN /usr/bin/termux-install z/zlib/zlib_1.2.12-1 libz.so libz.so
 #
 RUN /usr/bin/termux-install libc/libcurl/libcurl_7.85.0 libcurl.so libcurl.so
 
-RUN /usr/bin/termux-install libn/libnghttp2/libnghttp2_1.49.0 libnghttp2.so libnghttp2.so
+RUN /usr/bin/termux-install libn/libnghttp2/libnghttp2_1.50.0 libnghttp2.so libnghttp2.so
 RUN /usr/bin/termux-install libs/libssh2/libssh2_1.10.0-2 libssh2.so libssh2.so
 
 RUN /usr/bin/termux-install o/openssl/openssl_3.0.5 libssl.so.3 libssl.so
