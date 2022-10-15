@@ -26,6 +26,38 @@ RUN /usr/bin/patch-elf libPonyLib.so --set-soname "libPonyLib.so"
 
 RUN /usr/bin/swift-build-all
 
+# It is not safe to generically strip all .so, so you need to manually specify which, if any, you want stripped
+RUN /usr/bin/strip-so libicudata.so
+RUN /usr/bin/strip-so libFoundation.so
+RUN /usr/bin/strip-so libswiftCore.so
+RUN /usr/bin/strip-so libicui18n.so
+RUN /usr/bin/strip-so libcrypto.so
+RUN /usr/bin/strip-so libicuuc.so
+RUN /usr/bin/strip-so libFoundationNetworking.so
+RUN /usr/bin/strip-so libc++_shared.so
+RUN /usr/bin/strip-so libSextant.so
+RUN /usr/bin/strip-so libcurl.so
+RUN /usr/bin/strip-so libssl.so
+RUN /usr/bin/strip-so libswift_Concurrency.so
+RUN /usr/bin/strip-so libSilkRoadFramework.so
+RUN /usr/bin/strip-so libPicaroon.so
+RUN /usr/bin/strip-so libHitch.so
+RUN /usr/bin/strip-so libssh2.so
+RUN /usr/bin/strip-so libSpanker.so
+RUN /usr/bin/strip-so libswiftDispatch.so
+RUN /usr/bin/strip-so libFlynn.so
+RUN /usr/bin/strip-so libnghttp2.so
+RUN /usr/bin/strip-so libJib.so
+RUN /usr/bin/strip-so libz.so
+RUN /usr/bin/strip-so libswiftGlibc.so
+RUN /usr/bin/strip-so libPonyLib.so
+RUN /usr/bin/strip-so libandroid-spawn.so
+RUN /usr/bin/strip-so libChronometer.so
+RUN /usr/bin/strip-so libBlocksRuntime.so
+
+# Fix up the generated libraries; their sonames will be wrong
+# and they won't have their dependencies linked properly
+
 RUN /usr/bin/patch-elf libHitch.so --set-soname "libHitch.so"
 
 RUN /usr/bin/patch-elf libSpanker.so \

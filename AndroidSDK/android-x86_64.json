@@ -7,7 +7,6 @@
         "-fPIC"
     ],
     "extra-swiftc-flags": [
-        "-emit-library",
         "-resource-dir", "/root/swift-5.6-android-x86_64-24-sdk/usr/lib/swift",
         "-tools-directory", "/root/android-ndk-r23c/toolchains/llvm/prebuilt/linux-x86_64/bin",
     ],

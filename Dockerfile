@@ -57,14 +57,16 @@ RUN cp /root/swift-5.6-android-armv7-24-sdk/usr/lib/*.so ./
 COPY ./Scripts/swift-build-all /usr/bin/swift-build-all
 COPY ./Scripts/patch-elf /usr/bin/patch-elf
 COPY ./Scripts/remove-so /usr/bin/remove-so
+COPY ./Scripts/strip-so /usr/bin/strip-so
 COPY ./Scripts/termux-install /usr/bin/termux-install
 RUN chmod 755 /usr/bin/swift-build-all
 RUN chmod 755 /usr/bin/patch-elf
 RUN chmod 755 /usr/bin/remove-so
+RUN chmod 755 /usr/bin/strip-so
 RUN chmod 755 /usr/bin/termux-install
 
 # from https://packages.termux.dev/apt/termux-main/pool/main/
-RUN /usr/bin/termux-install z/zlib/zlib_1.2.12-1 libz.so libz.so
+RUN /usr/bin/termux-install z/zlib/zlib_1.2.13 libz.so libz.so
 
 # Required for libFoundationNetworking.so
 #
@@ -78,8 +80,8 @@ RUN /usr/bin/termux-install libc/libcurl/libcurl_7.85.0 libcurl.so libcurl.so
 RUN /usr/bin/termux-install libn/libnghttp2/libnghttp2_1.50.0 libnghttp2.so libnghttp2.so
 RUN /usr/bin/termux-install libs/libssh2/libssh2_1.10.0-2 libssh2.so libssh2.so
 
-RUN /usr/bin/termux-install o/openssl/openssl_3.0.5 libssl.so.3 libssl.so
-RUN /usr/bin/termux-install o/openssl/openssl_3.0.5 libcrypto.so.3 libcrypto.so
+RUN /usr/bin/termux-install o/openssl/openssl_1:3.0.5 libssl.so.3 libssl.so
+RUN /usr/bin/termux-install o/openssl/openssl_1:3.0.5 libcrypto.so.3 libcrypto.so
 
 RUN /usr/bin/patch-elf libssh2.so --replace-needed "libssl.so.3" "libssl.so"
 RUN /usr/bin/patch-elf libssh2.so --replace-needed "libcrypto.so.3" "libcrypto.so"

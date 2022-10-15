@@ -4,17 +4,38 @@ set -e
 
 # Simple script to run "swift build" cross-compilation for all Android architectures and copy generated .so files to their appropriate folders
 
-/usr/bin/swift build "$@" --configuration release --destination "/root/android-x86_64.json" -Xlinker -rpath -Xlinker "/root/swift-5.6-android-x86_64-24-sdk/usr/lib/swift/android"
+/usr/bin/swift build "$@" \
+    --configuration release \
+    -Xswiftc -Osize \
+    -Xswiftc -gnone \
+    -Xswiftc -emit-library \
+    -Xlinker -s \
+    -Xlinker -x \
+    --destination "/root/android-x86_64.json" -Xlinker -rpath -Xlinker "/root/swift-5.6-android-x86_64-24-sdk/usr/lib/swift/android"
 cp .build/x86_64-unknown-linux-android24/release/*.so /root/lib/x86_64/ || true
 cp *.so /root/lib/x86_64/ || true
 rm -f *.so
 
-/usr/bin/swift build "$@" --configuration release --destination "/root/android-aarch64.json" -Xlinker -rpath -Xlinker "/root/swift-5.6-android-aarch64-24-sdk/usr/lib/swift/android"
+/usr/bin/swift build "$@" \
+    --configuration release \
+    -Xswiftc -Osize \
+    -Xswiftc -gnone \
+    -Xswiftc -emit-library \
+    -Xlinker -s \
+    -Xlinker -x \
+    --destination "/root/android-aarch64.json" -Xlinker -rpath -Xlinker "/root/swift-5.6-android-aarch64-24-sdk/usr/lib/swift/android"
 cp .build/aarch64-unknown-linux-android24/release/*.so /root/lib/arm64-v8a/ || true
 cp *.so /root/lib/arm64-v8a/ || true
 rm -f *.so
 
-/usr/bin/swift build "$@" --configuration release --destination "/root/android-armv7.json" -Xlinker -rpath -Xlinker "/root/swift-5.6-android-armv7-24-sdk/usr/lib/swift/android"
+/usr/bin/swift build "$@" \
+    --configuration release \
+    -Xswiftc -Osize \
+    -Xswiftc -gnone \
+    -Xswiftc -emit-library \
+    -Xlinker -s \
+    -Xlinker -x \
+    --destination "/root/android-armv7.json" -Xlinker -rpath -Xlinker "/root/swift-5.6-android-armv7-24-sdk/usr/lib/swift/android"
 cp .build/armv7-unknown-linux-androideabi24/release/*.so /root/lib/armeabi-v7a/ || true
 cp *.so /root/lib/armeabi-v7a/ || true
 rm -f *.so
