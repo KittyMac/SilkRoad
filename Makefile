@@ -24,9 +24,9 @@ android-sdk:
 	@[ -f ./AndroidSDK/android-armv7.json ] && echo "skipping android-armv7.json download..." || wget -q -O ./AndroidSDK/android-armv7.json https://raw.githubusercontent.com/buttaface/swift-android-sdk/main/android-armv7.json
 
 docker-release: android-ndk android-sdk
-	-docker buildx create --name local_builder
-	-DOCKER_HOST=tcp://192.168.1.198:2376 docker buildx create --name local_builder --platform linux/amd64 --append
-	-docker buildx use local_builder
+	-docker buildx create --name cluster_builder203
+	-DOCKER_HOST=ssh://rjbowli@192.168.1.203 docker buildx create --name cluster_builder203 --platform linux/amd64 --append
+	-docker buildx use cluster_builder203
 	-docker buildx inspect --bootstrap
 	-docker login
 	docker buildx build --platform linux/amd64 --push -t kittymac/silkroad .
@@ -39,9 +39,9 @@ docker-test: docker-release
 	docker pull kittymac/silkroad:latest
 	
 	# Build our Swift projects into shared libraries using Docker
-	-docker buildx create --name local_builder
-	-DOCKER_HOST=tcp://192.168.1.198:2376 docker buildx create --name local_builder --platform linux/amd64 --append
-	-docker buildx use local_builder
+	-docker buildx create --name cluster_builder203
+	-DOCKER_HOST=ssh://rjbowli@192.168.1.203 docker buildx create --name cluster_builder203 --platform linux/amd64 --append
+	-docker buildx use cluster_builder203
 	-docker buildx inspect --bootstrap
 	-docker login
 	docker buildx build -f Dockerfile.silkroad --platform linux/amd64 --push -t kittymac/silkroadtest .
