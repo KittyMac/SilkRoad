@@ -2,13 +2,13 @@
     "version": 1,
     "target": "armv7-unknown-linux-androideabi24",
     "toolchain-bin-dir": "/usr/bin",
-    "sdk": "/root/android-ndk-r23c/toolchains/llvm/prebuilt/linux-x86_64/sysroot",
+    "sdk": "/root/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/sysroot",
     "extra-cc-flags": [
         "-fPIC"
     ],
     "extra-swiftc-flags": [
-        "-resource-dir", "/root/swift-5.6-android-armv7-24-sdk/usr/lib/swift",
-        "-tools-directory", "/root/android-ndk-r23c/toolchains/llvm/prebuilt/linux-x86_64/bin",
+        "-resource-dir", "/root/swift-release-android-armv7-24-sdk/usr/lib/swift",
+        "-tools-directory", "/root/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/bin",
     ],
     "extra-cpp-flags": [
         "-lstdc++"
