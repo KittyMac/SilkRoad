@@ -15,44 +15,44 @@ RUN rm -rf /var/lib/apt/lists/*
 
 WORKDIR /root/
 COPY "./AndroidSDK/android-x86_64.json" "./android-x86_64.json"
-COPY "./AndroidSDK/swift-5.7.1-android-x86_64-24-sdk.zip" ./tmp.zip
-RUN unzip tmp.zip
-RUN rm -rf ./tmp.zip
+COPY "./AndroidSDK/swift-5.7.1-android-x86_64-24-sdk.tar.xz" ./tmp.tar.xz
+RUN tar -xf tmp.tar.xz
+RUN rm -rf ./tmp.tar.xz
 
 COPY "./AndroidSDK/android-aarch64.json" "./android-aarch64.json"
-COPY "./AndroidSDK/swift-5.7.1-android-aarch64-24-sdk.zip" ./tmp.zip
-RUN unzip tmp.zip
-RUN rm -rf ./tmp.zip
+COPY "./AndroidSDK/swift-5.7.1-android-aarch64-24-sdk.tar.xz" ./tmp.tar.xz
+RUN tar -xf tmp.tar.xz
+RUN rm -rf ./tmp.tar.xz
 
 COPY "./AndroidSDK/android-armv7.json" "./android-armv7.json"
-COPY "./AndroidSDK/swift-5.7.1-android-armv7-24-sdk.zip" ./tmp.zip
-RUN unzip tmp.zip
-RUN rm -rf ./tmp.zip
+COPY "./AndroidSDK/swift-5.7.1-android-armv7-24-sdk.tar.xz" ./tmp.tar.xz
+RUN tar -xf tmp.tar.xz
+RUN rm -rf ./tmp.tar.xz
 
 COPY "./AndroidNDK/androidndk.zip" ./tmp.zip
 RUN unzip ./tmp.zip
 RUN rm -rf ./tmp.zip
 
-RUN ln -sf /usr/lib/clang/13.0.0 "/root/swift-release-android-x86_64-24-sdk/usr/lib/swift/clang"
-RUN ln -sf /usr/lib/clang/13.0.0 "/root/swift-release-android-aarch64-24-sdk/usr/lib/swift/clang"
-RUN ln -sf /usr/lib/clang/13.0.0 "/root/swift-release-android-armv7-24-sdk/usr/lib/swift/clang"
+RUN ln -sf /usr/lib/clang/13.0.0 "/root/swift-5.7.1-android-x86_64-24-sdk/usr/lib/swift/clang"
+RUN ln -sf /usr/lib/clang/13.0.0 "/root/swift-5.7.1-android-aarch64-24-sdk/usr/lib/swift/clang"
+RUN ln -sf /usr/lib/clang/13.0.0 "/root/swift-5.7.1-android-armv7-24-sdk/usr/lib/swift/clang"
 
 # Generate the lib folder for output libraries
 WORKDIR /root/lib
 WORKDIR /root/lib/x86_64
 RUN rm -rf ./*
-RUN cp /root/swift-release-android-x86_64-24-sdk/usr/lib/swift/android/*.so ./
-RUN cp /root/swift-release-android-x86_64-24-sdk/usr/lib/*.so ./
+RUN cp /root/swift-5.7.1-android-x86_64-24-sdk/usr/lib/swift/android/*.so ./
+RUN cp /root/swift-5.7.1-android-x86_64-24-sdk/usr/lib/*.so ./
 
 WORKDIR /root/lib/arm64-v8a
 RUN rm -rf ./*
-RUN cp /root/swift-release-android-aarch64-24-sdk/usr/lib/swift/android/*.so ./
-RUN cp /root/swift-release-android-aarch64-24-sdk/usr/lib/*.so ./
+RUN cp /root/swift-5.7.1-android-aarch64-24-sdk/usr/lib/swift/android/*.so ./
+RUN cp /root/swift-5.7.1-android-aarch64-24-sdk/usr/lib/*.so ./
 
 WORKDIR /root/lib/armeabi-v7a
 RUN rm -rf ./*
-RUN cp /root/swift-release-android-armv7-24-sdk/usr/lib/swift/android/*.so ./
-RUN cp /root/swift-release-android-armv7-24-sdk/usr/lib/*.so ./
+RUN cp /root/swift-5.7.1-android-armv7-24-sdk/usr/lib/swift/android/*.so ./
+RUN cp /root/swift-5.7.1-android-armv7-24-sdk/usr/lib/*.so ./
 
 # Import helper scripts
 COPY ./Scripts/swift-build-all /usr/bin/swift-build-all

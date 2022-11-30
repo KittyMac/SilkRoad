@@ -7,9 +7,9 @@ update:
 clean:
 	rm -rf .build
 	rm -rf ./AndroidNDK
-	# rm -f ./AndroidSDK/swift-release-android-aarch64-24-sdk.tar.xz
-	# rm -f ./AndroidSDK/swift-release-android-x86_64-24-sdk.tar.xz
-	# rm -f ./AndroidSDK/swift-release-android-armv7-24-sdk.tar.xz
+	rm -f ./AndroidSDK/swift-5.7.1-android-aarch64-24-sdk.tar.xz
+	rm -f ./AndroidSDK/swift-5.7.1-android-x86_64-24-sdk.tar.xz
+	rm -f ./AndroidSDK/swift-5.7.1-android-armv7-24-sdk.tar.xz
 
 android-ndk:
 	mkdir -p ./AndroidNDK
@@ -18,13 +18,13 @@ android-ndk:
 android-sdk:
 	# NOTE: need to download manually from https://github.com/buttaface/swift-android-sdk/actions/workflows/sdks.yml
 	# The CI puts the latest releases online, and the manual releases will lag behind
-	# mkdir -p ./AndroidSDK
-	# @[ -f ./AndroidSDK/swift-release-android-aarch64-24-sdk.tar.xz ] && echo "skipping aarch64 sdk download..." || wget -q -O ./AndroidSDK/swift-release-android-aarch64-24-sdk.tar.xz https://github.com/buttaface/swift-android-sdk/releases/download/5.6/swift-release-android-aarch64-24-sdk.tar.xz
-	# @[ -f ./AndroidSDK/swift-release-android-x86_64-24-sdk.tar.xz ] && echo "skipping x86_64 sdk download..." || wget -q -O ./AndroidSDK/swift-release-android-x86_64-24-sdk.tar.xz https://github.com/buttaface/swift-android-sdk/releases/download/5.6/swift-release-android-x86_64-24-sdk.tar.xz
-	# @[ -f ./AndroidSDK/swift-release-android-armv7-24-sdk.tar.xz ] && echo "skipping armv7 sdk download..." || wget -q -O ./AndroidSDK/swift-release-android-armv7-24-sdk.tar.xz https://github.com/buttaface/swift-android-sdk/releases/download/5.6/swift-release-android-armv7-24-sdk.tar.xz
-	# @[ -f ./AndroidSDK/android-aarch64.json ] && echo "skipping android-aarch64.json download..." || wget -q -O ./AndroidSDK/android-aarch64.json https://raw.githubusercontent.com/buttaface/swift-android-sdk/main/android-aarch64.json
-	# @[ -f ./AndroidSDK/android-x86_64.json ] && echo "skipping android-x86_64.json download..." || wget -q -O ./AndroidSDK/android-x86_64.json https://raw.githubusercontent.com/buttaface/swift-android-sdk/main/android-x86_64.json
-	# @[ -f ./AndroidSDK/android-armv7.json ] && echo "skipping android-armv7.json download..." || wget -q -O ./AndroidSDK/android-armv7.json https://raw.githubusercontent.com/buttaface/swift-android-sdk/main/android-armv7.json
+	mkdir -p ./AndroidSDK
+	@[ -f ./AndroidSDK/swift-5.7.1-android-aarch64-24-sdk.tar.xz ] && echo "skipping aarch64 sdk download..." || wget -q -O ./AndroidSDK/swift-5.7.1-android-aarch64-24-sdk.tar.xz https://github.com/buttaface/swift-android-sdk/releases/download/5.7.1/swift-5.7.1-android-aarch64-24-sdk.tar.xz
+	@[ -f ./AndroidSDK/swift-5.7.1-android-x86_64-24-sdk.tar.xz ] && echo "skipping x86_64 sdk download..." || wget -q -O ./AndroidSDK/swift-5.7.1-android-x86_64-24-sdk.tar.xz https://github.com/buttaface/swift-android-sdk/releases/download/5.7.1/swift-5.7.1-android-x86_64-24-sdk.tar.xz
+	@[ -f ./AndroidSDK/swift-5.7.1-android-armv7-24-sdk.tar.xz ] && echo "skipping armv7 sdk download..." || wget -q -O ./AndroidSDK/swift-5.7.1-android-armv7-24-sdk.tar.xz https://github.com/buttaface/swift-android-sdk/releases/download/5.7.1/swift-5.7.1-android-armv7-24-sdk.tar.xz
+	@[ -f ./AndroidSDK/android-aarch64.json ] && echo "skipping android-aarch64.json download..." || wget -q -O ./AndroidSDK/android-aarch64.json https://raw.githubusercontent.com/buttaface/swift-android-sdk/main/android-aarch64.json
+	@[ -f ./AndroidSDK/android-x86_64.json ] && echo "skipping android-x86_64.json download..." || wget -q -O ./AndroidSDK/android-x86_64.json https://raw.githubusercontent.com/buttaface/swift-android-sdk/main/android-x86_64.json
+	@[ -f ./AndroidSDK/android-armv7.json ] && echo "skipping android-armv7.json download..." || wget -q -O ./AndroidSDK/android-armv7.json https://raw.githubusercontent.com/buttaface/swift-android-sdk/main/android-armv7.json
 
 docker-release: android-ndk android-sdk
 	-docker buildx create --name cluster_builder203

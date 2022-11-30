@@ -24,7 +24,7 @@ RUN /usr/bin/swift-build-all --product PonyLib
 
 RUN /usr/bin/patch-elf libPonyLib.so --set-soname "libPonyLib.so"
 
-RUN /usr/bin/swift-build-all
+RUN /usr/bin/swift-build-all --product SilkRoadFramework
 
 # It is not safe to generically strip all .so, so you need to manually specify which, if any, you want stripped
 RUN /usr/bin/strip-so libicudata.so
@@ -40,6 +40,7 @@ RUN /usr/bin/strip-so libssl.so
 RUN /usr/bin/strip-so libswift_Concurrency.so
 RUN /usr/bin/strip-so libssh2.so
 RUN /usr/bin/strip-so libswiftDispatch.so
+RUN /usr/bin/strip-so libswift_StringProcessing.so
 RUN /usr/bin/strip-so libz.so
 RUN /usr/bin/strip-so libswiftGlibc.so
 RUN /usr/bin/strip-so libandroid-spawn.so
@@ -93,7 +94,6 @@ RUN /usr/bin/patch-elf libSilkRoadFramework.so \
 RUN /usr/bin/remove-so libFoundationXML.so
 RUN /usr/bin/remove-so libswift_Differentiation.so
 RUN /usr/bin/remove-so libswift_MatchingEngine.so
-RUN /usr/bin/remove-so libswift_StringProcessing.so
 RUN /usr/bin/remove-so libswiftSwiftOnoneSupport.so
 RUN /usr/bin/remove-so libXCTest.so
 RUN /usr/bin/remove-so libxml2.so
