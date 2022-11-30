@@ -14,7 +14,7 @@ import FoundationNetworking
 // Override print so that it goes to Android logcat
 public func print(_ items: Any..., separator: String = " ", terminator: String = "\n") {
     let output = items.map { "\($0)" }.joined(separator: separator)
-    Flynn.syslog(output)
+    Flynn.syslog("TAG", output)
 }
 
 public typealias VoidPtr = UnsafePointer<UInt8>
