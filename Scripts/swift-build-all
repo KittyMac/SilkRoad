@@ -3,6 +3,7 @@
 set -e
 
 # Simple script to run "swift build" cross-compilation for all Android architectures and copy generated .so files to their appropriate folders
+export SILKROAD=1
 
 /usr/bin/swift build "$@" \
     --configuration release \
