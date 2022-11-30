@@ -1,9 +1,11 @@
-all: docker
+build:
+	swift build -Xswiftc -enable-library-evolution -v $(SWIFT_BUILD_FLAGS)
 
 update:
 	swift package update
 	
 clean:
+	rm -rf .build
 	rm -rf ./AndroidNDK
 	# rm -f ./AndroidSDK/swift-release-android-aarch64-24-sdk.tar.xz
 	# rm -f ./AndroidSDK/swift-release-android-x86_64-24-sdk.tar.xz
