@@ -8,7 +8,7 @@ let package = Package(
         .macOS(.v10_15), .iOS(.v11)
     ],
     products: [
-        .library(name: "SilkRoadFramework", type: .dynamic, targets: ["SilkRoadFramework"]),
+        .library(name: "SilkRoadFramework", targets: ["SilkRoadFramework"]),
     ],
     dependencies: [
         .package(url: "https://github.com/KittyMac/Jib.git", from: "0.0.52"),
