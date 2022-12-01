@@ -2,6 +2,6 @@
 
 SONAME="$1"
 
-rm -f "/root/lib/x86_64/$SONAME"
+# rm -f "/root/lib/x86_64/$SONAME"
 rm -f "/root/lib/arm64-v8a/$SONAME"
 rm -f "/root/lib/armeabi-v7a/$SONAME"

@@ -1,4 +1,4 @@
-FROM kittymac/silkroad:latest
+FROM kittymac/silkroad:latest as builder
 
 WORKDIR /root/SilkRoad
 COPY ./Package.resolved ./Package.resolved
@@ -24,7 +24,7 @@ RUN /usr/bin/swift-build-all --product PonyLib
 
 RUN /usr/bin/patch-elf libPonyLib.so --set-soname "libPonyLib.so"
 
-RUN /usr/bin/swift-build-all --product SilkRoadFramework
+RUN /usr/bin/swift-build-all --target SilkRoadFramework
 
 # It is not safe to generically strip all .so, so you need to manually specify which, if any, you want stripped
 RUN /usr/bin/strip-so libicudata.so
@@ -97,3 +97,18 @@ RUN /usr/bin/remove-so libswift_MatchingEngine.so
 RUN /usr/bin/remove-so libswiftSwiftOnoneSupport.so
 RUN /usr/bin/remove-so libXCTest.so
 RUN /usr/bin/remove-so libxml2.so
+
+RUN /usr/bin/remove-so libcurses.so
+RUN /usr/bin/remove-so libncurses.so
+RUN /usr/bin/remove-so libncursesw.so
+RUN /usr/bin/remove-so libsqlite3.so
+RUN /usr/bin/remove-so libswiftDistributed.so
+RUN /usr/bin/remove-so libswiftRegexBuilder.so
+RUN /usr/bin/remove-so libtermcap.so
+RUN /usr/bin/remove-so libtic.so
+RUN /usr/bin/remove-so libtinfo.so
+
+FROM ubuntu:20.04
+
+WORKDIR /root
+COPY --from=builder /root/lib /root/lib

@@ -3,7 +3,7 @@
 SONAME="$1"
 shift
 
-/root/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/bin/llvm-objcopy --strip-all "/root/lib/x86_64/$SONAME"
+# /root/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/bin/llvm-objcopy --strip-all "/root/lib/x86_64/$SONAME"
 /root/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/bin/llvm-objcopy --strip-all "/root/lib/arm64-v8a/$SONAME"
 /root/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/bin/llvm-objcopy --strip-all "/root/lib/armeabi-v7a/$SONAME"
 

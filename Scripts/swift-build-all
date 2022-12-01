@@ -5,17 +5,17 @@ set -e
 # Simple script to run "swift build" cross-compilation for all Android architectures and copy generated .so files to their appropriate folders
 export SILKROAD=1
 
-/usr/bin/swift build "$@" \
-    --configuration release \
-    -Xswiftc -Osize \
-    -Xswiftc -gnone \
-    -Xswiftc -emit-library \
-    -Xlinker -s \
-    -Xlinker -x \
-    --destination "/root/android-x86_64.json" -Xlinker -rpath -Xlinker "/root/swift-5.7.1-android-x86_64-24-sdk/usr/lib/swift/android"
-cp .build/x86_64-unknown-linux-android24/release/*.so /root/lib/x86_64/ || true
-cp *.so /root/lib/x86_64/ || true
-rm -f *.so
+# /usr/bin/swift build "$@" \
+#     --configuration release \
+#     -Xswiftc -Osize \
+#     -Xswiftc -gnone \
+#     -Xswiftc -emit-library \
+#     -Xlinker -s \
+#     -Xlinker -x \
+#     --destination "/root/android-x86_64.json" -Xlinker -rpath -Xlinker "/root/swift-5.7.1-android-x86_64-24-sdk/usr/lib/swift/android"
+# cp .build/x86_64-unknown-linux-android24/release/*.so /root/lib/x86_64/ || true
+# cp *.so /root/lib/x86_64/ || true
+# rm -f *.so
 
 /usr/bin/swift build "$@" \
     --configuration release \
