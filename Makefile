@@ -1,3 +1,6 @@
+SWIFT_BUILD_FLAGS=--configuration release
+GIT_VERSION=$(shell git describe)
+
 build:
 	swift build -Xswiftc -enable-library-evolution -v $(SWIFT_BUILD_FLAGS)
 
@@ -32,7 +35,15 @@ docker-release: android-ndk android-sdk
 	-docker buildx use cluster_builder203
 	-docker buildx inspect --bootstrap
 	-docker login
-	docker buildx build --platform linux/amd64 --push -t kittymac/silkroad .
+	
+	@if echo "$(GIT_VERSION)" | grep -q '-'; then																												\
+		echo "FAILURE: unable to build non-versioned images to kittymac/roverserver (release repository)";														\
+		docker buildx build --platform linux/amd64 --push -t kittymac/silkroad:latest -t kittymac/silkroad:$(GIT_VERSION) . ;									\
+	else																																						\
+		echo "BUILDING LATEST AND TAG $(GIT_VERSION)";																											\
+		docker buildx build --platform linux/amd64 --push -t kittymac/silkroad:latest -t kittymac/silkroad:$(GIT_VERSION) . ;			    					\
+	fi
+
 
 docker-shell: docker-release
 	docker pull kittymac/silkroad
