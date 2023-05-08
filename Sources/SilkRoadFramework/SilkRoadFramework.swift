@@ -90,13 +90,14 @@ public func download(url urlUTF8: UTF8Ptr?,
                                                                  atomically: false,
                                                                  encoding: .utf8)
     setenv("URLSessionCertificateAuthorityInfoFile", cacertPath, 1)
-    
-    
-    Picaroon.urlRequest(url: url.description,
-                        httpMethod: "GET",
-                        params: [:],
-                        headers: [:],
-                        body: nil, Flynn.any) { data, httpResponse, error in
+        
+    HTTPSession.oneshot.beRequest(url: url.description,
+                                  httpMethod: "GET",
+                                  params: [:],
+                                  headers: [:],
+                                  cookies: nil,
+                                  proxy: nil,
+                                  body: nil, Flynn.any) { data, httpResponse, error in
         if let data = data {
             returnCallback?(returnInfo, Hitch(data: data).export().0)
             return

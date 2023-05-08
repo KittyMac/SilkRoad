@@ -46,11 +46,11 @@ docker-release: android-ndk android-sdk
 
 
 docker-shell: docker-release
-	docker pull kittymac/silkroad
+	docker pull --platform linux/amd64 kittymac/silkroad
 	docker run --rm -it --entrypoint bash kittymac/silkroad
 
 docker-test: docker-release
-	docker pull kittymac/silkroad:latest
+	docker pull --platform linux/amd64 kittymac/silkroad:latest
 	
 	# Build our Swift projects into shared libraries using Docker
 	-docker buildx create --name cluster_builder203
@@ -59,7 +59,7 @@ docker-test: docker-release
 	-docker buildx inspect --bootstrap
 	-docker login
 	docker buildx build -f Dockerfile.silkroad --platform linux/amd64 --push -t kittymac/silkroadtest .
-	docker pull kittymac/silkroadtest:latest
+	docker pull --platform linux/amd64 kittymac/silkroadtest:latest
 	
 	# Copy the built shared libraries into our jniLibs folder
 	rm -rf /tmp/jniLibs
@@ -74,6 +74,6 @@ docker-test: docker-release
 	
 
 docker-test-shell: docker-test
-	docker pull kittymac/silkroadtest
+	docker pull --platform linux/amd64 kittymac/silkroadtest
 	docker run --rm -it --entrypoint bash kittymac/silkroadtest
 
