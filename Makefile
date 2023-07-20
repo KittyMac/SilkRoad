@@ -31,7 +31,7 @@ android-sdk:
 
 docker-release: android-ndk android-sdk
 	-docker buildx create --name cluster_builder203
-	-DOCKER_HOST=ssh://rjbowli@192.168.1.203 docker buildx create --name cluster_builder203 --platform linux/amd64 --append
+	-DOCKER_HOST=ssh://rjbowli@192.168.111.203 docker buildx create --name cluster_builder203 --platform linux/amd64 --append
 	-docker buildx use cluster_builder203
 	-docker buildx inspect --bootstrap
 	-docker login
@@ -54,7 +54,7 @@ docker-test: docker-release
 	
 	# Build our Swift projects into shared libraries using Docker
 	-docker buildx create --name cluster_builder203
-	-DOCKER_HOST=ssh://rjbowli@192.168.1.203 docker buildx create --name cluster_builder203 --platform linux/amd64 --append
+	-DOCKER_HOST=ssh://rjbowli@192.168.111.203 docker buildx create --name cluster_builder203 --platform linux/amd64 --append
 	-docker buildx use cluster_builder203
 	-docker buildx inspect --bootstrap
 	-docker login
