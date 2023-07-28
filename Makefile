@@ -37,8 +37,8 @@ docker-release: android-ndk android-sdk
 	-docker login
 	
 	@if echo "$(GIT_VERSION)" | grep -q '-'; then																												\
-		echo "FAILURE: unable to build non-versioned images to kittymac/roverserver (release repository)";														\
-		docker buildx build --platform linux/amd64 --push -t kittymac/silkroad:latest -t kittymac/silkroad:$(GIT_VERSION) . ;									\
+		echo "BUILDING LATEST";																																	\
+		docker buildx build --platform linux/amd64 --push -t kittymac/silkroad:latest . ;																		\
 	else																																						\
 		echo "BUILDING LATEST AND TAG $(GIT_VERSION)";																											\
 		docker buildx build --platform linux/amd64 --push -t kittymac/silkroad:latest -t kittymac/silkroad:$(GIT_VERSION) . ;			    					\
