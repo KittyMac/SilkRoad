@@ -1,6 +1,7 @@
 FROM kittymac/silkroad:latest as builder
 
 WORKDIR /root/SilkRoad
+COPY ./.build/repositories ./.build/repositories
 COPY ./Package.resolved ./Package.resolved
 COPY ./Package.swift ./Package.swift
 COPY ./Sources ./Sources

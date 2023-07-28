@@ -58,6 +58,8 @@ docker-test: docker-release
 	-docker buildx use cluster_builder203
 	-docker buildx inspect --bootstrap
 	-docker login
+	
+	swift package resolve
 	docker buildx build -f Dockerfile.silkroad --platform linux/amd64 --push -t kittymac/silkroadtest .
 	docker pull --platform linux/amd64 kittymac/silkroadtest:latest
 	
