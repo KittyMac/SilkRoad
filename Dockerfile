@@ -67,7 +67,7 @@ RUN chmod 755 /usr/bin/strip-so
 RUN chmod 755 /usr/bin/termux-install
 
 # from https://packages.termux.dev/apt/termux-main/pool/main/
-RUN /usr/bin/termux-install z/zlib/zlib_1.2.13 libz.so libz.so
+RUN /usr/bin/termux-install z/zlib/zlib_1.3 libz.so libz.so
 
 # Required for libFoundationNetworking.so
 #

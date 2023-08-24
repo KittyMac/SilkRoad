@@ -47,6 +47,9 @@ RUN /usr/bin/strip-so libswiftGlibc.so
 RUN /usr/bin/strip-so libandroid-spawn.so
 RUN /usr/bin/strip-so libBlocksRuntime.so
 RUN /usr/bin/strip-so libnghttp2.so
+RUN /usr/bin/strip-so libCryptoSwift.so
+RUN /usr/bin/strip-so libStudding.so
+RUN /usr/bin/strip-so libGzip.so
 
 RUN /usr/bin/strip-so libSextant.so
 RUN /usr/bin/strip-so libSilkRoadFramework.so
@@ -63,7 +66,14 @@ RUN /usr/bin/strip-so libChronometer.so
 
 RUN /usr/bin/patch-elf libHitch.so --set-soname "libHitch.so"
 
+RUN /usr/bin/patch-elf libCryptoSwift.so --set-soname "libCryptoSwift.so"
+
+RUN /usr/bin/patch-elf libGzip.so --set-soname "libGzip.so"
+
 RUN /usr/bin/patch-elf libSpanker.so \
+    --add-needed "libHitch.so"
+    
+RUN /usr/bin/patch-elf libStudding.so \
     --add-needed "libHitch.so"
     
 RUN /usr/bin/patch-elf libSextant.so \
@@ -89,6 +99,9 @@ RUN /usr/bin/patch-elf libSilkRoadFramework.so \
     --add-needed "libFlynn.so" \
     --add-needed "libSextant.so" \
     --add-needed "libJib.so" \
+    --add-needed "libCryptoSwift.so" \
+    --add-needed "libStudding.so" \
+    --add-needed "libGzip.so" \
     --add-needed "libPicaroon.so"
 
 # Remove any .so we don't actually need
