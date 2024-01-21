@@ -35,10 +35,15 @@ final class SilkRoadTests: XCTestCase {
         
         let result: CallbackPtr = { info, data in
             print("DONE!")
+            //expectation.fulfill()
         }
         
         SilkRoadFramework.download(url: url.export().0, result, nil)
         
         wait(for: [expectation], timeout: 10.0)
+    }
+    
+    func testOCR() {
+        SilkRoadFramework.ocr()
     }
 }

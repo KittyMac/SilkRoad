@@ -22,8 +22,10 @@ COPY ./Tests ./Tests
 # and to add the soname only when absolutely necessary.
 
 RUN /usr/bin/swift-build-all --product PonyLib
-
 RUN /usr/bin/patch-elf libPonyLib.so --set-soname "libPonyLib.so"
+
+RUN /usr/bin/swift-build-all --product CTess
+RUN /usr/bin/patch-elf libCTess.so --set-soname "libCTess.so"
 
 RUN /usr/bin/swift-build-all --target SilkRoadFramework
 
@@ -57,8 +59,10 @@ RUN /usr/bin/strip-so libPicaroon.so
 RUN /usr/bin/strip-so libHitch.so
 RUN /usr/bin/strip-so libSpanker.so
 RUN /usr/bin/strip-so libFlynn.so
+RUN /usr/bin/strip-so libSpyglass.so
 RUN /usr/bin/strip-so libJib.so
 RUN /usr/bin/strip-so libPonyLib.so
+RUN /usr/bin/strip-so libCTess.so
 RUN /usr/bin/strip-so libChronometer.so
 
 # Fix up the generated libraries; their sonames will be wrong
@@ -89,6 +93,13 @@ RUN /usr/bin/patch-elf libJib.so \
 
 RUN /usr/bin/patch-elf libFlynn.so \
     --add-needed "libPonyLib.so"
+    
+RUN /usr/bin/patch-elf libSpyglass.so \
+    --add-needed "libCTess.so"
+    
+RUN /usr/bin/patch-elf libSpyglass.so \
+    --add-needed "libtesseract.so" \
+    --add-needed "libleptonica.so"
 
 RUN /usr/bin/patch-elf libPicaroon.so \
     --add-needed "libFlynn.so" \
@@ -96,6 +107,7 @@ RUN /usr/bin/patch-elf libPicaroon.so \
     --add-needed "libSextant.so"
 
 RUN /usr/bin/patch-elf libSilkRoadFramework.so \
+    --add-needed "libSpyglass.so" \
     --add-needed "libFlynn.so" \
     --add-needed "libSextant.so" \
     --add-needed "libJib.so" \
@@ -110,7 +122,6 @@ RUN /usr/bin/remove-so libswift_Differentiation.so
 RUN /usr/bin/remove-so libswift_MatchingEngine.so
 RUN /usr/bin/remove-so libswiftSwiftOnoneSupport.so
 RUN /usr/bin/remove-so libXCTest.so
-RUN /usr/bin/remove-so libxml2.so
 
 RUN /usr/bin/remove-so libcurses.so
 RUN /usr/bin/remove-so libncurses.so

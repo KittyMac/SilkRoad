@@ -5,6 +5,8 @@ import Sextant
 import Flynn
 import Jib
 import Picaroon
+import Spyglass
+import Gzip
 
 #if canImport(FoundationNetworking)
 import FoundationNetworking
@@ -90,14 +92,16 @@ public func download(url urlUTF8: UTF8Ptr?,
                                                                  atomically: false,
                                                                  encoding: .utf8)
     setenv("URLSessionCertificateAuthorityInfoFile", cacertPath, 1)
-        
+    
     HTTPSession.oneshot.beRequest(url: url.description,
                                   httpMethod: "GET",
                                   params: [:],
                                   headers: [:],
                                   cookies: nil,
+                                  timeoutRetry: nil,
                                   proxy: nil,
-                                  body: nil, Flynn.any) { data, httpResponse, error in
+                                  body: nil,
+                                  Flynn.any) { data, httpResponse, error in
         if let data = data {
             returnCallback?(returnInfo, Hitch(data: data).export().0)
             return
@@ -112,6 +116,19 @@ public func download(url urlUTF8: UTF8Ptr?,
     }
 }
 
+@_cdecl("silkroad_ocr")
+public func ocr() {
+    guard let image = try? SilkRoadFrameworkPamphlet.Image6PngGzip().gunzipped() else {
+        print("failed to decompress test image")
+        return
+    }
+    if let spyglass = try? Spyglass(),
+       let result = spyglass.parse(image: image) {
+        print("tesseract: \(result)")
+    } else {
+        print("tesseract: failed for unknown reason")
+    }
+}
 
 public class Lowercase: Actor {
     internal func _beToLowercase(string: String) -> String {
@@ -121,3 +138,4 @@ public class Lowercase: Actor {
         return hitch.lowercase()
     }
 }
+

@@ -12,6 +12,7 @@ external fun jsonpath(path: String, json: String): String
 external fun flynnTest(tolower: String, returnCallback: (String) -> Unit)
 external fun eval(javascript: String): String
 external fun download(url: String, returnCallback: (String) -> Unit)
+external fun ocr()
 
 class MainActivity : AppCompatActivity() {
     companion object {
@@ -63,6 +64,9 @@ class MainActivity : AppCompatActivity() {
         download("https://www.google.com/") {
             Log.d("TAG", "download: ${it}")
         }
+
+        ocr()
+        Log.d("TAG", "ocr")
     }
 }
 
