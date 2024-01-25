@@ -21,7 +21,7 @@ COPY ./Tests ./Tests
 # call patch-elf only once per .so, sending multiple modification commads at the same time
 # and to add the soname only when absolutely necessary.
 
-RUN /usr/bin/swift-build-all --product PonyLib
+RUN /usr/bin/swift-build-all-debug --product PonyLib
 RUN /usr/bin/patch-elf libPonyLib.so --set-soname "libPonyLib.so"
 
 RUN /usr/bin/swift-build-all --product CTess
