@@ -1,4 +1,4 @@
-FROM swift:5.7.1-focal
+FROM swift:5.9-jammy
 
 RUN export DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true && apt-get -q update && \
     apt-get install -y \
@@ -15,44 +15,33 @@ RUN rm -rf /var/lib/apt/lists/*
 
 WORKDIR /root/
 # COPY "./AndroidSDK/android-x86_64.json" "./android-x86_64.json"
-# COPY "./AndroidSDK/swift-5.7.1-android-x86_64-24-sdk.tar.xz" ./tmp.tar.xz
-# RUN tar -xf tmp.tar.xz
-# RUN rm -rf ./tmp.tar.xz
-
 COPY "./AndroidSDK/android-aarch64.json" "./android-aarch64.json"
-COPY "./AndroidSDK/swift-5.7.1-android-aarch64-24-sdk.tar.xz" ./tmp.tar.xz
-RUN tar -xf tmp.tar.xz
-RUN rm -rf ./tmp.tar.xz
-
 COPY "./AndroidSDK/android-armv7.json" "./android-armv7.json"
-COPY "./AndroidSDK/swift-5.7.1-android-armv7-24-sdk.tar.xz" ./tmp.tar.xz
+
+COPY "./AndroidSDK/swift-5.9-android-24-sdk.tar.xz" ./tmp.tar.xz
 RUN tar -xf tmp.tar.xz
 RUN rm -rf ./tmp.tar.xz
 
-COPY "./AndroidNDK/androidndk.zip" ./tmp.zip
+COPY "./AndroidNDK/android-ndk-25c.zip" ./tmp.zip
 RUN unzip ./tmp.zip
+RUN mv ./android-ndk-r25c ./android-ndk
 RUN rm -rf ./tmp.zip
 
-# RUN ln -sf /usr/lib/clang/13.0.0 "/root/swift-5.7.1-android-x86_64-24-sdk/usr/lib/swift/clang"
-RUN ln -sf /usr/lib/clang/13.0.0 "/root/swift-5.7.1-android-aarch64-24-sdk/usr/lib/swift/clang"
-RUN ln -sf /usr/lib/clang/13.0.0 "/root/swift-5.7.1-android-armv7-24-sdk/usr/lib/swift/clang"
+RUN ln -sf /usr/lib/clang/13.0.0 "/root/swift-5.9-android-24-sdk/usr/lib/swift/clang"
 
 # Generate the lib folder for output libraries
 WORKDIR /root/lib
 # WORKDIR /root/lib/x86_64
 # RUN rm -rf ./*
-# RUN cp /root/swift-5.7.1-android-x86_64-24-sdk/usr/lib/swift/android/*.so ./
-# RUN cp /root/swift-5.7.1-android-x86_64-24-sdk/usr/lib/*.so ./
+# RUN cp /root/swift-5.9-android-24-sdk/usr/lib/x86_64-linux-android/*.so ./
 
 WORKDIR /root/lib/arm64-v8a
 RUN rm -rf ./*
-RUN cp /root/swift-5.7.1-android-aarch64-24-sdk/usr/lib/swift/android/*.so ./
-RUN cp /root/swift-5.7.1-android-aarch64-24-sdk/usr/lib/*.so ./
+RUN cp /root/swift-5.9-android-24-sdk/usr/lib/aarch64-linux-android/*.so ./
 
 WORKDIR /root/lib/armeabi-v7a
 RUN rm -rf ./*
-RUN cp /root/swift-5.7.1-android-armv7-24-sdk/usr/lib/swift/android/*.so ./
-RUN cp /root/swift-5.7.1-android-armv7-24-sdk/usr/lib/*.so ./
+RUN cp /root/swift-5.9-android-24-sdk/usr/lib/arm-linux-androideabi/*.so ./
 
 # Import helper scripts
 COPY ./Scripts/swift-build-all /usr/bin/swift-build-all
@@ -144,7 +133,7 @@ RUN /usr/bin/termux-install libc/libcurl/libcurl_8.5.0 libcurl.so libcurl.so
 
 RUN /usr/bin/termux-install libr/libresolv-wrapper/libresolv-wrapper_1.1.7-4 libresolv_wrapper.so libresolv_wrapper.so
 
-RUN /usr/bin/termux-install libn/libnghttp2/libnghttp2_1.58.0 libnghttp2.so libnghttp2.so
+RUN /usr/bin/termux-install libn/libnghttp2/libnghttp2_1.59.0 libnghttp2.so libnghttp2.so
 RUN /usr/bin/termux-install libs/libssh2/libssh2_1.11.0 libssh2.so libssh2.so
 
 RUN /usr/bin/termux-install o/openssl/openssl_1:3.1.4 libssl.so.3 libssl.so

@@ -25,6 +25,15 @@ public typealias CallbackPtr = @convention(c) (VoidPtr?, UTF8Ptr?) -> ()
 
 @_cdecl("silkroad_add")
 public func add(x: Int, y: Int) -> Int {
+    
+    #if swift(>=5.9)
+    print("Swift 5.9")
+    #elseif swift(>=5.8)
+    print("Swift 5.8")
+    #elseif swift(<5.7)
+    print("Lower than Swift 5.7")
+    #endif
+    
     return x + y
 }
 
