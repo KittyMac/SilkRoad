@@ -7,9 +7,9 @@
         "-fPIC"
     ],
     "extra-swiftc-flags": [
-        "-resource-dir", "/root/swift-5.9-android-24-sdk/usr/lib/swift",
+        "-resource-dir", "/root/swift-5.8-android-24-sdk/usr/lib/swift",
         "-tools-directory", "/root/android-ndk/toolchains/llvm/prebuilt/linux-x86_64/bin",
-        "-L", "/root/swift-5.9-android-24-sdk/usr/lib/x86_64-linux-android"
+        "-L", "/root/swift-5.8-android-24-sdk/usr/lib/x86_64-linux-android"
     ],
     "extra-cpp-flags": [
         "-lstdc++"

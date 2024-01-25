@@ -1,4 +1,4 @@
-FROM swift:5.9-jammy
+FROM swift:5.8-jammy
 
 RUN export DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true && apt-get -q update && \
     apt-get install -y \
@@ -18,7 +18,7 @@ WORKDIR /root/
 COPY "./AndroidSDK/android-aarch64.json" "./android-aarch64.json"
 COPY "./AndroidSDK/android-armv7.json" "./android-armv7.json"
 
-COPY "./AndroidSDK/swift-5.9-android-24-sdk.tar.xz" ./tmp.tar.xz
+COPY "./AndroidSDK/swift-5.8-android-24-sdk.tar.xz" ./tmp.tar.xz
 RUN tar -xf tmp.tar.xz
 RUN rm -rf ./tmp.tar.xz
 
@@ -27,21 +27,21 @@ RUN unzip ./tmp.zip
 RUN mv ./android-ndk-r25c ./android-ndk
 RUN rm -rf ./tmp.zip
 
-RUN ln -sf /usr/lib/clang/13.0.0 "/root/swift-5.9-android-24-sdk/usr/lib/swift/clang"
+RUN ln -sf /usr/lib/clang/13.0.0 "/root/swift-5.8-android-24-sdk/usr/lib/swift/clang"
 
 # Generate the lib folder for output libraries
 WORKDIR /root/lib
 # WORKDIR /root/lib/x86_64
 # RUN rm -rf ./*
-# RUN cp /root/swift-5.9-android-24-sdk/usr/lib/x86_64-linux-android/*.so ./
+# RUN cp /root/swift-5.8-android-24-sdk/usr/lib/x86_64-linux-android/*.so ./
 
 WORKDIR /root/lib/arm64-v8a
 RUN rm -rf ./*
-RUN cp /root/swift-5.9-android-24-sdk/usr/lib/aarch64-linux-android/*.so ./
+RUN cp /root/swift-5.8-android-24-sdk/usr/lib/aarch64-linux-android/*.so ./
 
 WORKDIR /root/lib/armeabi-v7a
 RUN rm -rf ./*
-RUN cp /root/swift-5.9-android-24-sdk/usr/lib/arm-linux-androideabi/*.so ./
+RUN cp /root/swift-5.8-android-24-sdk/usr/lib/arm-linux-androideabi/*.so ./
 
 # Import helper scripts
 COPY ./Scripts/swift-build-all /usr/bin/swift-build-all

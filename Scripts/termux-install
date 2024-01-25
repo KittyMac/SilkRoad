@@ -14,7 +14,7 @@ ar x termux.deb
 tar xf data.tar.xz
 patchelf --set-rpath \$ORIGIN ./data/data/com.termux/files/usr/lib/$2
 patchelf --set-soname $2 ./data/data/com.termux/files/usr/lib/$2
-cp -r ./data/data/com.termux/files/usr /root/swift-5.9-android-24-sdk
+cp -r ./data/data/com.termux/files/usr /root/swift-5.8-android-24-sdk
 cp ./data/data/com.termux/files/usr/lib/$2 /root/lib/arm64-v8a/$3
 
 rm -rf *
@@ -25,7 +25,7 @@ ar x termux.deb
 tar xf data.tar.xz
 patchelf --set-rpath \$ORIGIN ./data/data/com.termux/files/usr/lib/$2
 patchelf --set-soname $2 ./data/data/com.termux/files/usr/lib/$2
-cp -r ./data/data/com.termux/files/usr /root/swift-5.9-android-24-sdk
+cp -r ./data/data/com.termux/files/usr /root/swift-5.8-android-24-sdk
 cp ./data/data/com.termux/files/usr/lib/$2 /root/lib/armeabi-v7a/$3
 rm -rf *
 
@@ -35,7 +35,7 @@ rm -rf *
 # tar xf data.tar.xz
 # patchelf --set-rpath \$ORIGIN ./data/data/com.termux/files/usr/lib/$2
 # patchelf --set-soname $2 ./data/data/com.termux/files/usr/lib/$2
-# cp -r ./data/data/com.termux/files/usr /root/swift-5.9-android-24-sdk
+# cp -r ./data/data/com.termux/files/usr /root/swift-5.8-android-24-sdk
 # cp ./data/data/com.termux/files/usr/lib/$2 /root/lib/x86_64/$3
 # rm -rf *
 

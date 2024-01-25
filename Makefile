@@ -10,7 +10,7 @@ update:
 clean:
 	rm -rf .build
 	rm -rf ./AndroidNDK
-	rm -f ./AndroidSDK/swift-5.9-android-24-sdk.tar.xz
+	rm -f ./AndroidSDK/swift-5.8-android-24-sdk.tar.xz
 
 android-ndk:
 	mkdir -p ./AndroidNDK
@@ -20,7 +20,7 @@ android-sdk:
 	# NOTE: need to download manually from https://github.com/buttaface/swift-android-sdk/actions/workflows/sdks.yml
 	# The CI puts the latest releases online, and the manual releases will lag behind
 	mkdir -p ./AndroidSDK
-	@[ -f ./AndroidSDK/swift-5.9-android-24-sdk.tar.xz ] && echo "skipping aarch64 sdk download..." || wget -q -O ./AndroidSDK/swift-5.9-android-24-sdk.tar.xz https://github.com/finagolfin/swift-android-sdk/releases/download/5.9/swift-5.9-android-24-sdk.tar.xz
+	@[ -f ./AndroidSDK/swift-5.8-android-24-sdk.tar.xz ] && echo "skipping aarch64 sdk download..." || wget -q -O ./AndroidSDK/swift-5.8-android-24-sdk.tar.xz https://github.com/finagolfin/swift-android-sdk/releases/download/5.8/swift-5.8-android-24-sdk.tar.xz
 
 docker-release: android-ndk android-sdk
 	-docker buildx create --name cluster_builder203
