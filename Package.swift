@@ -11,6 +11,7 @@ let package = Package(
         .library(name: "SilkRoadFramework", targets: ["SilkRoadFramework"]),
     ],
     dependencies: [
+        .package(url: "https://github.com/KittyMac/MailPacket.git", from: "0.0.1"),
         .package(url: "https://github.com/KittyMac/Spyglass.git", from: "0.0.7"),
         .package(url: "https://github.com/KittyMac/Jib.git", from: "0.0.52"),
         .package(url: "https://github.com/KittyMac/Pamphlet.git", from: "0.3.62"),
@@ -35,6 +36,7 @@ let package = Package(
                 "Jib",
                 "Spyglass",
                 "Picaroon",
+                "MailPacket",
                 .product(name: "Gzip", package: "GzipSwift"),
                 .product(name: "PamphletTool", package: "Pamphlet"),
             ],

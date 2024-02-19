@@ -7,6 +7,7 @@ import Jib
 import Picaroon
 import Spyglass
 import Gzip
+import MailPacket
 
 #if canImport(FoundationNetworking)
 import FoundationNetworking
@@ -136,6 +137,23 @@ public func ocr() {
         print("tesseract: \(result)")
     } else {
         print("tesseract: failed for unknown reason")
+    }
+}
+
+@_cdecl("silkroad_imap")
+public func imap() {
+    let imap = IMAP(domain: "imap.gmail.com",
+                    port: 993)
+    
+    imap.beConnect(account: "test.rocco.receiptpal@gmail.com",
+                   password: "qtxf ktfw wutc fntv",
+                   imap) { error in
+        print("imap connect error: \(error ?? "nil")")
+        imap.beSearch(folder: "INBOX",
+                      after: Date(timeIntervalSinceNow: 60 * 60 * 24 * 30 * -1),
+                      imap) { error in
+            print("imap search error: \(error ?? "nil")")
+        }
     }
 }
 

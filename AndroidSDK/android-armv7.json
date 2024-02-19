@@ -4,12 +4,15 @@
     "toolchain-bin-dir": "/usr/bin",
     "sdk": "/root/android-ndk/toolchains/llvm/prebuilt/linux-x86_64/sysroot",
     "extra-cc-flags": [
-        "-fPIC"
+        "-fPIC",
+        "-L", "/root/swift-5.8-android-24-sdk/usr/lib/x86_64-linux-android",
+        "-I", "/root/swift-5.8-android-24-sdk/usr/include",
     ],
     "extra-swiftc-flags": [
         "-resource-dir", "/root/swift-5.8-android-24-sdk/usr/lib/swift",
         "-tools-directory", "/root/android-ndk/toolchains/llvm/prebuilt/linux-x86_64/bin",
-        "-L", "/root/swift-5.8-android-24-sdk/usr/lib/arm-linux-androideabi"
+        "-L", "/root/swift-5.8-android-24-sdk/usr/lib/arm-linux-androideabi",
+        "-I", "/root/swift-5.8-android-24-sdk/usr/include",
     ],
     "extra-cpp-flags": [
         "-lstdc++"

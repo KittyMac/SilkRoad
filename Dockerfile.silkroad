@@ -21,11 +21,14 @@ COPY ./Tests ./Tests
 # call patch-elf only once per .so, sending multiple modification commads at the same time
 # and to add the soname only when absolutely necessary.
 
-RUN /usr/bin/swift-build-all-debug --product PonyLib
+RUN /usr/bin/swift-build-all --product PonyLib
 RUN /usr/bin/patch-elf libPonyLib.so --set-soname "libPonyLib.so"
 
 RUN /usr/bin/swift-build-all --product CTess
 RUN /usr/bin/patch-elf libCTess.so --set-soname "libCTess.so"
+
+RUN /usr/bin/swift-build-all --product libetpan
+RUN /usr/bin/patch-elf liblibetpan.so --set-soname "liblibetpan.so"
 
 RUN /usr/bin/swift-build-all --target SilkRoadFramework
 
@@ -60,6 +63,8 @@ RUN /usr/bin/strip-so libHitch.so
 RUN /usr/bin/strip-so libSpanker.so
 RUN /usr/bin/strip-so libFlynn.so
 RUN /usr/bin/strip-so libSpyglass.so
+RUN /usr/bin/strip-so liblibetpan.so
+RUN /usr/bin/strip-so libMailPacket.so
 RUN /usr/bin/strip-so libJib.so
 RUN /usr/bin/strip-so libPonyLib.so
 RUN /usr/bin/strip-so libCTess.so
@@ -101,12 +106,16 @@ RUN /usr/bin/patch-elf libSpyglass.so \
     --add-needed "libtesseract.so" \
     --add-needed "libleptonica.so"
 
+RUN /usr/bin/patch-elf libMailPacket.so \
+    --add-needed "liblibetpan.so"
+
 RUN /usr/bin/patch-elf libPicaroon.so \
     --add-needed "libFlynn.so" \
     --add-needed "libHitch.so" \
     --add-needed "libSextant.so"
 
 RUN /usr/bin/patch-elf libSilkRoadFramework.so \
+    --add-needed "libMailPacket.so" \
     --add-needed "libSpyglass.so" \
     --add-needed "libFlynn.so" \
     --add-needed "libSextant.so" \
@@ -133,7 +142,7 @@ RUN /usr/bin/remove-so libtermcap.so
 RUN /usr/bin/remove-so libtic.so
 RUN /usr/bin/remove-so libtinfo.so
 
-FROM ubuntu:20.04
+FROM alpine
 
 WORKDIR /root
 COPY --from=builder /root/lib /root/lib

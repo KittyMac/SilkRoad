@@ -3,6 +3,7 @@ import SilkRoadFramework
 import Hitch
 import Flynn
 import Picaroon
+import MailPacket
 
 final class SilkRoadTests: XCTestCase {
     
@@ -45,5 +46,29 @@ final class SilkRoadTests: XCTestCase {
     
     func testOCR() {
         SilkRoadFramework.ocr()
+    }
+    
+    func testIMAP() {
+        let expectation = XCTestExpectation(description: #function)
+
+        let imap = IMAP(domain: "imap.gmail.com",
+                        port: 993)
+        
+        imap.beConnect(account: "test.rocco.receiptpal@gmail.com",
+                       password: "qtxf ktfw wutc fntv",
+                       imap) { error in
+            
+            XCTAssertNil(error)
+            
+            imap.beSearch(folder: "INBOX",
+                          after: Date(timeIntervalSinceNow: 60 * 60 * 24 * 30 * -1),
+                          imap) { error in
+                XCTAssertNil(error)
+                
+                expectation.fulfill()
+            }
+        }
+        
+        wait(for: [expectation], timeout: 10)
     }
 }

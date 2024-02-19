@@ -15,6 +15,7 @@ extern "C" const char * silkroad_jsonpath(const char * path, const char * json);
 extern "C" void silkroad_flynnTest(const char * ptr, void * functionPtr, void * infoPtr);
 extern "C" void silkroad_download(const char * ptr, void * functionPtr, void * infoPtr);
 extern "C" void silkroad_ocr();
+extern "C" void silkroad_imap();
 extern "C" const char * silkroad_eval(const char * ptr);
 
 // JNI methods
@@ -87,4 +88,10 @@ extern "C"
 JNIEXPORT void JNICALL
 Java_com_chimerasw_silkroadandroidtest_MainActivityKt_ocr(JNIEnv *env, jclass clazz) {
 silkroad_ocr();
+}
+
+extern "C"
+JNIEXPORT void JNICALL
+Java_com_chimerasw_silkroadandroidtest_MainActivityKt_imap(JNIEnv *env, jclass clazz) {
+silkroad_imap();
 }

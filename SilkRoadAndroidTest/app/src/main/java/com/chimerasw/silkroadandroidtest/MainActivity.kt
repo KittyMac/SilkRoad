@@ -13,6 +13,7 @@ external fun flynnTest(tolower: String, returnCallback: (String) -> Unit)
 external fun eval(javascript: String): String
 external fun download(url: String, returnCallback: (String) -> Unit)
 external fun ocr()
+external fun imap()
 
 class MainActivity : AppCompatActivity() {
     companion object {
@@ -67,6 +68,9 @@ class MainActivity : AppCompatActivity() {
 
         ocr()
         Log.d("TAG", "ocr")
+        
+        imap()
+        Log.d("TAG", "imap")
     }
 }
 

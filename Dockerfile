@@ -2,14 +2,16 @@ FROM swift:5.8-jammy
 
 RUN export DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true && apt-get -q update && \
     apt-get install -y \
+    libssl-dev \
+    libjavascriptcoregtk-4.0-dev \
     libatomic1 \
+    unzip \
     curl \
     wget \
     unzip \
     xz-utils \
     patchelf \
-    binutils \
-    libjavascriptcoregtk-4.0-dev
+    binutils
 
 RUN rm -rf /var/lib/apt/lists/*
 
@@ -58,13 +60,13 @@ RUN chmod 755 /usr/bin/strip-so
 RUN chmod 755 /usr/bin/termux-install
 
 # from https://packages.termux.dev/apt/termux-main/pool/main/
-RUN /usr/bin/termux-install z/zlib/zlib_1.3-3 libz.so libz.so
+RUN /usr/bin/termux-install z/zlib/zlib_1.3.1 libz.so libz.so
 
 # libs and dependencies for libtesseract
 RUN /usr/bin/termux-install libi/libiconv/libiconv_1.17 libiconv.so libiconv.so
 RUN /usr/bin/strip-so libiconv.so
 
-RUN /usr/bin/termux-install libl/liblzma/liblzma_5.4.5 liblzma.so liblzma.so
+RUN /usr/bin/termux-install libl/liblzma/liblzma_5.4.6 liblzma.so liblzma.so
 RUN /usr/bin/strip-so liblzma.so
 
 RUN /usr/bin/termux-install libb/libbz2/libbz2_1.0.8-6 libbz2.so libbz2.so
@@ -76,15 +78,15 @@ RUN /usr/bin/strip-so libzstd.so
 RUN /usr/bin/termux-install o/openjpeg/openjpeg_2.5.0-1 libopenjp2.so libopenjp2.so
 RUN /usr/bin/strip-so libopenjp2.so
 
-RUN /usr/bin/termux-install libx/libxml2/libxml2_2.12.4 libxml2.so libxml2.so
+RUN /usr/bin/termux-install libx/libxml2/libxml2_2.12.5 libxml2.so libxml2.so
 RUN /usr/bin/patch-elf libxml2.so --replace-needed "libz.so.1" "libz.so"
 RUN /usr/bin/patch-elf libxml2.so --replace-needed "liblzma.so.5" "liblzma.so"
 RUN /usr/bin/strip-so libxml2.so
 
-RUN /usr/bin/termux-install libj/libjpeg-turbo/libjpeg-turbo_3.0.1 libjpeg.so libjpeg.so
+RUN /usr/bin/termux-install libj/libjpeg-turbo/libjpeg-turbo_3.0.2 libjpeg.so libjpeg.so
 RUN /usr/bin/strip-so libjpeg.so
 
-RUN /usr/bin/termux-install libp/libpng/libpng_1.6.40 libpng.so libpng.so
+RUN /usr/bin/termux-install libp/libpng/libpng_1.6.42 libpng.so libpng.so
 RUN /usr/bin/patch-elf libpng.so --replace-needed "libz.so.1" "libz.so"
 RUN /usr/bin/strip-so libpng.so
 
@@ -124,6 +126,11 @@ RUN /usr/bin/patch-elf libleptonica.so --replace-needed "libz.so.1" "libz.so"
 RUN /usr/bin/patch-elf libleptonica.so --replace-needed "libgif.so.7" "libgif.so"
 RUN /usr/bin/strip-so libleptonica.so
 
+# For libetpan?
+
+# RUN /usr/bin/termux-install libd/libdb/libdb_18.1.40-4 libdb.so libdb.so
+# RUN /usr/bin/strip-so libdb.so
+
 # Required for libFoundationNetworking.so
 #
 # See https://curl.haxx.se/docs/sslcerts.html
@@ -131,15 +138,15 @@ RUN /usr/bin/strip-so libleptonica.so
 # accessible at the path pointed to by this env var.
 # Downloadable here: https://curl.haxx.se/ca/cacert.pem
 #
-RUN /usr/bin/termux-install libc/libcurl/libcurl_8.5.0 libcurl.so libcurl.so
+RUN /usr/bin/termux-install libc/libcurl/libcurl_8.6.0 libcurl.so libcurl.so
 
 RUN /usr/bin/termux-install libr/libresolv-wrapper/libresolv-wrapper_1.1.7-4 libresolv_wrapper.so libresolv_wrapper.so
 
 RUN /usr/bin/termux-install libn/libnghttp2/libnghttp2_1.59.0 libnghttp2.so libnghttp2.so
 RUN /usr/bin/termux-install libs/libssh2/libssh2_1.11.0 libssh2.so libssh2.so
 
-RUN /usr/bin/termux-install o/openssl/openssl_1:3.1.4 libssl.so.3 libssl.so
-RUN /usr/bin/termux-install o/openssl/openssl_1:3.1.4 libcrypto.so.3 libcrypto.so
+RUN /usr/bin/termux-install o/openssl/openssl_1:3.2.1 libssl.so.3 libssl.so
+RUN /usr/bin/termux-install o/openssl/openssl_1:3.2.1 libcrypto.so.3 libcrypto.so
 
 RUN /usr/bin/patch-elf libssh2.so --replace-needed "libssl.so.3" "libssl.so"
 RUN /usr/bin/patch-elf libssh2.so --replace-needed "libcrypto.so.3" "libcrypto.so"
