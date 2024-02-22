@@ -22,13 +22,8 @@ COPY ./Tests ./Tests
 # and to add the soname only when absolutely necessary.
 
 RUN /usr/bin/swift-build-all --product PonyLib
-RUN /usr/bin/patch-elf libPonyLib.so --set-soname "libPonyLib.so"
-
 RUN /usr/bin/swift-build-all --product CTess
-RUN /usr/bin/patch-elf libCTess.so --set-soname "libCTess.so"
-
 RUN /usr/bin/swift-build-all --product libetpan
-RUN /usr/bin/patch-elf liblibetpan.so --set-soname "liblibetpan.so"
 
 RUN /usr/bin/swift-build-all --target SilkRoadFramework
 
@@ -37,12 +32,12 @@ RUN /usr/bin/strip-so libicudata.so
 RUN /usr/bin/strip-so libFoundation.so
 RUN /usr/bin/strip-so libswiftCore.so
 RUN /usr/bin/strip-so libicui18n.so
-RUN /usr/bin/strip-so libcrypto.so
+RUN /usr/bin/strip-so libcryptoSR.so
 RUN /usr/bin/strip-so libicuuc.so
 RUN /usr/bin/strip-so libFoundationNetworking.so
 RUN /usr/bin/strip-so libc++_shared.so
 RUN /usr/bin/strip-so libcurl.so
-RUN /usr/bin/strip-so libssl.so
+RUN /usr/bin/strip-so libsslSR.so
 RUN /usr/bin/strip-so libswift_Concurrency.so
 RUN /usr/bin/strip-so libssh2.so
 RUN /usr/bin/strip-so libswiftDispatch.so
@@ -52,6 +47,7 @@ RUN /usr/bin/strip-so libswiftGlibc.so
 RUN /usr/bin/strip-so libandroid-spawn.so
 RUN /usr/bin/strip-so libBlocksRuntime.so
 RUN /usr/bin/strip-so libnghttp2.so
+RUN /usr/bin/strip-so libnghttp3.so
 RUN /usr/bin/strip-so libCryptoSwift.so
 RUN /usr/bin/strip-so libStudding.so
 RUN /usr/bin/strip-so libGzip.so
@@ -125,6 +121,10 @@ RUN /usr/bin/patch-elf libSilkRoadFramework.so \
     --add-needed "libGzip.so" \
     --add-needed "libPicaroon.so"
 
+RUN /usr/bin/patch-elf liblibetpan.so --set-soname "liblibetpan.so"
+RUN /usr/bin/patch-elf liblibetpan.so --replace-needed "libssl.so.3" "libsslSR.so"
+RUN /usr/bin/patch-elf liblibetpan.so --replace-needed "libcrypto.so.3" "libcryptoSR.so"
+
 # Remove any .so we don't actually need
 RUN /usr/bin/remove-so libFoundationXML.so
 RUN /usr/bin/remove-so libswift_Differentiation.so
@@ -142,7 +142,8 @@ RUN /usr/bin/remove-so libtermcap.so
 RUN /usr/bin/remove-so libtic.so
 RUN /usr/bin/remove-so libtinfo.so
 
-FROM alpine
+FROM ubuntu:20.04
 
 WORKDIR /root
 COPY --from=builder /root/lib /root/lib
+
