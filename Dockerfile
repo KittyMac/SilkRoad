@@ -55,16 +55,23 @@ COPY ./Scripts/patch-elf /usr/bin/patch-elf
 COPY ./Scripts/remove-so /usr/bin/remove-so
 COPY ./Scripts/strip-so /usr/bin/strip-so
 COPY ./Scripts/termux-install /usr/bin/termux-install
+COPY ./Scripts/vendored-so-install /usr/bin/vendored-so-install
 RUN chmod 755 /usr/bin/swift-build-all
 RUN chmod 755 /usr/bin/swift-build-all-debug
 RUN chmod 755 /usr/bin/patch-elf
 RUN chmod 755 /usr/bin/remove-so
 RUN chmod 755 /usr/bin/strip-so
 RUN chmod 755 /usr/bin/termux-install
+RUN chmod 755 /usr/bin/vendored-so-install
 
 # Process all dependent libs (make update-libs)
-RUN /usr/bin/termux-install z/zlib/zlib_1.3.1 libz.so libz.so
-RUN /usr/bin/strip-so libz.so
+RUN /usr/bin/vendored-so-install libjsc.so libjscSR.so
+RUN /usr/bin/patch-elf libjscSR.so --set-soname "libjscSR.so"
+RUN /usr/bin/strip-so libjscSR.so
+
+RUN /usr/bin/termux-install z/zlib/zlib_1.3.1 libz.so libzSR.so
+RUN /usr/bin/patch-elf libzSR.so --set-soname "libzSR.so"
+RUN /usr/bin/strip-so libzSR.so
 
 # libs and dependencies for libtesseract
 RUN /usr/bin/termux-install libi/libiconv/libiconv_1.17 libiconv.so libiconv.so
@@ -83,7 +90,7 @@ RUN /usr/bin/termux-install o/openjpeg/openjpeg_2.5.0-1 libopenjp2.so libopenjp2
 RUN /usr/bin/strip-so libopenjp2.so
 
 RUN /usr/bin/termux-install libx/libxml2/libxml2_2.12.5 libxml2.so libxml2.so
-RUN /usr/bin/patch-elf libxml2.so --replace-needed "libz.so.1" "libz.so"
+RUN /usr/bin/patch-elf libxml2.so --replace-needed "libz.so.1" "libzSR.so"
 RUN /usr/bin/patch-elf libxml2.so --replace-needed "liblzma.so.5" "liblzma.so"
 RUN /usr/bin/strip-so libxml2.so
 
@@ -91,7 +98,7 @@ RUN /usr/bin/termux-install libj/libjpeg-turbo/libjpeg-turbo_3.0.2 libjpeg.so li
 RUN /usr/bin/strip-so libjpeg.so
 
 RUN /usr/bin/termux-install libp/libpng/libpng_1.6.43 libpng.so libpng.so
-RUN /usr/bin/patch-elf libpng.so --replace-needed "libz.so.1" "libz.so"
+RUN /usr/bin/patch-elf libpng.so --replace-needed "libz.so.1" "libzSR.so"
 RUN /usr/bin/strip-so libpng.so
 
 RUN /usr/bin/termux-install liba/libandroid-posix-semaphore/libandroid-posix-semaphore_0.1-3 libandroid-posix-semaphore.so libandroid-posix-semaphore.so
@@ -100,7 +107,7 @@ RUN /usr/bin/termux-install liba/libarchive/libarchive_3.7.2 libarchive.so libar
 RUN /usr/bin/patch-elf libarchive.so --replace-needed "libcrypto.so.3" "libcryptoSR.so"
 RUN /usr/bin/patch-elf libarchive.so --replace-needed "liblzma.so.5" "liblzma.so"
 RUN /usr/bin/patch-elf libarchive.so --replace-needed "libbz2.so.1.0" "libbz2.so"
-RUN /usr/bin/patch-elf libarchive.so --replace-needed "libz.so.1" "libz.so"
+RUN /usr/bin/patch-elf libarchive.so --replace-needed "libz.so.1" "libzSR.so"
 RUN /usr/bin/patch-elf libarchive.so --replace-needed "libxml2.so.2" "libxml2.so"
 RUN /usr/bin/strip-so libarchive.so
 
@@ -111,7 +118,7 @@ RUN /usr/bin/termux-install libt/libtiff/libtiff_4.6.0 libtiff.so libtiff.so
 RUN /usr/bin/patch-elf libtiff.so --replace-needed "liblzma.so.5" "liblzma.so"
 RUN /usr/bin/patch-elf libtiff.so --replace-needed "libzstd.so.1" "libzstd.so"
 RUN /usr/bin/patch-elf libtiff.so --replace-needed "libjpeg.so.8" "libjpeg.so"
-RUN /usr/bin/patch-elf libtiff.so --replace-needed "libz.so.1" "libz.so"
+RUN /usr/bin/patch-elf libtiff.so --replace-needed "libz.so.1" "libzSR.so"
 RUN /usr/bin/strip-so libtiff.so
 
 RUN /usr/bin/termux-install libw/libwebp/libwebp_1.3.2 libwebp.so libwebp.so
@@ -120,13 +127,13 @@ RUN /usr/bin/termux-install libw/libwebp/libwebp_1.3.2 libsharpyuv.so libsharpyu
 RUN /usr/bin/strip-so libwebp.so
 
 RUN /usr/bin/termux-install t/tesseract/tesseract_5.3.4 libtesseract.so libtesseract.so
-RUN /usr/bin/patch-elf libtesseract.so --replace-needed "libz.so.1" "libz.so"
+RUN /usr/bin/patch-elf libtesseract.so --replace-needed "libz.so.1" "libzSR.so"
 RUN /usr/bin/strip-so libtesseract.so
 
 RUN /usr/bin/termux-install l/leptonica/leptonica_1.84.1 libleptonica.so libleptonica.so
 RUN /usr/bin/patch-elf libleptonica.so --replace-needed "libpng16.so" "libpng.so"
 RUN /usr/bin/patch-elf libleptonica.so --replace-needed "libjpeg.so.8" "libjpeg.so"
-RUN /usr/bin/patch-elf libleptonica.so --replace-needed "libz.so.1" "libz.so"
+RUN /usr/bin/patch-elf libleptonica.so --replace-needed "libz.so.1" "libzSR.so"
 RUN /usr/bin/patch-elf libleptonica.so --replace-needed "libgif.so.7" "libgif.so"
 RUN /usr/bin/strip-so libleptonica.so
 
@@ -155,14 +162,14 @@ RUN /usr/bin/termux-install o/openssl/openssl_1:3.2.1-1 libcrypto.so.3 libcrypto
 
 RUN /usr/bin/patch-elf libssh2.so --replace-needed "libssl.so.3" "libsslSR.so"
 RUN /usr/bin/patch-elf libssh2.so --replace-needed "libcrypto.so.3" "libcryptoSR.so"
-RUN /usr/bin/patch-elf libssh2.so --replace-needed "libz.so.1" "libz.so"
+RUN /usr/bin/patch-elf libssh2.so --replace-needed "libz.so.1" "libzSR.so"
 
 RUN /usr/bin/patch-elf libcurl.so --replace-needed "libnghttp2.so" "libnghttp2.so"
 RUN /usr/bin/patch-elf libcurl.so --replace-needed "libnghttp3.so" "libnghttp3.so"
 RUN /usr/bin/patch-elf libcurl.so --replace-needed "libssh2.so" "libssh2.so"
 RUN /usr/bin/patch-elf libcurl.so --replace-needed "libssl.so.3" "libsslSR.so"
 RUN /usr/bin/patch-elf libcurl.so --replace-needed "libcrypto.so.3" "libcryptoSR.so"
-RUN /usr/bin/patch-elf libcurl.so --replace-needed "libz.so.1" "libz.so"
+RUN /usr/bin/patch-elf libcurl.so --replace-needed "libz.so.1" "libzSR.so"
 
 RUN /usr/bin/patch-elf libsslSR.so --set-soname "libsslSR.so"
 RUN /usr/bin/patch-elf libsslSR.so --replace-needed "libcrypto.so.3" "libcryptoSR.so"

@@ -1,0 +1,7 @@
+#/bin/sh
+
+set -e
+
+cp "/root/AndroidLibs/arm64-v8a/$1" /root/lib/arm64-v8a/$2
+cp "/root/AndroidLibs/armeabi-v7a/$1" /root/lib/armeabi-v7a/$2
+# cp "/root/AndroidLibs/x86_64/$1" /root/lib/x86_64/$2
