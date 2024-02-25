@@ -31,6 +31,9 @@ RUN rm -rf ./tmp.zip
 
 RUN ln -sf /usr/lib/clang/13.0.0 "/root/swift-5.8-android-24-sdk/usr/lib/swift/clang"
 
+# Import vendored debian packages
+COPY "./AndroidLibs" "./AndroidLibs"
+
 # Generate the lib folder for output libraries
 WORKDIR /root/lib
 # WORKDIR /root/lib/x86_64
@@ -59,14 +62,15 @@ RUN chmod 755 /usr/bin/remove-so
 RUN chmod 755 /usr/bin/strip-so
 RUN chmod 755 /usr/bin/termux-install
 
-# from https://packages.termux.dev/apt/termux-main/pool/main/
+# Process all dependent libs (make update-libs)
 RUN /usr/bin/termux-install z/zlib/zlib_1.3.1 libz.so libz.so
+RUN /usr/bin/strip-so libz.so
 
 # libs and dependencies for libtesseract
 RUN /usr/bin/termux-install libi/libiconv/libiconv_1.17 libiconv.so libiconv.so
 RUN /usr/bin/strip-so libiconv.so
 
-RUN /usr/bin/termux-install libl/liblzma/liblzma_5.4.6 liblzma.so liblzma.so
+RUN /usr/bin/termux-install libl/liblzma/liblzma_5.6.0 liblzma.so liblzma.so
 RUN /usr/bin/strip-so liblzma.so
 
 RUN /usr/bin/termux-install libb/libbz2/libbz2_1.0.8-6 libbz2.so libbz2.so
@@ -86,7 +90,7 @@ RUN /usr/bin/strip-so libxml2.so
 RUN /usr/bin/termux-install libj/libjpeg-turbo/libjpeg-turbo_3.0.2 libjpeg.so libjpeg.so
 RUN /usr/bin/strip-so libjpeg.so
 
-RUN /usr/bin/termux-install libp/libpng/libpng_1.6.42 libpng.so libpng.so
+RUN /usr/bin/termux-install libp/libpng/libpng_1.6.43 libpng.so libpng.so
 RUN /usr/bin/patch-elf libpng.so --replace-needed "libz.so.1" "libz.so"
 RUN /usr/bin/strip-so libpng.so
 

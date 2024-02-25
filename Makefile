@@ -1,6 +1,13 @@
 SWIFT_BUILD_FLAGS=--configuration release
 GIT_VERSION=$(shell git describe)
 
+define termux
+	echo "downloading $1..."
+	-(cd "AndroidLibs/arm64-v8a/" && curl -f -s -O "https://packages.termux.dev/apt/termux-main/pool/main/$1_aarch64.deb")
+	-(cd "AndroidLibs/armeabi-v7a/" && curl -f -s -O "https://packages.termux.dev/apt/termux-main/pool/main/$1_arm.deb")
+	-(cd "AndroidLibs/x86_64/" && curl -f -s -O "https://packages.termux.dev/apt/termux-main/pool/main/$1_x86_64.deb")
+endef
+
 build:
 	swift build -Xswiftc -enable-library-evolution -v $(SWIFT_BUILD_FLAGS)
 
@@ -11,6 +18,31 @@ clean:
 	rm -rf .build
 	rm -rf ./AndroidNDK
 	rm -f ./AndroidSDK/swift-5.8-android-24-sdk.tar.xz
+	
+update-libs:
+	@$(call termux,"liba/libandroid-posix-semaphore/libandroid-posix-semaphore_0.1-3")
+	@$(call termux,"liba/libarchive/libarchive_3.7.2")
+	@$(call termux,"libb/libbz2/libbz2_1.0.8-6")
+	@$(call termux,"libc/libcurl/libcurl_8.6.0-1")
+	@$(call termux,"libi/libiconv/libiconv_1.17")
+	@$(call termux,"libj/libjpeg-turbo/libjpeg-turbo_3.0.2")
+	@$(call termux,"libl/liblzma/liblzma_5.6.0")
+	@$(call termux,"libn/libnghttp2/libnghttp2_1.59.0")
+	@$(call termux,"libn/libnghttp3/libnghttp3_1.1.0")
+	@$(call termux,"libp/libpng/libpng_1.6.43")
+	@$(call termux,"libr/libresolv-wrapper/libresolv-wrapper_1.1.7-4")
+	@$(call termux,"libs/libssh2/libssh2_1.11.0")
+	@$(call termux,"libt/libtiff/libtiff_4.6.0")
+	@$(call termux,"libw/libwebp/libwebp_1.3.2")
+	@$(call termux,"libx/libxml2/libxml2_2.12.5")
+	
+	@$(call termux,"g/giflib/giflib_5.2.1-2")
+	@$(call termux,"l/leptonica/leptonica_1.84.1")
+	@$(call termux,"o/openjpeg/openjpeg_2.5.0-1")
+	@$(call termux,"o/openssl/openssl_1:3.2.1-1")
+	@$(call termux,"t/tesseract/tesseract_5.3.4")
+	@$(call termux,"z/zlib/zlib_1.3.1")
+	@$(call termux,"z/zstd/zstd_1.5.5-1")
 
 android-ndk:
 	mkdir -p ./AndroidNDK
@@ -63,9 +95,6 @@ docker-test: docker-release
 	rm -rf ./SilkRoadAndroidTest/app/src/main/jniLibs/
 	mkdir -p ./SilkRoadAndroidTest/app/src/main/jniLibs/
 	cp -r /tmp/jniLibs/* ./SilkRoadAndroidTest/app/src/main/jniLibs/
-	
-	# Copy any vendored shared libraries we might have
-	cp -r ./externalLibs/* ./SilkRoadAndroidTest/app/src/main/jniLibs/
 	
 
 docker-test-shell: docker-test
