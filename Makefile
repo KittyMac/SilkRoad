@@ -20,6 +20,8 @@ clean:
 	rm -f ./AndroidSDK/swift-5.8-android-24-sdk.tar.xz
 	
 update-libs:
+	# https://central.sonatype.com/artifact/org.webkit/android-jsc
+	
 	@$(call termux,"liba/libandroid-posix-semaphore/libandroid-posix-semaphore_0.1-3")
 	@$(call termux,"liba/libarchive/libarchive_3.7.2")
 	@$(call termux,"libb/libbz2/libbz2_1.0.8-6")
