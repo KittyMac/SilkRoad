@@ -73,6 +73,10 @@ RUN /usr/bin/termux-install z/zlib/zlib_1.3.1 libz.so libzSR.so
 RUN /usr/bin/patch-elf libzSR.so --set-soname "libzSR.so"
 RUN /usr/bin/strip-so libzSR.so
 
+# slimmed down version of libicudata
+RUN /usr/bin/termux-install libi/libicu/libicu_72.1-1 libicudata.so libicudata.so
+RUN /usr/bin/strip-so libicudata.so
+
 # libs and dependencies for libtesseract
 RUN /usr/bin/termux-install libi/libiconv/libiconv_1.17 libiconv.so libiconv.so
 RUN /usr/bin/strip-so libiconv.so

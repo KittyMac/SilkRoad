@@ -20,26 +20,12 @@ clean:
 	rm -f ./AndroidSDK/swift-5.8-android-24-sdk.tar.xz
 
 libicu:
-	# NOTE: this must be run on an x86 machine or it fails to build in docker
-	cd /tmp && git clone https://github.com/termux/termux-packages
+	# NOTE: use the fork (https://github.com/KittyMac/termux-packages/tree/silkroad) to compile
+	# slimmed down versions of libicudata and put them into the AndroidLibs folders
 	
-	# TODO: packages/libicu/build.sh needs to be patched and the following code added to
-	# the termux_step_post_get_source() method:
-    # echo '{"localeFilter":{"filterType":"locale","whitelist":["en"]}}' > filter.json
-    # rm -rf source/data
-	# curl -L -o /tmp/data.zip "https://github.com/unicode-org/icu/releases/download/release-${TERMUX_PKG_VERSION//./-}/icu4c-${TERMUX_PKG_VERSION//./_}-data.zip"
-	# unzip /tmp/data.zip -d source
-	# ls -al source/data
-	# ICU_DATA_FILTER_FILE=filter.json ./source/runConfigureICU Linux
-	
-	cd /tmp/termux-packages && ./scripts/run-docker.sh ./build-package.sh -F -a arm libicu
-	cd /tmp/termux-packages && ./scripts/run-docker.sh ./build-package.sh -F -a aarch64 libicu
-	cd /tmp/termux-packages && ./scripts/run-docker.sh ./build-package.sh -F -a x86_64 libicu
-	
-	# the debs now exist in the output folder, copy them to
-	cp /tmp/termux-packages/output/libicu_75.1_aarch64.deb ./AndroidLibs/arm64-v8a/
-	cp /tmp/termux-packages/output/libicu_75.1_arm.deb ./AndroidLibs/armeabi-v7a/
-	cp /tmp/termux-packages/output/libicu_75.1_x86_64.deb ./AndroidLibs/x86_64/
+	# ./scripts/run-docker.sh ./build-package.sh -f -a arm libicu
+	# ./scripts/run-docker.sh ./build-package.sh -f -a aarch64 libicu
+	# ./scripts/run-docker.sh ./build-package.sh -f -a x86_64 libicu
 	
 update-libs:
 	# https://central.sonatype.com/artifact/org.webkit/android-jsc
