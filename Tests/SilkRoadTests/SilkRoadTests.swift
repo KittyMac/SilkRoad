@@ -51,18 +51,19 @@ final class SilkRoadTests: XCTestCase {
     func testIMAP() {
         let expectation = XCTestExpectation(description: #function)
 
-        let imap = IMAP(domain: "imap.gmail.com",
-                        port: 993)
+        let imap = IMAP()
         
-        imap.beConnect(account: "test.rocco.receiptpal@gmail.com",
+        imap.beConnect(domain: "imap.gmail.com",
+                       port: 993,
+                       account: "test.rocco.receiptpal@gmail.com",
                        password: "qtxf ktfw wutc fntv",
+                       oauth2: false,
                        imap) { error in
-            
-            XCTAssertNil(error)
-            
+
             imap.beSearch(folder: "INBOX",
                           after: Date(timeIntervalSinceNow: 60 * 60 * 24 * 30 * -1),
-                          imap) { error in
+                          smaller: 1024 * 512,
+                          imap) { error, _ in
                 XCTAssertNil(error)
                 
                 expectation.fulfill()

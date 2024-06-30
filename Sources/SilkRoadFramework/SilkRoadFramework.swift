@@ -142,16 +142,19 @@ public func ocr() {
 
 @_cdecl("silkroad_imap")
 public func imap() {
-    let imap = IMAP(domain: "imap.gmail.com",
-                    port: 993)
+    let imap = IMAP()
     
-    imap.beConnect(account: "test.rocco.receiptpal@gmail.com",
+    imap.beConnect(domain: "imap.gmail.com",
+                   port: 993,
+                   account: "test.rocco.receiptpal@gmail.com",
                    password: "qtxf ktfw wutc fntv",
+                   oauth2: false,
                    imap) { error in
         print("imap connect error: \(error ?? "nil")")
         imap.beSearch(folder: "INBOX",
                       after: Date(timeIntervalSinceNow: 60 * 60 * 24 * 30 * -1),
-                      imap) { error in
+                      smaller: 1024 * 512,
+                      imap) { error, _ in
             print("imap search error: \(error ?? "nil")")
         }
     }

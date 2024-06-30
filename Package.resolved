@@ -14,8 +14,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/krzyzanowskim/CryptoSwift.git",
       "state" : {
-        "revision" : "7892a123f7e8d0fe62f9f03728b17bbd4f94df5c",
-        "version" : "1.8.1"
+        "revision" : "c9c3df6ab812de32bae61fc0cd1bf6d45170ebf0",
+        "version" : "1.8.2"
       }
     },
     {
@@ -23,8 +23,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/KittyMac/Flynn.git",
       "state" : {
-        "revision" : "ee3a54f60e2d504439268249a583e34f8724a348",
-        "version" : "0.4.74"
+        "revision" : "4adada9cd5dea38fb7f9ee2deb622aa43f8ca1cd",
+        "version" : "0.4.103"
       }
     },
     {
@@ -32,8 +32,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/KittyMac/GzipSwift.git",
       "state" : {
-        "revision" : "a9bbc39238e197e3e20b4346c45bfed767a817fe",
-        "version" : "5.3.3"
+        "revision" : "0f5ce356dc9b75cde454caec96f9e7c2b931caae",
+        "version" : "5.3.6"
       }
     },
     {
@@ -41,8 +41,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/KittyMac/Hitch.git",
       "state" : {
-        "revision" : "3cd1488b3d81e50b94bce65ca4fc512adb9e0a10",
-        "version" : "0.4.119"
+        "revision" : "328211598c24f356fccbcb5451cc48e21071a963",
+        "version" : "0.4.139"
       }
     },
     {
@@ -50,8 +50,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/KittyMac/Jib.git",
       "state" : {
-        "revision" : "c44d90702f7c9d724a29bde857271b8a78a5b516",
-        "version" : "0.0.69"
+        "revision" : "7edb5f5f43fbf869faae08a91a051be0c0a0d6d1",
+        "version" : "0.0.81"
       }
     },
     {
@@ -59,8 +59,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/KittyMac/MailPacket.git",
       "state" : {
-        "revision" : "963fe9983bdca8c23be6dfb59528472a073d72d1",
-        "version" : "0.0.3"
+        "revision" : "7c06f1fb848afd0228a711240254fc709b821230",
+        "version" : "0.0.24"
       }
     },
     {
@@ -68,8 +68,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/KittyMac/Pamphlet.git",
       "state" : {
-        "revision" : "9b7c7a2ab5d1f93cfb9c97836ef0ae4e65408aff",
-        "version" : "0.3.95"
+        "revision" : "c4e0defef0e93d8785b39fdac9c027308c568fa1",
+        "version" : "0.3.112"
       }
     },
     {
@@ -77,8 +77,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/KittyMac/Picaroon.git",
       "state" : {
-        "revision" : "623864cc6aded2eaf03b1ffa32165c4871ff0ef3",
-        "version" : "0.4.155"
+        "revision" : "a6df011c703a4574cc7e6666de9882b90e08dc3b",
+        "version" : "0.4.196"
       }
     },
     {
@@ -86,8 +86,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/KittyMac/Sextant.git",
       "state" : {
-        "revision" : "8b2a6994db60b12d2a43712b34cd26a01d0af918",
-        "version" : "0.4.30"
+        "revision" : "52a77d0bce0210cf9557faef7fd0adb9a6da02fb",
+        "version" : "0.4.31"
       }
     },
     {
@@ -104,8 +104,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/KittyMac/Spyglass.git",
       "state" : {
-        "revision" : "10d69eaf7881d70416e95d58938b40538bca729d",
-        "version" : "0.0.26"
+        "revision" : "b259c482c9ca3a6245f9adb6a64105b13cf56261",
+        "version" : "0.0.30"
       }
     },
     {

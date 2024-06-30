@@ -41,7 +41,7 @@ let package = Package(
                 .product(name: "PamphletTool", package: "Pamphlet"),
             ],
             plugins: [
-                .plugin(name: "PamphletReleaseOnlyPlugin", package: "Pamphlet"),
+                .plugin(name: "PamphletPlugin", package: "Pamphlet"),
                 .plugin(name: "FlynnPlugin", package: "Flynn")
             ]
         ),
