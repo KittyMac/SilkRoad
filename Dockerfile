@@ -20,7 +20,15 @@ WORKDIR /root/
 COPY "./AndroidSDK/android-aarch64.json" "./android-aarch64.json"
 COPY "./AndroidSDK/android-armv7.json" "./android-armv7.json"
 
-COPY "./AndroidSDK/swift-5.8-android-24-sdk.tar.xz" ./tmp.tar.xz
+COPY "./AndroidSDK/swift-release-android-aarch64-24-sdk.tar.xz" ./tmp.tar.xz
+RUN tar -xf tmp.tar.xz
+RUN rm -rf ./tmp.tar.xz
+
+COPY "./AndroidSDK/swift-release-android-armv7-24-sdk.tar.xz" ./tmp.tar.xz
+RUN tar -xf tmp.tar.xz
+RUN rm -rf ./tmp.tar.xz
+
+COPY "./AndroidSDK/swift-release-android-x86_64-24-sdk.tar.xz" ./tmp.tar.xz
 RUN tar -xf tmp.tar.xz
 RUN rm -rf ./tmp.tar.xz
 
@@ -29,7 +37,9 @@ RUN unzip ./tmp.zip
 RUN mv ./android-ndk-r25c ./android-ndk
 RUN rm -rf ./tmp.zip
 
-RUN ln -sf /usr/lib/clang/13.0.0 "/root/swift-5.8-android-24-sdk/usr/lib/swift/clang"
+RUN ln -sf /usr/lib/clang/13.0.0 "/root/swift-release-android-aarch64-24-sdk/usr/lib/swift/clang"
+RUN ln -sf /usr/lib/clang/13.0.0 "/root/swift-release-android-armv7-24-sdk/usr/lib/swift/clang"
+RUN ln -sf /usr/lib/clang/13.0.0 "/root/swift-release-android-x86_64-24-sdk/usr/lib/swift/clang"
 
 # Import vendored debian packages
 COPY "./AndroidLibs" "./AndroidLibs"
@@ -38,15 +48,18 @@ COPY "./AndroidLibs" "./AndroidLibs"
 WORKDIR /root/lib
 # WORKDIR /root/lib/x86_64
 # RUN rm -rf ./*
-# RUN cp /root/swift-5.8-android-24-sdk/usr/lib/x86_64-linux-android/*.so ./
+# RUN cp /root/swift-release-android-x86_64-24-sdk/usr/lib/*.so ./
+# RUN cp /root/swift-release-android-x86_64-24-sdk/usr/lib/swift/android/*.so ./
 
 WORKDIR /root/lib/arm64-v8a
 RUN rm -rf ./*
-RUN cp /root/swift-5.8-android-24-sdk/usr/lib/aarch64-linux-android/*.so ./
+RUN cp /root/swift-release-android-aarch64-24-sdk/usr/lib/*.so ./
+RUN cp /root/swift-release-android-aarch64-24-sdk/usr/lib/swift/android/*.so ./
 
 WORKDIR /root/lib/armeabi-v7a
 RUN rm -rf ./*
-RUN cp /root/swift-5.8-android-24-sdk/usr/lib/arm-linux-androideabi/*.so ./
+RUN cp /root/swift-release-android-armv7-24-sdk/usr/lib/*.so ./
+RUN cp /root/swift-release-android-armv7-24-sdk/usr/lib/swift/android/*.so ./
 
 # Import helper scripts
 COPY ./Scripts/swift-build-all /usr/bin/swift-build-all
@@ -74,8 +87,8 @@ RUN /usr/bin/patch-elf libzSR.so --set-soname "libzSR.so"
 RUN /usr/bin/strip-so libzSR.so
 
 # slimmed down version of libicudata
-RUN /usr/bin/termux-install libi/libicu/libicu_72.1-1 libicudata.so libicudata.so
-RUN /usr/bin/strip-so libicudata.so
+# RUN /usr/bin/termux-install libi/libicu/libicu_72.1-1 libicudata.so libicudata.so
+# RUN /usr/bin/strip-so libicudata.so
 
 # libs and dependencies for libtesseract
 RUN /usr/bin/termux-install libi/libiconv/libiconv_1.17 libiconv.so libiconv.so

@@ -17,7 +17,6 @@ update:
 clean:
 	rm -rf .build
 	rm -rf ./AndroidNDK
-	rm -f ./AndroidSDK/swift-5.8-android-24-sdk.tar.xz
 
 libicu:
 	# NOTE: use the fork (https://github.com/KittyMac/termux-packages/tree/silkroad) to compile
@@ -58,13 +57,7 @@ android-ndk:
 	mkdir -p ./AndroidNDK
 	@[ -f ./AndroidNDK/android-ndk-25c.zip ] && echo "skipping ndk download..." || wget -q -O ./AndroidNDK/android-ndk-25c.zip https://dl.google.com/android/repository/android-ndk-r25c-linux.zip
 	
-android-sdk:
-	# NOTE: need to download manually from https://github.com/buttaface/swift-android-sdk/actions/workflows/sdks.yml
-	# The CI puts the latest releases online, and the manual releases will lag behind
-	mkdir -p ./AndroidSDK
-	@[ -f ./AndroidSDK/swift-5.8-android-24-sdk.tar.xz ] && echo "skipping aarch64 sdk download..." || wget -q -O ./AndroidSDK/swift-5.8-android-24-sdk.tar.xz https://github.com/finagolfin/swift-android-sdk/releases/download/5.8/swift-5.8-android-24-sdk.tar.xz
-
-docker-release: android-ndk android-sdk
+docker-release: android-ndk
 	-DOCKER_HOST=ssh://rjbowli@192.168.111.203 docker buildx create --name cluster_builder203 --platform linux/amd64
 	-docker buildx create --name cluster_builder203 --platform linux/arm64 --append
 	-docker buildx use cluster_builder203
