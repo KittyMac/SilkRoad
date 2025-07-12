@@ -104,3 +104,5 @@ docker-test-shell: docker-test
 	docker pull --platform linux/amd64 kittymac/silkroadtest
 	docker run --rm -it --entrypoint bash kittymac/silkroadtest
 
+check-alignment:
+	./check_elf_alignment.sh ./SilkRoadAndroidTest/app/build/intermediates/apk/debug/app-debug.apk
