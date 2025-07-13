@@ -105,4 +105,5 @@ docker-test-shell: docker-test
 	docker run --rm -it --entrypoint bash kittymac/silkroadtest
 
 check-alignment:
-	./check_elf_alignment.sh ./SilkRoadAndroidTest/app/build/intermediates/apk/debug/app-debug.apk
+	export JAVA_HOME=/Applications/Android\ Studio.app/Contents/jbr/Contents/Home && cd SilkRoadAndroidTest && ./gradlew clean assembleDebug
+	./check_elf_alignment.sh ./SilkRoadAndroidTest/app/build/outputs/apk/debug/app-debug.apk

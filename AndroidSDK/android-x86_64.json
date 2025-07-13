@@ -1,20 +1,40 @@
 {
-    "version": 1,
-    "target": "x86_64-unknown-linux-android24",
-    "toolchain-bin-dir": "/usr/bin",
-    "sdk": "/root/android-ndk/toolchains/llvm/prebuilt/linux-x86_64/sysroot",
-    "extra-cc-flags": [
+    "version": 2,
+    "targetTriples": [
+        "x86_64-unknown-linux-android24"
+    ],
+    "hostTriples": [
+        
+    ],
+    "toolchainBinDir": "/usr/bin",
+    "sdkRootDir": "/root/android-ndk/toolchains/llvm/prebuilt/linux-x86_64/sysroot",
+    "extraCCFlags": [
         "-fPIC",
         "-L", "/root/swift-release-android-x86_64-24-sdk/usr/lib",
         "-I", "/root/swift-release-android-x86_64-24-sdk/usr/include",
+        "-Wl",
+        "-z",
+        "max-page-size=16384"
     ],
-    "extra-swiftc-flags": [
+    "extraSwiftCFlags": [
         "-resource-dir", "/root/swift-release-android-x86_64-24-sdk/usr/lib/swift",
         "-tools-directory", "/root/android-ndk/toolchains/llvm/prebuilt/linux-x86_64/bin",
         "-L", "/root/swift-release-android-x86_64-24-sdk/usr/lib",
         "-I", "/root/swift-release-android-x86_64-24-sdk/usr/include",
+        "-Xlinker",
+        "-z",
+        "-Xlinker",
+        "max-page-size=16384"
     ],
-    "extra-cpp-flags": [
-        "-lstdc++"
+    "extraCXXFlags": [
+        "-lstdc++",
+        "-Wl",
+        "-z",
+        "max-page-size=16384"
+    ],
+    "extraLinkerFlags": [
+        "-Wl",
+        "-z",
+        "max-page-size=16384"
     ]
 }

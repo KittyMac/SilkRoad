@@ -1,20 +1,30 @@
 {
-    "version": 1,
-    "target": "armv7-unknown-linux-androideabi24",
-    "toolchain-bin-dir": "/usr/bin",
-    "sdk": "/root/android-ndk/toolchains/llvm/prebuilt/linux-x86_64/sysroot",
-    "extra-cc-flags": [
+    "version": 2,
+    "targetTriples": [
+        "armv7-unknown-linux-androideabi24"
+    ],
+    "hostTriples": [
+        
+    ],
+    "toolchainBinDir": "/usr/bin",
+    "sdkRootDir": "/root/android-ndk/toolchains/llvm/prebuilt/linux-x86_64/sysroot",
+    "extraCCFlags": [
         "-fPIC",
         "-L", "/root/swift-release-android-armv7-24-sdk/usr/lib/x86_64-linux-android",
         "-I", "/root/swift-release-android-armv7-24-sdk/usr/include",
     ],
-    "extra-swiftc-flags": [
+    "extraSwiftCFlags": [
         "-resource-dir", "/root/swift-release-android-armv7-24-sdk/usr/lib/swift",
         "-tools-directory", "/root/android-ndk/toolchains/llvm/prebuilt/linux-x86_64/bin",
         "-L", "/root/swift-release-android-armv7-24-sdk/usr/lib",
         "-I", "/root/swift-release-android-armv7-24-sdk/usr/include",
     ],
-    "extra-cpp-flags": [
+    "extraCXXFlags": [
         "-lstdc++"
+    ],
+    "extraLinkerFlags": [
+        "-Wl",
+        "-z",
+        "max-page-size=16384"
     ]
 }

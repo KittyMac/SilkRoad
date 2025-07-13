@@ -11,5 +11,5 @@ target_link_libraries(
         silkroadAndroidJNI
         android
         ${log-lib}
-        "-lSilkRoadFramework -L${jniLibs_DIR}/${ANDROID_ABI}/"
+        "-lSilkRoadFramework -L${jniLibs_DIR}/${ANDROID_ABI}/ -Wl,--build-id,-z,max-page-size=16384"
         )

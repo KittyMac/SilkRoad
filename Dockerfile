@@ -32,7 +32,7 @@ COPY "./AndroidSDK/swift-release-android-x86_64-24-sdk.tar.xz" ./tmp.tar.xz
 RUN tar -xf tmp.tar.xz
 RUN rm -rf ./tmp.tar.xz
 
-COPY "./AndroidNDK/android-ndk-25c.zip" ./tmp.zip
+COPY "./AndroidNDK/android-ndk-r25c-linux.zip" ./tmp.zip
 RUN unzip ./tmp.zip
 RUN mv ./android-ndk-r25c ./android-ndk
 RUN rm -rf ./tmp.zip
