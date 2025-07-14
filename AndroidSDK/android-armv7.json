@@ -12,15 +12,25 @@
         "-fPIC",
         "-L", "/root/swift-release-android-armv7-24-sdk/usr/lib/x86_64-linux-android",
         "-I", "/root/swift-release-android-armv7-24-sdk/usr/include",
+        "-Wl",
+        "-z",
+        "max-page-size=16384"
     ],
     "extraSwiftCFlags": [
         "-resource-dir", "/root/swift-release-android-armv7-24-sdk/usr/lib/swift",
         "-tools-directory", "/root/android-ndk/toolchains/llvm/prebuilt/linux-x86_64/bin",
         "-L", "/root/swift-release-android-armv7-24-sdk/usr/lib",
         "-I", "/root/swift-release-android-armv7-24-sdk/usr/include",
+        "-Xlinker",
+        "-z",
+        "-Xlinker",
+        "max-page-size=16384"
     ],
     "extraCXXFlags": [
-        "-lstdc++"
+        "-lstdc++",
+        "-Wl",
+        "-z",
+        "max-page-size=16384"
     ],
     "extraLinkerFlags": [
         "-Wl",
