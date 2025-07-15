@@ -3,9 +3,9 @@ GIT_VERSION=$(shell git describe)
 
 define termux
 	echo "downloading $1..."
-	-(cd "AndroidLibs/arm64-v8a/" && curl -f -s -O "https://packages.termux.dev/apt/termux-main/pool/main/$1_aarch64.deb")
-	-(cd "AndroidLibs/armeabi-v7a/" && curl -f -s -O "https://packages.termux.dev/apt/termux-main/pool/main/$1_arm.deb")
-	-(cd "AndroidLibs/x86_64/" && curl -f -s -O "https://packages.termux.dev/apt/termux-main/pool/main/$1_x86_64.deb")
+	(cd "AndroidLibs/arm64-v8a/" && curl -f -s -O "https://packages.termux.dev/apt/termux-main/pool/main/$1_aarch64.deb")
+	(cd "AndroidLibs/armeabi-v7a/" && curl -f -s -O "https://packages.termux.dev/apt/termux-main/pool/main/$1_arm.deb")
+	(cd "AndroidLibs/x86_64/" && curl -f -s -O "https://packages.termux.dev/apt/termux-main/pool/main/$1_x86_64.deb")
 endef
 
 build:

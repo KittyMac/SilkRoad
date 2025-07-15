@@ -78,6 +78,8 @@ RUN chmod 755 /usr/bin/termux-install
 RUN chmod 755 /usr/bin/vendored-so-install
 
 # Process all dependent libs (make update-libs)
+RUN /usr/bin/vendored-so-install libc++_shared.so libc++_shared.so
+
 RUN /usr/bin/vendored-so-install libjsc.so libjscSR.so
 RUN /usr/bin/patch-elf libjscSR.so --set-soname "libjscSR.so"
 RUN /usr/bin/strip-so libjscSR.so
