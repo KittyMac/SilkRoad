@@ -28,12 +28,10 @@ RUN /usr/bin/swift-build-all --product libetpan
 RUN /usr/bin/swift-build-all --target SilkRoadFramework
 
 # It is not safe to generically strip all .so, so you need to manually specify which, if any, you want stripped
-RUN /usr/bin/strip-so libicudata.so
+
 RUN /usr/bin/strip-so libFoundation.so
 RUN /usr/bin/strip-so libswiftCore.so
-RUN /usr/bin/strip-so libicui18n.so
 RUN /usr/bin/strip-so libcryptoSR.so
-RUN /usr/bin/strip-so libicuuc.so
 RUN /usr/bin/strip-so libFoundationNetworking.so
 RUN /usr/bin/strip-so libc++_shared.so
 RUN /usr/bin/strip-so libcurl.so
@@ -44,7 +42,6 @@ RUN /usr/bin/strip-so libswiftDispatch.so
 RUN /usr/bin/strip-so libswift_StringProcessing.so
 RUN /usr/bin/strip-so libzSR.so
 RUN /usr/bin/strip-so libswiftGlibc.so
-RUN /usr/bin/strip-so libandroid-spawn.so
 RUN /usr/bin/strip-so libBlocksRuntime.so
 RUN /usr/bin/strip-so libnghttp2.so
 RUN /usr/bin/strip-so libnghttp3.so

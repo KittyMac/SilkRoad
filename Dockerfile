@@ -84,13 +84,29 @@ RUN /usr/bin/vendored-so-install libjsc.so libjscSR.so
 RUN /usr/bin/patch-elf libjscSR.so --set-soname "libjscSR.so"
 RUN /usr/bin/strip-so libjscSR.so
 
+RUN /usr/bin/termux-install liba/libandroid-spawn/libandroid-spawn_0.3 libandroid-spawn.so libandroid-spawn.so
+
+RUN /usr/bin/termux-install libi/libicu/libicu_77.1-1 libicudata.so libicudata.so
+RUN /usr/bin/patch-elf libicudata.so --set-soname "libicudata.so"
+RUN /usr/bin/strip-so libicudata.so
+
+RUN /usr/bin/termux-install libi/libicu/libicu_77.1-1 libicui18n.so libicui18n.so
+RUN /usr/bin/patch-elf libicui18n.so --replace-needed "libicuuc.so.77" "libicuuc.so"
+RUN /usr/bin/patch-elf libicui18n.so --set-soname "libicui18n.so"
+RUN /usr/bin/strip-so libicui18n.so
+
+RUN /usr/bin/termux-install libi/libicu/libicu_77.1-1 libicuuc.so libicuuc.so
+RUN /usr/bin/patch-elf libicuuc.so --replace-needed "libicudata.so.77" "libicudata.so"
+RUN /usr/bin/patch-elf libicuuc.so --set-soname "libicuuc.so"
+RUN /usr/bin/strip-so libicuuc.so
+
+
+
+
+
 RUN /usr/bin/termux-install z/zlib/zlib_1.3.1 libz.so libzSR.so
 RUN /usr/bin/patch-elf libzSR.so --set-soname "libzSR.so"
 RUN /usr/bin/strip-so libzSR.so
-
-# slimmed down version of libicudata
-# RUN /usr/bin/termux-install libi/libicu/libicu_72.1-1 libicudata.so libicudata.so
-# RUN /usr/bin/strip-so libicudata.so
 
 # libs and dependencies for libtesseract
 RUN /usr/bin/termux-install libi/libiconv/libiconv_1.17 libiconv.so libiconv.so
