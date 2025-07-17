@@ -46,6 +46,7 @@ android {
         doNotStrip "*/arm64-v8a/*.so"
         doNotStrip "*/armeabi-v7a/*.so"
     }
+    namespace 'com.chimerasw.silkroadandroidtest'
 }
 
 dependencies {

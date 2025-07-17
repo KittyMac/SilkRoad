@@ -1,0 +1,76 @@
+
+CONTAINER_NAME=ndk28-builder TERMUX_BUILDER_IMAGE_NAME=fredrikfornwall/package-builder-r28b-v1 ./scripts/run-docker.sh
+./scripts/setup-android-sdk.sh
+
+./build-package.sh -a aarch64 libandroid-spawn && ./build-package.sh -a arm libandroid-spawn && ./build-package.sh -a x86_64 libandroid-spawn
+
+./build-package.sh -a aarch64 libicu && ./build-package.sh -a arm libicu && ./build-package.sh -a x86_64 libicu
+
+./build-package.sh -a aarch64 libicu-static && ./build-package.sh -a arm libicu-static && ./build-package.sh -a x86_64 libicu-static
+
+./build-package.sh -a aarch64 libandroid-spawn && ./build-package.sh -a arm libandroid-spawn && ./build-package.sh -a x86_64 libandroid-spawn
+
+./build-package.sh -a aarch64 libcurl && ./build-package.sh -a arm libcurl && ./build-package.sh -a x86_64 libcurl
+
+./build-package.sh -a aarch64 libnghttp2 && ./build-package.sh -a arm libnghttp2 && ./build-package.sh -a x86_64 libnghttp2
+
+./build-package.sh -a aarch64 libnghttp3 && ./build-package.sh -a arm libnghttp3 && ./build-package.sh -a x86_64 libnghttp3
+
+./build-package.sh -a aarch64 libssh2 && ./build-package.sh -a arm libssh2 && ./build-package.sh -a x86_64 libssh2
+
+./build-package.sh -a aarch64 zlib && ./build-package.sh -a arm zlib && ./build-package.sh -a x86_64 zlib
+
+./build-package.sh -a aarch64 libxml2 && ./build-package.sh -a arm libxml2 && ./build-package.sh -a x86_64 libxml2
+
+./build-package.sh -a aarch64 libandroid-posix-semaphore && ./build-package.sh -a arm libandroid-posix-semaphore && ./build-package.sh -a x86_64 libandroid-posix-semaphore
+
+./build-package.sh -f -I -a aarch64 libarchive && ./build-package.sh -f -I -a arm libarchive && ./build-package.sh -f -I -a x86_64 libarchive
+
+./build-package.sh -f -I -a aarch64 tesseract && ./build-package.sh -f -I -a arm tesseract && ./build-package.sh -f -I -a x86_64 tesseract
+
+./build-package.sh -f -I -a aarch64 leptonica && ./build-package.sh -f -I -a arm leptonica && ./build-package.sh -f -I -a x86_64 leptonica
+
+./build-package.sh -f -I -a aarch64 libwebp && ./build-package.sh -f -I -a arm libwebp && ./build-package.sh -f -I -a x86_64 libwebp
+
+./build-package.sh -f -I -a aarch64 zstd && ./build-package.sh -f -I -a arm zstd && ./build-package.sh -f -I -a x86_64 zstd
+
+./build-package.sh -f -I -a aarch64 libpng && ./build-package.sh -f -I -a arm libpng && ./build-package.sh -f -I -a x86_64 libpng
+
+./build-package.sh -f -I -a aarch64 openjpeg && ./build-package.sh -f -I -a arm openjpeg && ./build-package.sh -f -I -a x86_64 openjpeg
+
+./build-package.sh -f -I -a aarch64 libiconv && ./build-package.sh -f -I -a arm libiconv && ./build-package.sh -f -I -a x86_64 libiconv
+
+./build-package.sh -f -I -a aarch64 libjpeg-turbo && ./build-package.sh -f -I -a arm libjpeg-turbo && ./build-package.sh -f -I -a x86_64 libjpeg-turbo
+
+./build-package.sh -f -I -a aarch64 liblzma && ./build-package.sh -f -I -a arm liblzma && ./build-package.sh -f -I -a x86_64 liblzma
+
+./build-package.sh -f -I -a aarch64 libresolv-wrapper && ./build-package.sh -f -I -a arm libresolv-wrapper && ./build-package.sh -f -I -a x86_64 libresolv-wrapper
+
+./build-package.sh -f -I -a aarch64 libtiff && ./build-package.sh -f -I -a arm libtiff && ./build-package.sh -f -I -a x86_64 libtiff
+
+
+
+
+
+
+
+
+# the libs are exported to the output directory automatically
+# NOTE: MAKE LIBICUDATA SMALLER
+
+
+libtesseract.so: \e[31mUNALIGNED\e[0m (2**12)
+
+libwebpmux.so: \e[31mUNALIGNED\e[0m (2**12)
+libzstd.so: \e[31mUNALIGNED\e[0m (2**12)
+libsharpyuv.so: \e[31mUNALIGNED\e[0m (2**12)
+libpng.so: \e[31mUNALIGNED\e[0m (2**12)
+libarchive.so: \e[31mUNALIGNED\e[0m (2**12)
+libopenjp2.so: \e[31mUNALIGNED\e[0m (2**12)
+libiconv.so: \e[31mUNALIGNED\e[0m (2**12)
+libjpeg.so: \e[31mUNALIGNED\e[0m (2**12)
+liblzma.so: \e[31mUNALIGNED\e[0m (2**12)
+libwebp.so: \e[31mUNALIGNED\e[0m (2**12)
+libresolv_wrapper.so: \e[31mUNALIGNED\e[0m (2**12)
+libtiff.so: \e[31mUNALIGNED\e[0m (2**12)
+libleptonica.so: \e[31mUNALIGNED\e[0m (2**12)
