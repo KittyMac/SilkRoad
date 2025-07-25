@@ -33,7 +33,7 @@ RUN /usr/bin/strip-so libFoundation.so
 RUN /usr/bin/strip-so libswiftCore.so
 RUN /usr/bin/strip-so libcryptoSR.so
 RUN /usr/bin/strip-so libFoundationNetworking.so
-RUN /usr/bin/strip-so libc++_shared.so
+RUN /usr/bin/strip-so libc++_sharedSR.so
 RUN /usr/bin/strip-so libcurl.so
 RUN /usr/bin/strip-so libsslSR.so
 RUN /usr/bin/strip-so libswift_Concurrency.so

@@ -77,14 +77,31 @@ RUN chmod 755 /usr/bin/strip-so
 RUN chmod 755 /usr/bin/termux-install
 RUN chmod 755 /usr/bin/vendored-so-install
 
+# Swift libs with dependecies for libc++shared
+RUN /usr/bin/patch-elf libswift_Concurrency.so --replace-needed "libc++_shared.so" "libc++_sharedSR.so"
+RUN /usr/bin/patch-elf libswift_RegexParser.so --replace-needed "libc++_shared.so" "libc++_sharedSR.so"
+RUN /usr/bin/patch-elf libswift_StringProcessing.so --replace-needed "libc++_shared.so" "libc++_sharedSR.so"
+RUN /usr/bin/patch-elf libswiftCore.so --replace-needed "libc++_shared.so" "libc++_sharedSR.so"
+RUN /usr/bin/patch-elf libswiftDispatch.so --replace-needed "libc++_shared.so" "libc++_sharedSR.so"
+RUN /usr/bin/patch-elf libswiftGlibc.so --replace-needed "libc++_shared.so" "libc++_sharedSR.so"
+
 # Process all dependent libs (make update-libs)
-RUN /usr/bin/vendored-so-install libc++_shared.so libc++_shared.so
+# NOTE: libc++_shared.so will be copied over from the Swift Android NDK project, but we
+# will use our own aligned and vendored libc++_sharedSR.so. Therefore we need to delete
+# the other one
+RUN /usr/bin/remove-so libc++_shared.so
+
+RUN /usr/bin/vendored-so-install libc++_shared.so libc++_sharedSR.so
+RUN /usr/bin/patch-elf libc++_sharedSR.so --set-soname "libc++_sharedSR.so"
 
 RUN /usr/bin/vendored-so-install libjsc.so libjscSR.so
 RUN /usr/bin/patch-elf libjscSR.so --set-soname "libjscSR.so"
+RUN /usr/bin/patch-elf libjscSR.so --replace-needed "libc++_shared.so" "libc++_sharedSR.so"
 RUN /usr/bin/strip-so libjscSR.so
 
 RUN /usr/bin/termux-install liba/libandroid-spawn/libandroid-spawn_0.3 libandroid-spawn.so libandroid-spawn.so
+RUN /usr/bin/patch-elf libandroid-spawn.so --replace-needed "libc++_shared.so" "libc++_sharedSR.so"
+
 
 RUN /usr/bin/termux-install libi/libicu/libicu_77.1-1 libicudata.so libicudata.so
 RUN /usr/bin/patch-elf libicudata.so --set-soname "libicudata.so"
@@ -92,11 +109,13 @@ RUN /usr/bin/strip-so libicudata.so
 
 RUN /usr/bin/termux-install libi/libicu/libicu_77.1-1 libicui18n.so libicui18n.so
 RUN /usr/bin/patch-elf libicui18n.so --replace-needed "libicuuc.so.77" "libicuuc.so"
+RUN /usr/bin/patch-elf libicui18n.so --replace-needed "libc++_shared.so" "libc++_sharedSR.so"
 RUN /usr/bin/patch-elf libicui18n.so --set-soname "libicui18n.so"
 RUN /usr/bin/strip-so libicui18n.so
 
 RUN /usr/bin/termux-install libi/libicu/libicu_77.1-1 libicuuc.so libicuuc.so
 RUN /usr/bin/patch-elf libicuuc.so --replace-needed "libicudata.so.77" "libicudata.so"
+RUN /usr/bin/patch-elf libicuuc.so --replace-needed "libc++_shared.so" "libc++_sharedSR.so"
 RUN /usr/bin/patch-elf libicuuc.so --set-soname "libicuuc.so"
 RUN /usr/bin/strip-so libicuuc.so
 
@@ -163,6 +182,7 @@ RUN /usr/bin/strip-so libwebp.so
 
 RUN /usr/bin/termux-install t/tesseract/tesseract_5.5.1 libtesseract.so libtesseract.so
 RUN /usr/bin/patch-elf libtesseract.so --replace-needed "libz.so.1" "libzSR.so"
+RUN /usr/bin/patch-elf libtesseract.so --replace-needed "libc++_shared.so" "libc++_sharedSR.so"
 RUN /usr/bin/strip-so libtesseract.so
 
 RUN /usr/bin/termux-install l/leptonica/leptonica_1.85.0 libleptonica.so libleptonica.so
