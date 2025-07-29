@@ -69,6 +69,7 @@ COPY ./Scripts/remove-so /usr/bin/remove-so
 COPY ./Scripts/strip-so /usr/bin/strip-so
 COPY ./Scripts/termux-install /usr/bin/termux-install
 COPY ./Scripts/vendored-so-install /usr/bin/vendored-so-install
+COPY ./Scripts/silkroad-fix-so /usr/bin/silkroad-fix-so
 RUN chmod 755 /usr/bin/swift-build-all
 RUN chmod 755 /usr/bin/swift-build-all-debug
 RUN chmod 755 /usr/bin/patch-elf
@@ -76,164 +77,13 @@ RUN chmod 755 /usr/bin/remove-so
 RUN chmod 755 /usr/bin/strip-so
 RUN chmod 755 /usr/bin/termux-install
 RUN chmod 755 /usr/bin/vendored-so-install
+RUN chmod 755 /usr/bin/silkroad-fix-so
 
-# Swift libs with dependecies for libc++shared
-RUN /usr/bin/patch-elf libswift_Concurrency.so --replace-needed "libc++_shared.so" "libc++_sharedSR.so"
-RUN /usr/bin/patch-elf libswift_RegexParser.so --replace-needed "libc++_shared.so" "libc++_sharedSR.so"
-RUN /usr/bin/patch-elf libswift_StringProcessing.so --replace-needed "libc++_shared.so" "libc++_sharedSR.so"
-RUN /usr/bin/patch-elf libswiftCore.so --replace-needed "libc++_shared.so" "libc++_sharedSR.so"
-RUN /usr/bin/patch-elf libswiftDispatch.so --replace-needed "libc++_shared.so" "libc++_sharedSR.so"
-RUN /usr/bin/patch-elf libswiftGlibc.so --replace-needed "libc++_shared.so" "libc++_sharedSR.so"
-
-# Process all dependent libs (make update-libs)
-# NOTE: libc++_shared.so will be copied over from the Swift Android NDK project, but we
-# will use our own aligned and vendored libc++_sharedSR.so. Therefore we need to delete
-# the other one
-RUN /usr/bin/remove-so libc++_shared.so
-
-RUN /usr/bin/vendored-so-install libc++_shared.so libc++_sharedSR.so
-RUN /usr/bin/patch-elf libc++_sharedSR.so --set-soname "libc++_sharedSR.so"
-
-RUN /usr/bin/vendored-so-install libjsc.so libjscSR.so
-RUN /usr/bin/patch-elf libjscSR.so --set-soname "libjscSR.so"
-RUN /usr/bin/patch-elf libjscSR.so --replace-needed "libc++_shared.so" "libc++_sharedSR.so"
-RUN /usr/bin/strip-so libjscSR.so
-
-RUN /usr/bin/termux-install liba/libandroid-spawn/libandroid-spawn_0.3 libandroid-spawn.so libandroid-spawn.so
-RUN /usr/bin/patch-elf libandroid-spawn.so --replace-needed "libc++_shared.so" "libc++_sharedSR.so"
-
-
-RUN /usr/bin/termux-install libi/libicu/libicu_77.1-1 libicudata.so libicudata.so
-RUN /usr/bin/patch-elf libicudata.so --set-soname "libicudata.so"
-RUN /usr/bin/strip-so libicudata.so
-
-RUN /usr/bin/termux-install libi/libicu/libicu_77.1-1 libicui18n.so libicui18n.so
-RUN /usr/bin/patch-elf libicui18n.so --replace-needed "libicuuc.so.77" "libicuuc.so"
-RUN /usr/bin/patch-elf libicui18n.so --replace-needed "libc++_shared.so" "libc++_sharedSR.so"
-RUN /usr/bin/patch-elf libicui18n.so --set-soname "libicui18n.so"
-RUN /usr/bin/strip-so libicui18n.so
-
-RUN /usr/bin/termux-install libi/libicu/libicu_77.1-1 libicuuc.so libicuuc.so
-RUN /usr/bin/patch-elf libicuuc.so --replace-needed "libicudata.so.77" "libicudata.so"
-RUN /usr/bin/patch-elf libicuuc.so --replace-needed "libc++_shared.so" "libc++_sharedSR.so"
-RUN /usr/bin/patch-elf libicuuc.so --set-soname "libicuuc.so"
-RUN /usr/bin/strip-so libicuuc.so
-
-
-
-
-
-RUN /usr/bin/termux-install z/zlib/zlib_1.3.1 libz.so libzSR.so
-RUN /usr/bin/patch-elf libzSR.so --set-soname "libzSR.so"
-RUN /usr/bin/strip-so libzSR.so
-
-# libs and dependencies for libtesseract
-RUN /usr/bin/termux-install libi/libiconv/libiconv_1.18 libiconv.so libiconv.so
-RUN /usr/bin/strip-so libiconv.so
-
-RUN /usr/bin/termux-install libl/liblzma/liblzma_5.8.1 liblzma.so liblzma.so
-RUN /usr/bin/strip-so liblzma.so
-
-RUN /usr/bin/termux-install libb/libbz2/libbz2_1.0.8-6 libbz2.so libbz2.so
-RUN /usr/bin/strip-so libbz2.so
-
-RUN /usr/bin/termux-install z/zstd/zstd_1.5.7 libzstd.so libzstd.so
-RUN /usr/bin/strip-so libzstd.so
-
-RUN /usr/bin/termux-install o/openjpeg/openjpeg_2.5.3 libopenjp2.so libopenjp2.so
-RUN /usr/bin/strip-so libopenjp2.so
-
-RUN /usr/bin/termux-install libx/libxml2/libxml2_2.14.4 libxml2.so libxml2.so
-RUN /usr/bin/patch-elf libxml2.so --replace-needed "libz.so.1" "libzSR.so"
-RUN /usr/bin/patch-elf libxml2.so --replace-needed "liblzma.so.5" "liblzma.so"
-RUN /usr/bin/strip-so libxml2.so
-
-RUN /usr/bin/termux-install libj/libjpeg-turbo/libjpeg-turbo_3.1.1 libjpeg.so libjpeg.so
-RUN /usr/bin/strip-so libjpeg.so
-
-RUN /usr/bin/termux-install libp/libpng/libpng_1.6.50 libpng.so libpng.so
-RUN /usr/bin/patch-elf libpng.so --replace-needed "libz.so.1" "libzSR.so"
-RUN /usr/bin/strip-so libpng.so
-
-RUN /usr/bin/termux-install liba/libandroid-posix-semaphore/libandroid-posix-semaphore_0.1-3 libandroid-posix-semaphore.so libandroid-posix-semaphore.so
-
-RUN /usr/bin/termux-install liba/libarchive/libarchive_3.8.1 libarchive.so libarchive.so
-RUN /usr/bin/patch-elf libarchive.so --replace-needed "libcrypto.so.3" "libcryptoSR.so"
-RUN /usr/bin/patch-elf libarchive.so --replace-needed "liblzma.so.5" "liblzma.so"
-RUN /usr/bin/patch-elf libarchive.so --replace-needed "libbz2.so.1.0" "libbz2.so"
-RUN /usr/bin/patch-elf libarchive.so --replace-needed "libz.so.1" "libzSR.so"
-RUN /usr/bin/patch-elf libarchive.so --replace-needed "libxml2.so.16" "libxml2.so"
-RUN /usr/bin/strip-so libarchive.so
-
-RUN /usr/bin/termux-install g/giflib/giflib_5.2.1-2 libgif.so libgif.so
-RUN /usr/bin/strip-so libgif.so
-
-RUN /usr/bin/termux-install libt/libtiff/libtiff_4.7.0 libtiff.so libtiff.so
-RUN /usr/bin/patch-elf libtiff.so --replace-needed "liblzma.so.5" "liblzma.so"
-RUN /usr/bin/patch-elf libtiff.so --replace-needed "libzstd.so.1" "libzstd.so"
-RUN /usr/bin/patch-elf libtiff.so --replace-needed "libjpeg.so.8" "libjpeg.so"
-RUN /usr/bin/patch-elf libtiff.so --replace-needed "libz.so.1" "libzSR.so"
-RUN /usr/bin/strip-so libtiff.so
-
-RUN /usr/bin/termux-install libw/libwebp/libwebp_1.6.0-rc1-0 libwebp.so libwebp.so
-RUN /usr/bin/termux-install libw/libwebp/libwebp_1.6.0-rc1-0 libwebpmux.so libwebpmux.so
-RUN /usr/bin/termux-install libw/libwebp/libwebp_1.6.0-rc1-0 libsharpyuv.so libsharpyuv.so
-RUN /usr/bin/strip-so libwebp.so
-
-RUN /usr/bin/termux-install t/tesseract/tesseract_5.5.1 libtesseract.so libtesseract.so
-RUN /usr/bin/patch-elf libtesseract.so --replace-needed "libz.so.1" "libzSR.so"
-RUN /usr/bin/patch-elf libtesseract.so --replace-needed "libc++_shared.so" "libc++_sharedSR.so"
-RUN /usr/bin/strip-so libtesseract.so
-
-RUN /usr/bin/termux-install l/leptonica/leptonica_1.85.0 libleptonica.so libleptonica.so
-RUN /usr/bin/patch-elf libleptonica.so --replace-needed "libpng16.so" "libpng.so"
-RUN /usr/bin/patch-elf libleptonica.so --replace-needed "libjpeg.so.8" "libjpeg.so"
-RUN /usr/bin/patch-elf libleptonica.so --replace-needed "libz.so.1" "libzSR.so"
-RUN /usr/bin/patch-elf libleptonica.so --replace-needed "libgif.so.7" "libgif.so"
-RUN /usr/bin/strip-so libleptonica.so
-
-# For libetpan?
-
-# RUN /usr/bin/termux-install libd/libdb/libdb_18.1.40-4 libdb.so libdb.so
-# RUN /usr/bin/strip-so libdb.so
-
-# Required for libFoundationNetworking.so
-#
-# See https://curl.haxx.se/docs/sslcerts.html
-# For SSL on Android you need a "cacert.pem" to be
-# accessible at the path pointed to by this env var.
-# Downloadable here: https://curl.haxx.se/ca/cacert.pem
-#
-RUN /usr/bin/termux-install libc/libcurl/libcurl_8.14.1 libcurl.so libcurl.so
-RUN /usr/bin/patch-elf libcurl.so --replace-needed "libnghttp2.so" "libnghttp2.so"
-RUN /usr/bin/patch-elf libcurl.so --replace-needed "libnghttp3.so" "libnghttp3.so"
-RUN /usr/bin/patch-elf libcurl.so --replace-needed "libssh2.so" "libssh2.so"
-RUN /usr/bin/patch-elf libcurl.so --replace-needed "libssl.so.3" "libsslSR.so"
-RUN /usr/bin/patch-elf libcurl.so --replace-needed "libcrypto.so.3" "libcryptoSR.so"
-RUN /usr/bin/patch-elf libcurl.so --replace-needed "libz.so.1" "libzSR.so"
-
-RUN /usr/bin/termux-install libr/libresolv-wrapper/libresolv-wrapper_1.1.7-4 libresolv_wrapper.so libresolv_wrapper.so
-
-RUN /usr/bin/termux-install libn/libnghttp2/libnghttp2_1.66.0 libnghttp2.so libnghttp2.so
-RUN /usr/bin/termux-install libn/libnghttp3/libnghttp3_1.10.1 libnghttp3.so libnghttp3.so
-RUN /usr/bin/termux-install libs/libssh2/libssh2_1.11.1 libssh2.so libssh2.so
-
-RUN /usr/bin/termux-install o/openssl/openssl_1:3.5.0-1 libssl.so.3 libsslSR.so
-RUN /usr/bin/termux-install o/openssl/openssl_1:3.5.0-1 libcrypto.so.3 libcryptoSR.so
-
-RUN /usr/bin/patch-elf libssh2.so --replace-needed "libssl.so.3" "libsslSR.so"
-RUN /usr/bin/patch-elf libssh2.so --replace-needed "libcrypto.so.3" "libcryptoSR.so"
-RUN /usr/bin/patch-elf libssh2.so --replace-needed "libz.so.1" "libzSR.so"
-
-RUN /usr/bin/patch-elf libsslSR.so --set-soname "libsslSR.so"
-RUN /usr/bin/patch-elf libsslSR.so --replace-needed "libcrypto.so.3" "libcryptoSR.so"
-
-RUN /usr/bin/patch-elf libcryptoSR.so --set-soname "libcryptoSR.so"
-
+# Run the script to patch all .so files in preparation for building for Android
+RUN /usr/bin/silkroad-fix-so
 
 # At this point, all of the built dynamic libraries should exist in /root/lib. You can then use docker cp to copy the files out and 
 # into your Android studio project's jniLibs folder. Your script should delete any of the .so files your app does not actually use.
-
 
 # Note: When SPM builds shared libraries, the shared libraries are not formed as correctly
 # as we need them to be. They are lacking in two areas:
