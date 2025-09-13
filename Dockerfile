@@ -16,7 +16,7 @@ RUN export DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true && ap
 RUN rm -rf /var/lib/apt/lists/*
 
 WORKDIR /root/
-# COPY "./AndroidSDK/android-x86_64.json" "./android-x86_64.json"
+COPY "./AndroidSDK/android-x86_64.json" "./android-x86_64.json"
 COPY "./AndroidSDK/android-aarch64.json" "./android-aarch64.json"
 COPY "./AndroidSDK/android-armv7.json" "./android-armv7.json"
 
@@ -46,10 +46,10 @@ COPY "./AndroidLibs" "./AndroidLibs"
 
 # Generate the lib folder for output libraries
 WORKDIR /root/lib
-# WORKDIR /root/lib/x86_64
-# RUN rm -rf ./*
-# RUN cp /root/swift-release-android-x86_64-24-sdk/usr/lib/*.so ./
-# RUN cp /root/swift-release-android-x86_64-24-sdk/usr/lib/swift/android/*.so ./
+WORKDIR /root/lib/x86_64
+RUN rm -rf ./*
+RUN cp /root/swift-release-android-x86_64-24-sdk/usr/lib/*.so ./
+RUN cp /root/swift-release-android-x86_64-24-sdk/usr/lib/swift/android/*.so ./
 
 WORKDIR /root/lib/arm64-v8a
 RUN rm -rf ./*
