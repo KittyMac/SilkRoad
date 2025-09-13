@@ -54,6 +54,8 @@ CONTAINER_NAME=ndk28-builder TERMUX_BUILDER_IMAGE_NAME=fredrikfornwall/package-b
 # to build libicudata smaller:
 # https://github.com/unicode-org/icu/blob/main/docs/userguide/icu_data/buildtool.md
 
+# NOTE: replace termux_step_post_get_source in termux-packages/packages/libicu/build.sh with this:
+
 # YOU MUST DELETE THE EXISTING DATA FOLDER OR IT WILL NOT USE IT
 pushd "${TERMUX_PKG_SRCDIR}"
 rm -rf data
@@ -64,6 +66,8 @@ popd
 # HACK TO FORCE ICU_DATA_FILTER_FILE IN THE CONFIGURATION FILE
 sed -i -e 's|\$ICU_DATA_FILTER_FILE|/home/builder/termux-packages/packages/libicu/data_filters.json|g' "${TERMUX_PKG_SRCDIR}/configure"
 
+
+# NOTE: create this file data_filters.json in termux-packages/packages/libicu
 {
   "localeFilter": {
     "filterType": "locale",
