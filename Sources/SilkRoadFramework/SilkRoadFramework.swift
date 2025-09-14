@@ -5,9 +5,12 @@ import Sextant
 import Flynn
 import Jib
 import Picaroon
-import Spyglass
 import Gzip
 import MailPacket
+
+#if canImport(Spyglass)
+import Spyglass
+#endif
 
 #if canImport(FoundationNetworking)
 import FoundationNetworking
@@ -132,12 +135,14 @@ public func ocr() {
         print("failed to decompress test image")
         return
     }
+#if canImport(Spyglass)
     if let spyglass = try? Spyglass(),
        let result = spyglass.parse(image: image) {
         print("tesseract: \(result)")
     } else {
         print("tesseract: failed for unknown reason")
     }
+#endif
 }
 
 @_cdecl("silkroad_imap")

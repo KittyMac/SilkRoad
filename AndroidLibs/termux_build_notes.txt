@@ -24,29 +24,13 @@ CONTAINER_NAME=ndk28-builder TERMUX_BUILDER_IMAGE_NAME=fredrikfornwall/package-b
 
 ./build-package.sh -a aarch64 libandroid-posix-semaphore && ./build-package.sh -a arm libandroid-posix-semaphore && ./build-package.sh -a x86_64 libandroid-posix-semaphore
 
-./build-package.sh -f -I -a aarch64 libarchive && ./build-package.sh -f -I -a arm libarchive && ./build-package.sh -f -I -a x86_64 libarchive
-
 ./build-package.sh -f -I -a aarch64 tesseract && ./build-package.sh -f -I -a arm tesseract && ./build-package.sh -f -I -a x86_64 tesseract
 
 ./build-package.sh -f -I -a aarch64 leptonica && ./build-package.sh -f -I -a arm leptonica && ./build-package.sh -f -I -a x86_64 leptonica
 
-./build-package.sh -f -I -a aarch64 libwebp && ./build-package.sh -f -I -a arm libwebp && ./build-package.sh -f -I -a x86_64 libwebp
-
-./build-package.sh -f -I -a aarch64 zstd && ./build-package.sh -f -I -a arm zstd && ./build-package.sh -f -I -a x86_64 zstd
-
 ./build-package.sh -f -I -a aarch64 libpng && ./build-package.sh -f -I -a arm libpng && ./build-package.sh -f -I -a x86_64 libpng
 
-./build-package.sh -f -I -a aarch64 openjpeg && ./build-package.sh -f -I -a arm openjpeg && ./build-package.sh -f -I -a x86_64 openjpeg
-
-./build-package.sh -f -I -a aarch64 libiconv && ./build-package.sh -f -I -a arm libiconv && ./build-package.sh -f -I -a x86_64 libiconv
-
-./build-package.sh -f -I -a aarch64 libjpeg-turbo && ./build-package.sh -f -I -a arm libjpeg-turbo && ./build-package.sh -f -I -a x86_64 libjpeg-turbo
-
-./build-package.sh -f -I -a aarch64 liblzma && ./build-package.sh -f -I -a arm liblzma && ./build-package.sh -f -I -a x86_64 liblzma
-
 ./build-package.sh -f -I -a aarch64 libresolv-wrapper && ./build-package.sh -f -I -a arm libresolv-wrapper && ./build-package.sh -f -I -a x86_64 libresolv-wrapper
-
-./build-package.sh -f -I -a aarch64 libtiff && ./build-package.sh -f -I -a arm libtiff && ./build-package.sh -f -I -a x86_64 libtiff
 
 
 
@@ -76,3 +60,32 @@ sed -i -e 's|\$ICU_DATA_FILTER_FILE|/home/builder/termux-packages/packages/libic
     ]
   }
 }
+
+
+
+# to build tesseract to be smaller...
+TERMUX_PKG_EXTRA_CONFIGURE_ARGS="
+-DBUILD_SHARED_LIBS=ON
+-DUSE_SYSTEM_ICU=on
+-DTESSDATA_PREFIX=$TERMUX_PREFIX/share
+-DOPENMP_BUILD=OFF
+-DLEPT_TIFF_RESULT=0
+-DDISABLE_ARCHIVE=ON
+-DDISABLE_CURL=ON
+-DDISABLE_TIFF=ON
+-DBUILD_TRAINING_TOOLS=OFF
+-DDISABLED_LEGACY_ENGINE=ON
+-DGRAPHICS_DISABLED=ON
+"
+
+# to build leptonica to be smaller...
+TERMUX_PKG_EXTRA_CONFIGURE_ARGS="
+--without-zlib
+--without-jpeg
+--without-giflib
+--without-libtiff
+--without-libwebp
+--without-libwebpmux
+--without-libopenjpeg
+--disable-programs
+"

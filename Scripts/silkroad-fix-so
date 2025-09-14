@@ -45,57 +45,15 @@
 /usr/bin/strip-so libzSR.so
 
 # libs and dependencies for libtesseract
-/usr/bin/termux-install libi/libiconv/libiconv_1.18 libiconv.so libiconv.so
-/usr/bin/strip-so libiconv.so
-
-/usr/bin/termux-install libl/liblzma/liblzma_5.8.1 liblzma.so liblzma.so
-/usr/bin/strip-so liblzma.so
-
-/usr/bin/termux-install libb/libbz2/libbz2_1.0.8-6 libbz2.so libbz2.so
-/usr/bin/strip-so libbz2.so
-
-/usr/bin/termux-install z/zstd/zstd_1.5.7 libzstd.so libzstd.so
-/usr/bin/strip-so libzstd.so
-
-/usr/bin/termux-install o/openjpeg/openjpeg_2.5.3 libopenjp2.so libopenjp2.so
-/usr/bin/strip-so libopenjp2.so
-
 /usr/bin/termux-install libx/libxml2/libxml2_2.14.4 libxml2.so libxml2.so
 /usr/bin/patch-elf libxml2.so --replace-needed "libz.so.1" "libzSR.so"
 /usr/bin/patch-elf libxml2.so --replace-needed "liblzma.so.5" "liblzma.so"
 /usr/bin/strip-so libxml2.so
-
-/usr/bin/termux-install libj/libjpeg-turbo/libjpeg-turbo_3.1.1 libjpeg.so libjpeg.so
-/usr/bin/strip-so libjpeg.so
-
 /usr/bin/termux-install libp/libpng/libpng_1.6.50 libpng.so libpng.so
 /usr/bin/patch-elf libpng.so --replace-needed "libz.so.1" "libzSR.so"
 /usr/bin/strip-so libpng.so
 
 /usr/bin/termux-install liba/libandroid-posix-semaphore/libandroid-posix-semaphore_0.1-3 libandroid-posix-semaphore.so libandroid-posix-semaphore.so
-
-/usr/bin/termux-install liba/libarchive/libarchive_3.8.1 libarchive.so libarchive.so
-/usr/bin/patch-elf libarchive.so --replace-needed "libcrypto.so.3" "libcryptoSR.so"
-/usr/bin/patch-elf libarchive.so --replace-needed "liblzma.so.5" "liblzma.so"
-/usr/bin/patch-elf libarchive.so --replace-needed "libbz2.so.1.0" "libbz2.so"
-/usr/bin/patch-elf libarchive.so --replace-needed "libz.so.1" "libzSR.so"
-/usr/bin/patch-elf libarchive.so --replace-needed "libxml2.so.16" "libxml2.so"
-/usr/bin/strip-so libarchive.so
-
-/usr/bin/termux-install g/giflib/giflib_5.2.1-2 libgif.so libgif.so
-/usr/bin/strip-so libgif.so
-
-/usr/bin/termux-install libt/libtiff/libtiff_4.7.0 libtiff.so libtiff.so
-/usr/bin/patch-elf libtiff.so --replace-needed "liblzma.so.5" "liblzma.so"
-/usr/bin/patch-elf libtiff.so --replace-needed "libzstd.so.1" "libzstd.so"
-/usr/bin/patch-elf libtiff.so --replace-needed "libjpeg.so.8" "libjpeg.so"
-/usr/bin/patch-elf libtiff.so --replace-needed "libz.so.1" "libzSR.so"
-/usr/bin/strip-so libtiff.so
-
-/usr/bin/termux-install libw/libwebp/libwebp_1.6.0-rc1-0 libwebp.so libwebp.so
-/usr/bin/termux-install libw/libwebp/libwebp_1.6.0-rc1-0 libwebpmux.so libwebpmux.so
-/usr/bin/termux-install libw/libwebp/libwebp_1.6.0-rc1-0 libsharpyuv.so libsharpyuv.so
-/usr/bin/strip-so libwebp.so
 
 /usr/bin/termux-install t/tesseract/tesseract_5.5.1 libtesseract.so libtesseract.so
 /usr/bin/patch-elf libtesseract.so --replace-needed "libz.so.1" "libzSR.so"
@@ -104,9 +62,6 @@
 
 /usr/bin/termux-install l/leptonica/leptonica_1.85.0 libleptonica.so libleptonica.so
 /usr/bin/patch-elf libleptonica.so --replace-needed "libpng16.so" "libpng.so"
-/usr/bin/patch-elf libleptonica.so --replace-needed "libjpeg.so.8" "libjpeg.so"
-/usr/bin/patch-elf libleptonica.so --replace-needed "libz.so.1" "libzSR.so"
-/usr/bin/patch-elf libleptonica.so --replace-needed "libgif.so.7" "libgif.so"
 /usr/bin/strip-so libleptonica.so
 
 # For libetpan?

@@ -5,8 +5,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/KittyMac/Chronometer.git",
       "state" : {
-        "revision" : "b4808d59a175b1f764cc3d7e2e927e5476b10427",
-        "version" : "0.1.11"
+        "revision" : "99d4f4137837a28e1e294eb69ac66ad53c0934d3",
+        "version" : "0.1.14"
       }
     },
     {
@@ -14,8 +14,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/krzyzanowskim/CryptoSwift.git",
       "state" : {
-        "revision" : "c9c3df6ab812de32bae61fc0cd1bf6d45170ebf0",
-        "version" : "1.8.2"
+        "revision" : "e45a26384239e028ec87fbcc788f513b67e10d8f",
+        "version" : "1.9.0"
       }
     },
     {
@@ -23,8 +23,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/KittyMac/Flynn.git",
       "state" : {
-        "revision" : "4adada9cd5dea38fb7f9ee2deb622aa43f8ca1cd",
-        "version" : "0.4.103"
+        "revision" : "442559aa92e1b011591ee8231c5c13fa952d299a",
+        "version" : "0.4.127"
       }
     },
     {
@@ -41,8 +41,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/KittyMac/Hitch.git",
       "state" : {
-        "revision" : "328211598c24f356fccbcb5451cc48e21071a963",
-        "version" : "0.4.139"
+        "revision" : "43aa08479b418f9cc99aa6df430a740580898081",
+        "version" : "0.4.150"
       }
     },
     {
@@ -50,8 +50,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/KittyMac/Jib.git",
       "state" : {
-        "revision" : "7edb5f5f43fbf869faae08a91a051be0c0a0d6d1",
-        "version" : "0.0.81"
+        "revision" : "57723e287c9edb495263de6ba566a8ad97ad4483",
+        "version" : "0.0.93"
       }
     },
     {
@@ -59,8 +59,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/KittyMac/MailPacket.git",
       "state" : {
-        "revision" : "7c06f1fb848afd0228a711240254fc709b821230",
-        "version" : "0.0.24"
+        "revision" : "3318634955abea47eb34fabbcd24e63da95603df",
+        "version" : "0.0.36"
       }
     },
     {
@@ -68,8 +68,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/KittyMac/Pamphlet.git",
       "state" : {
-        "revision" : "c4e0defef0e93d8785b39fdac9c027308c568fa1",
-        "version" : "0.3.112"
+        "revision" : "d4444a27ca118842c137ccc00b3222aa72106925",
+        "version" : "0.3.126"
       }
     },
     {
@@ -77,8 +77,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/KittyMac/Picaroon.git",
       "state" : {
-        "revision" : "a6df011c703a4574cc7e6666de9882b90e08dc3b",
-        "version" : "0.4.196"
+        "revision" : "e61706fee8f105eea32574e543205d1e61fb0f70",
+        "version" : "0.4.235"
       }
     },
     {
@@ -86,8 +86,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/KittyMac/Sextant.git",
       "state" : {
-        "revision" : "52a77d0bce0210cf9557faef7fd0adb9a6da02fb",
-        "version" : "0.4.31"
+        "revision" : "46e3ad448f69273edd4a6d5087011845b1aa17f7",
+        "version" : "0.4.37"
       }
     },
     {
@@ -95,8 +95,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/KittyMac/Spanker.git",
       "state" : {
-        "revision" : "96e58f68274a2e6f370fff153ceb5674a06936c4",
-        "version" : "0.2.47"
+        "revision" : "602bb3d5db600b5242c3765cf704f7e217c1cc5a",
+        "version" : "0.2.52"
       }
     },
     {
@@ -104,8 +104,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/KittyMac/Spyglass.git",
       "state" : {
-        "revision" : "b259c482c9ca3a6245f9adb6a64105b13cf56261",
-        "version" : "0.0.30"
+        "revision" : "ea95d4c9f198c4454a3680dd5a2b20b29873b036",
+        "version" : "0.0.37"
       }
     },
     {
@@ -113,8 +113,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/KittyMac/Studding.git",
       "state" : {
-        "revision" : "f56ddf21dd83cbbbb4a839e678384ed74a8cc0fc",
-        "version" : "0.0.11"
+        "revision" : "c343f12d97c8188bfad6f53b0f85a7ee0d958968",
+        "version" : "0.0.13"
       }
     }
   ],
