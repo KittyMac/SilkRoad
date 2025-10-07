@@ -31,23 +31,23 @@ RUN /usr/bin/swift-build-all --target SilkRoadFramework
 
 RUN /usr/bin/strip-so libFoundation.so
 RUN /usr/bin/strip-so libswiftCore.so
-RUN /usr/bin/strip-so libcryptoSR.so
 RUN /usr/bin/strip-so libFoundationNetworking.so
 RUN /usr/bin/strip-so libc++_sharedSR.so
-RUN /usr/bin/strip-so libcurl.so
-RUN /usr/bin/strip-so libsslSR.so
 RUN /usr/bin/strip-so libswift_Concurrency.so
-RUN /usr/bin/strip-so libssh2.so
 RUN /usr/bin/strip-so libswiftDispatch.so
 RUN /usr/bin/strip-so libswift_StringProcessing.so
 RUN /usr/bin/strip-so libzSR.so
 RUN /usr/bin/strip-so libswiftGlibc.so
 RUN /usr/bin/strip-so libBlocksRuntime.so
+
+# FoundationNetworking
+RUN /usr/bin/strip-so libcurl.so
+RUN /usr/bin/strip-so libsslSR.so
+RUN /usr/bin/strip-so libssh2.so
 RUN /usr/bin/strip-so libnghttp2.so
 RUN /usr/bin/strip-so libnghttp3.so
-# RUN /usr/bin/strip-so libCryptoSwift.so
-# RUN /usr/bin/strip-so libStudding.so
-# RUN /usr/bin/strip-so libGzip.so
+RUN /usr/bin/strip-so libcryptoSR.so
+
 
 # RUN /usr/bin/strip-so libSextant.so
 RUN /usr/bin/strip-so libSilkRoadFramework.so
@@ -62,6 +62,9 @@ RUN /usr/bin/strip-so libHitch.so
 # RUN /usr/bin/strip-so libPonyLib.so
 # RUN /usr/bin/strip-so libCTess.so
 # RUN /usr/bin/strip-so libChronometer.so
+# RUN /usr/bin/strip-so libCryptoSwift.so
+# RUN /usr/bin/strip-so libStudding.so
+# RUN /usr/bin/strip-so libGzip.so
 
 # Fix up the generated libraries; their sonames will be wrong
 # and they won't have their dependencies linked properly

@@ -12,11 +12,11 @@ import MailPacket
 #if canImport(Spyglass)
 import Spyglass
 #endif
+*/
 
 #if canImport(FoundationNetworking)
 import FoundationNetworking
 #endif
-*/
 
 // Override print so that it goes to Android logcat
 //public func print(_ items: Any..., separator: String = " ", terminator: String = "\n") {
@@ -38,6 +38,9 @@ public func add(x: Int, y: Int) -> Int {
     #elseif swift(<5.7)
     print("Lower than Swift 5.7")
     #endif
+    
+    // quick hack to force foundationnetworking in minimal
+    let request = URLRequest(url: URL(string: "https://www.google.com")!)
     
     return x + y
 }
