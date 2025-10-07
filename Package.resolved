@@ -1,120 +1,12 @@
 {
   "pins" : [
     {
-      "identity" : "chronometer",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/KittyMac/Chronometer.git",
-      "state" : {
-        "revision" : "99d4f4137837a28e1e294eb69ac66ad53c0934d3",
-        "version" : "0.1.14"
-      }
-    },
-    {
-      "identity" : "cryptoswift",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/krzyzanowskim/CryptoSwift.git",
-      "state" : {
-        "revision" : "e45a26384239e028ec87fbcc788f513b67e10d8f",
-        "version" : "1.9.0"
-      }
-    },
-    {
-      "identity" : "flynn",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/KittyMac/Flynn.git",
-      "state" : {
-        "revision" : "442559aa92e1b011591ee8231c5c13fa952d299a",
-        "version" : "0.4.127"
-      }
-    },
-    {
-      "identity" : "gzipswift",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/KittyMac/GzipSwift.git",
-      "state" : {
-        "revision" : "0f5ce356dc9b75cde454caec96f9e7c2b931caae",
-        "version" : "5.3.6"
-      }
-    },
-    {
       "identity" : "hitch",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/KittyMac/Hitch.git",
       "state" : {
         "revision" : "43aa08479b418f9cc99aa6df430a740580898081",
         "version" : "0.4.150"
-      }
-    },
-    {
-      "identity" : "jib",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/KittyMac/Jib.git",
-      "state" : {
-        "revision" : "57723e287c9edb495263de6ba566a8ad97ad4483",
-        "version" : "0.0.93"
-      }
-    },
-    {
-      "identity" : "mailpacket",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/KittyMac/MailPacket.git",
-      "state" : {
-        "revision" : "3318634955abea47eb34fabbcd24e63da95603df",
-        "version" : "0.0.36"
-      }
-    },
-    {
-      "identity" : "pamphlet",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/KittyMac/Pamphlet.git",
-      "state" : {
-        "revision" : "d4444a27ca118842c137ccc00b3222aa72106925",
-        "version" : "0.3.126"
-      }
-    },
-    {
-      "identity" : "picaroon",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/KittyMac/Picaroon.git",
-      "state" : {
-        "revision" : "e61706fee8f105eea32574e543205d1e61fb0f70",
-        "version" : "0.4.235"
-      }
-    },
-    {
-      "identity" : "sextant",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/KittyMac/Sextant.git",
-      "state" : {
-        "revision" : "46e3ad448f69273edd4a6d5087011845b1aa17f7",
-        "version" : "0.4.37"
-      }
-    },
-    {
-      "identity" : "spanker",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/KittyMac/Spanker.git",
-      "state" : {
-        "revision" : "602bb3d5db600b5242c3765cf704f7e217c1cc5a",
-        "version" : "0.2.52"
-      }
-    },
-    {
-      "identity" : "spyglass",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/KittyMac/Spyglass.git",
-      "state" : {
-        "revision" : "ea95d4c9f198c4454a3680dd5a2b20b29873b036",
-        "version" : "0.0.37"
-      }
-    },
-    {
-      "identity" : "studding",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/KittyMac/Studding.git",
-      "state" : {
-        "revision" : "c343f12d97c8188bfad6f53b0f85a7ee0d958968",
-        "version" : "0.0.13"
       }
     }
   ],

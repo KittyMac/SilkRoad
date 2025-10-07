@@ -1,5 +1,6 @@
 import Foundation
 import Hitch
+/*
 import Spanker
 import Sextant
 import Flynn
@@ -15,13 +16,13 @@ import Spyglass
 #if canImport(FoundationNetworking)
 import FoundationNetworking
 #endif
-
+*/
 
 // Override print so that it goes to Android logcat
-public func print(_ items: Any..., separator: String = " ", terminator: String = "\n") {
-    let output = items.map { "\($0)" }.joined(separator: separator)
-    Flynn.syslog("TAG", output)
-}
+//public func print(_ items: Any..., separator: String = " ", terminator: String = "\n") {
+    //let output = items.map { "\($0)" }.joined(separator: separator)
+    //Flynn.syslog("TAG", output)
+//}
 
 public typealias VoidPtr = UnsafePointer<UInt8>
 public typealias UTF8Ptr = UnsafePointer<UInt8>
@@ -46,7 +47,7 @@ public func uppercase(string: UTF8Ptr?) -> UTF8Ptr? {
     guard let string = string else { return nil }
     return Hitch(utf8: string).uppercase().export().0
 }
-
+/*
 @_cdecl("silkroad_jsonpath")
 public func jsonpath(queryUTF8: UTF8Ptr?,
                      jsonUTF8: UTF8Ptr?) -> UTF8Ptr? {
@@ -173,4 +174,4 @@ public class Lowercase: Actor {
         return hitch.lowercase()
     }
 }
-
+*/

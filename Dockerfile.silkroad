@@ -21,9 +21,9 @@ COPY ./Tests ./Tests
 # call patch-elf only once per .so, sending multiple modification commads at the same time
 # and to add the soname only when absolutely necessary.
 
-RUN /usr/bin/swift-build-all --product PonyLib
-RUN /usr/bin/swift-build-all --product CTess
-RUN /usr/bin/swift-build-all --product libetpan
+# RUN /usr/bin/swift-build-all --product PonyLib
+# RUN /usr/bin/swift-build-all --product CTess
+# RUN /usr/bin/swift-build-all --product libetpan
 
 RUN /usr/bin/swift-build-all --target SilkRoadFramework
 
@@ -45,82 +45,83 @@ RUN /usr/bin/strip-so libswiftGlibc.so
 RUN /usr/bin/strip-so libBlocksRuntime.so
 RUN /usr/bin/strip-so libnghttp2.so
 RUN /usr/bin/strip-so libnghttp3.so
-RUN /usr/bin/strip-so libCryptoSwift.so
-RUN /usr/bin/strip-so libStudding.so
-RUN /usr/bin/strip-so libGzip.so
+# RUN /usr/bin/strip-so libCryptoSwift.so
+# RUN /usr/bin/strip-so libStudding.so
+# RUN /usr/bin/strip-so libGzip.so
 
-RUN /usr/bin/strip-so libSextant.so
+# RUN /usr/bin/strip-so libSextant.so
 RUN /usr/bin/strip-so libSilkRoadFramework.so
-RUN /usr/bin/strip-so libPicaroon.so
+# RUN /usr/bin/strip-so libPicaroon.so
 RUN /usr/bin/strip-so libHitch.so
-RUN /usr/bin/strip-so libSpanker.so
-RUN /usr/bin/strip-so libFlynn.so
-RUN /usr/bin/strip-so libSpyglass.so
-RUN /usr/bin/strip-so liblibetpan.so
-RUN /usr/bin/strip-so libMailPacket.so
-RUN /usr/bin/strip-so libJib.so
-RUN /usr/bin/strip-so libPonyLib.so
-RUN /usr/bin/strip-so libCTess.so
-RUN /usr/bin/strip-so libChronometer.so
+# RUN /usr/bin/strip-so libSpanker.so
+# RUN /usr/bin/strip-so libFlynn.so
+# RUN /usr/bin/strip-so libSpyglass.so
+# RUN /usr/bin/strip-so liblibetpan.so
+# RUN /usr/bin/strip-so libMailPacket.so
+# RUN /usr/bin/strip-so libJib.so
+# RUN /usr/bin/strip-so libPonyLib.so
+# RUN /usr/bin/strip-so libCTess.so
+# RUN /usr/bin/strip-so libChronometer.so
 
 # Fix up the generated libraries; their sonames will be wrong
 # and they won't have their dependencies linked properly
 
 RUN /usr/bin/patch-elf libHitch.so --set-soname "libHitch.so"
 
-RUN /usr/bin/patch-elf libCryptoSwift.so --set-soname "libCryptoSwift.so"
+# RUN /usr/bin/patch-elf libCryptoSwift.so --set-soname "libCryptoSwift.so"
 
-RUN /usr/bin/patch-elf libGzip.so --set-soname "libGzip.so"
+# RUN /usr/bin/patch-elf libGzip.so --set-soname "libGzip.so"
 
-RUN /usr/bin/patch-elf libSpanker.so \
-    --add-needed "libHitch.so"
+# RUN /usr/bin/patch-elf libSpanker.so \
+#     --add-needed "libHitch.so"
     
-RUN /usr/bin/patch-elf libStudding.so \
-    --add-needed "libHitch.so"
+# RUN /usr/bin/patch-elf libStudding.so \
+#     --add-needed "libHitch.so"
     
-RUN /usr/bin/patch-elf libSextant.so \
-    --add-needed "libSpanker.so" \
-    --add-needed "libChronometer.so" \
-    --add-needed "libHitch.so"
+# RUN /usr/bin/patch-elf libSextant.so \
+#     --add-needed "libSpanker.so" \
+#     --add-needed "libChronometer.so" \
+#     --add-needed "libHitch.so"
 
-RUN /usr/bin/patch-elf libJib.so \
-    --add-needed "libSpanker.so" \
-    --add-needed "libChronometer.so" \
-    --add-needed "libHitch.so" \
-    --add-needed "libjscSR.so"
+# RUN /usr/bin/patch-elf libJib.so \
+#     --add-needed "libSpanker.so" \
+#     --add-needed "libChronometer.so" \
+#     --add-needed "libHitch.so" \
+#     --add-needed "libjscSR.so"
 
-RUN /usr/bin/patch-elf libFlynn.so \
-    --add-needed "libPonyLib.so"
+# RUN /usr/bin/patch-elf libFlynn.so \
+#     --add-needed "libPonyLib.so"
     
-RUN /usr/bin/patch-elf libSpyglass.so \
-    --add-needed "libCTess.so"
+# RUN /usr/bin/patch-elf libSpyglass.so \
+#     --add-needed "libCTess.so"
     
-RUN /usr/bin/patch-elf libSpyglass.so \
-    --add-needed "libtesseract.so" \
-    --add-needed "libleptonica.so"
+# RUN /usr/bin/patch-elf libSpyglass.so \
+#     --add-needed "libtesseract.so" \
+#     --add-needed "libleptonica.so"
 
-RUN /usr/bin/patch-elf libMailPacket.so \
-    --add-needed "liblibetpan.so"
+# RUN /usr/bin/patch-elf libMailPacket.so \
+#     --add-needed "liblibetpan.so"
 
-RUN /usr/bin/patch-elf libPicaroon.so \
-    --add-needed "libFlynn.so" \
-    --add-needed "libHitch.so" \
-    --add-needed "libSextant.so"
+# RUN /usr/bin/patch-elf libPicaroon.so \
+#     --add-needed "libFlynn.so" \
+#     --add-needed "libHitch.so" \
+#     --add-needed "libSextant.so"
 
 RUN /usr/bin/patch-elf libSilkRoadFramework.so \
-    --add-needed "libMailPacket.so" \
-    --add-needed "libSpyglass.so" \
-    --add-needed "libFlynn.so" \
-    --add-needed "libSextant.so" \
-    --add-needed "libJib.so" \
-    --add-needed "libCryptoSwift.so" \
-    --add-needed "libStudding.so" \
-    --add-needed "libGzip.so" \
-    --add-needed "libPicaroon.so"
+     --add-needed "libHitch.so"
+#     --add-needed "libMailPacket.so" \
+#     --add-needed "libSpyglass.so" \
+#     --add-needed "libFlynn.so" \
+#     --add-needed "libSextant.so" \
+#     --add-needed "libJib.so" \
+#     --add-needed "libCryptoSwift.so" \
+#     --add-needed "libStudding.so" \
+#     --add-needed "libGzip.so" \
+#     --add-needed "libPicaroon.so"
 
-RUN /usr/bin/patch-elf liblibetpan.so --set-soname "liblibetpan.so"
-RUN /usr/bin/patch-elf liblibetpan.so --replace-needed "libssl.so.3" "libsslSR.so"
-RUN /usr/bin/patch-elf liblibetpan.so --replace-needed "libcrypto.so.3" "libcryptoSR.so"
+# RUN /usr/bin/patch-elf liblibetpan.so --set-soname "liblibetpan.so"
+# RUN /usr/bin/patch-elf liblibetpan.so --replace-needed "libssl.so.3" "libsslSR.so"
+# RUN /usr/bin/patch-elf liblibetpan.so --replace-needed "libcrypto.so.3" "libcryptoSR.so"
 
 # Remove any .so we don't actually need
 RUN /usr/bin/remove-so libFoundationXML.so
@@ -138,6 +139,11 @@ RUN /usr/bin/remove-so libswiftRegexBuilder.so
 RUN /usr/bin/remove-so libtermcap.so
 RUN /usr/bin/remove-so libtic.so
 RUN /usr/bin/remove-so libtinfo.so
+
+# remove normally required *.so for the minimal test
+
+
+
 
 FROM ubuntu:20.04
 
