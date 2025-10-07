@@ -18,8 +18,8 @@ external fun uppercase(string: String): String
 class MainActivity : AppCompatActivity() {
     companion object {
         init {
-            System.loadLibrary("icuuc")
-            System.loadLibrary("icui18n")
+            //System.loadLibrary("icuuc")
+            //System.loadLibrary("icui18n")
             System.loadLibrary("SilkRoadFramework")
             System.loadLibrary("silkroadAndroidJNI")
         }

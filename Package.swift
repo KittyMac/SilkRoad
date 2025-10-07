@@ -8,7 +8,7 @@ let package = Package(
         .macOS(.v10_15), .iOS(.v11)
     ],
     products: [
-        .library(name: "SilkRoadFramework", targets: ["SilkRoadFramework"]),
+        .library(name: "SilkRoadFramework", type: .dynamic, targets: ["SilkRoadFramework"]),
     ],
     dependencies: [
         .package(url: "https://github.com/KittyMac/Hitch.git", from: "0.4.93")

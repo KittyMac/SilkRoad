@@ -8,6 +8,30 @@ define termux
 	(cd "AndroidLibs/x86_64/" && curl -f -s -O "https://packages.termux.dev/apt/termux-main/pool/main/$1_x86_64.deb")
 endef
 
+define buildSwift62
+	ANDROID_NDK_HOME=~/Downloads/android-ndk-r27d ~/Library/org.swift.swiftpm/swift-sdks/swift-6.2-RELEASE-android-0.1.artifactbundle/swift-android/scripts/setup-android-sdk.sh
+	echo "swiftly run swift build  --configuration=release -Xcc -Oz -Xswiftc -Osize --swift-sdk $1-unknown-linux-android28 +6.2"
+	swiftly run swift build  --configuration=release -Xcc -Oz -Xswiftc -Osize --swift-sdk $1-unknown-linux-android28 +6.2
+	
+	# clear out the old .so
+	rm -f ./SilkRoadAndroidTest/app/src/main/jniLibs/$2/*.so
+	
+	# copy our .so
+	cp .build/$1-unknown-linux-android28/release/*.so ./SilkRoadAndroidTest/app/src/main/jniLibs/$2/
+	# copy ndk .so
+	cp ~/Downloads/android-ndk-r27d/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/lib/$3/libc++_shared.so ./SilkRoadAndroidTest/app/src/main/jniLibs/$2/
+	cp ~/Library/org.swift.swiftpm/swift-sdks/swift-6.2-RELEASE-android-0.1.artifactbundle/swift-android/swift-resources/usr/lib/swift-$1/android/*.so ./SilkRoadAndroidTest/app/src/main/jniLibs/$2/
+	# remove unnecessary
+	rm ./SilkRoadAndroidTest/app/src/main/jniLibs/$2/libTesting.so
+	rm ./SilkRoadAndroidTest/app/src/main/jniLibs/$2/libXCTest.so
+	rm ./SilkRoadAndroidTest/app/src/main/jniLibs/$2/libFoundationXML.so
+	rm ./SilkRoadAndroidTest/app/src/main/jniLibs/$2/libswiftSwiftOnoneSupport.so
+	rm ./SilkRoadAndroidTest/app/src/main/jniLibs/$2/lib_Testing_Foundation.so
+		
+	# strip all .so
+	find ./SilkRoadAndroidTest/app/src/main/jniLibs/$2 -name '*.so' -exec ~/Downloads/android-ndk-r27d/toolchains/llvm/prebuilt/darwin-x86_64/bin/llvm-objcopy --strip-all {} \;
+endef
+
 build:
 	swift build -Xswiftc -enable-library-evolution -v $(SWIFT_BUILD_FLAGS)
 
@@ -56,7 +80,12 @@ update-libs:
 android-ndk:
 	mkdir -p ./AndroidNDK
 	@[ -f ./AndroidNDK/android-ndk-25c.zip ] && echo "skipping ndk download..." || wget -q -O ./AndroidNDK/android-ndk-25c.zip https://dl.google.com/android/repository/android-ndk-r25c-linux.zip
-	
+
+swift62-test: android-ndk
+	@$(call buildSwift62,"aarch64","arm64-v8a","aarch64-linux-android")
+	@$(call buildSwift62,"armv7","armeabi-v7a","arm-linux-androideabi")
+	@$(call buildSwift62,"x86_64","x86_64","x86_64-linux-android")
+
 docker-release: android-ndk
 	-DOCKER_HOST=ssh://rjbowli@192.168.111.203 docker buildx create --name cluster_builder203 --platform linux/amd64
 	-docker buildx create --name cluster_builder203 --platform linux/arm64 --append
@@ -105,5 +134,5 @@ docker-test-shell: docker-test
 	docker run --rm -it --entrypoint bash kittymac/silkroadtest
 
 check-alignment:
-	export JAVA_HOME=/Applications/Android\ Studio.app/Contents/jbr/Contents/Home && cd SilkRoadAndroidTest && ./gradlew clean assembleDebug
+	export JAVA_HOME=/Applications/Android\ Studio.ladybug.app/Contents/jbr/Contents/Home && cd SilkRoadAndroidTest && ./gradlew clean assembleDebug
 	./check_elf_alignment.sh ./SilkRoadAndroidTest/app/build/outputs/apk/debug/app-debug.apk
