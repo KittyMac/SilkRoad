@@ -12,7 +12,7 @@ external fun jsonpath(path: String, json: String): String
 external fun flynnTest(tolower: String, returnCallback: (String) -> Unit)
 external fun eval(javascript: String): String
 external fun icudata(javascript: String): String
-//external fun download(url: String, returnCallback: (String) -> Unit)
+external fun download(url: String, returnCallback: (String) -> Unit)
 //external fun ocr()
 //external fun imap()
 
@@ -64,11 +64,11 @@ class MainActivity : AppCompatActivity() {
         Log.d("TAG", "======== libicu =========")
         icudata("")
         Log.d("TAG", "=========================")
-/*
+
         download("https://www.google.com/") {
             Log.d("TAG", "download: ${it}")
         }
-
+        /*
         ocr()
         Log.d("TAG", "ocr")
         

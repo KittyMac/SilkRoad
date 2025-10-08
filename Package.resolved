@@ -10,12 +10,30 @@
       }
     },
     {
+      "identity" : "cryptoswift",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/krzyzanowskim/CryptoSwift.git",
+      "state" : {
+        "revision" : "e45a26384239e028ec87fbcc788f513b67e10d8f",
+        "version" : "1.9.0"
+      }
+    },
+    {
       "identity" : "flynn",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/KittyMac/Flynn.git",
       "state" : {
         "revision" : "a802a80730c622d158d6abe1332fff4287e26fba",
         "version" : "0.4.128"
+      }
+    },
+    {
+      "identity" : "gzipswift",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/KittyMac/GzipSwift.git",
+      "state" : {
+        "revision" : "b891754ab0fde629b4269f8e0120574f6d6465a1",
+        "version" : "5.3.8"
       }
     },
     {
@@ -37,6 +55,24 @@
       }
     },
     {
+      "identity" : "pamphlet",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/KittyMac/Pamphlet.git",
+      "state" : {
+        "revision" : "d4444a27ca118842c137ccc00b3222aa72106925",
+        "version" : "0.3.126"
+      }
+    },
+    {
+      "identity" : "picaroon",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/KittyMac/Picaroon.git",
+      "state" : {
+        "revision" : "4f68ecaaf716547295de715db74e4489c58ce70d",
+        "version" : "0.4.242"
+      }
+    },
+    {
       "identity" : "sextant",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/KittyMac/Sextant.git",
@@ -52,6 +88,15 @@
       "state" : {
         "revision" : "ff05ac41aea633ca7a9fd966d3164373247ee8dd",
         "version" : "0.2.53"
+      }
+    },
+    {
+      "identity" : "studding",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/KittyMac/Studding.git",
+      "state" : {
+        "revision" : "c343f12d97c8188bfad6f53b0f85a7ee0d958968",
+        "version" : "0.0.13"
       }
     }
   ],

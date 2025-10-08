@@ -4,9 +4,9 @@ import Spanker
 import Sextant
 import Flynn
 import Jib
+import Picaroon
 
 /*
-import Picaroon
 import Gzip
 import MailPacket
 
@@ -39,10 +39,7 @@ public func add(x: Int, y: Int) -> Int {
     #elseif swift(<5.7)
     print("Lower than Swift 5.7")
     #endif
-    
-    // quick hack to force foundationnetworking in minimal
-    let request = URLRequest(url: URL(string: "https://www.google.com")!)
-    
+        
     return x + y
 }
 
@@ -166,7 +163,6 @@ public func icudata(javascriptUTF8: UTF8Ptr?) -> UTF8Ptr? {
     return Hitch(string: "").export().0
 }
 
-/*
 @_cdecl("silkroad_download")
 public func download(url urlUTF8: UTF8Ptr?,
                      _ returnCallback: CallbackPtr?,
@@ -182,7 +178,7 @@ public func download(url urlUTF8: UTF8Ptr?,
     
     // To provide a cacert file. Note that this relies on Java -> JNI code to set the
     // TMPDIR env variable so we know where we can write the file to
-    let tmpDir: String = String(cString: getenv("TMPDIR"))
+    let tmpDir: String = String(cString: getenv("TMPDIR")!)
     let cacertPath = "\(tmpDir)/cacert.pem"
     try? SilkRoadFrameworkPamphlet.CacertPem().description.write(toFile: cacertPath,
                                                                  atomically: false,
@@ -212,6 +208,7 @@ public func download(url urlUTF8: UTF8Ptr?,
     }
 }
 
+/*
 @_cdecl("silkroad_ocr")
 public func ocr() {
     guard let image = try? SilkRoadFrameworkPamphlet.Image6PngGzip().gunzipped() else {
