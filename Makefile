@@ -16,20 +16,50 @@ define buildSwift62
 	# clear out the old .so
 	rm -f ./SilkRoadAndroidTest/app/src/main/jniLibs/$2/*.so
 	
+	# copy ndk .so
+	cp ~/Library/org.swift.swiftpm/swift-sdks/swift-6.2-RELEASE-android-0.1.artifactbundle/swift-android/swift-resources/usr/lib/swift-$1/android/*.so ./SilkRoadAndroidTest/app/src/main/jniLibs/$2/
 	# copy our .so
 	cp .build/$1-unknown-linux-android28/release/*.so ./SilkRoadAndroidTest/app/src/main/jniLibs/$2/
-	# copy ndk .so
-	cp ~/Downloads/android-ndk-r27d/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/lib/$3/libc++_shared.so ./SilkRoadAndroidTest/app/src/main/jniLibs/$2/
-	cp ~/Library/org.swift.swiftpm/swift-sdks/swift-6.2-RELEASE-android-0.1.artifactbundle/swift-android/swift-resources/usr/lib/swift-$1/android/*.so ./SilkRoadAndroidTest/app/src/main/jniLibs/$2/
+	# copy vendored .so
+	cp AndroidLibs2/$2/*.so ./SilkRoadAndroidTest/app/src/main/jniLibs/$2/
+	
 	# remove unnecessary
 	rm ./SilkRoadAndroidTest/app/src/main/jniLibs/$2/libTesting.so
 	rm ./SilkRoadAndroidTest/app/src/main/jniLibs/$2/libXCTest.so
 	rm ./SilkRoadAndroidTest/app/src/main/jniLibs/$2/libFoundationXML.so
 	rm ./SilkRoadAndroidTest/app/src/main/jniLibs/$2/libswiftSwiftOnoneSupport.so
 	rm ./SilkRoadAndroidTest/app/src/main/jniLibs/$2/lib_Testing_Foundation.so
-		
+	rm ./SilkRoadAndroidTest/app/src/main/jniLibs/$2/libHitch.so
+	
 	# strip all .so
 	find ./SilkRoadAndroidTest/app/src/main/jniLibs/$2 -name '*.so' -exec ~/Downloads/android-ndk-r27d/toolchains/llvm/prebuilt/darwin-x86_64/bin/llvm-objcopy --strip-all {} \;
+	
+	# manually fix dependencies (perform add-needed after stripping)
+	# JSC
+	mv ./SilkRoadAndroidTest/app/src/main/jniLibs/$2/libjsc.so ./SilkRoadAndroidTest/app/src/main/jniLibs/$2/libjscSR.so
+	patchelf ./SilkRoadAndroidTest/app/src/main/jniLibs/$2/libjscSR.so --set-soname "libjscSR.so"
+	patchelf ./SilkRoadAndroidTest/app/src/main/jniLibs/$2/libSilkRoadFramework.so --add-needed "libjscSR.so"
+	
+	# libc++_shared.so
+	mv ./SilkRoadAndroidTest/app/src/main/jniLibs/$2/libc++_shared.so ./SilkRoadAndroidTest/app/src/main/jniLibs/$2/libc++_sharedSR.so
+	patchelf ./SilkRoadAndroidTest/app/src/main/jniLibs/$2/libc++_sharedSR.so --set-soname "libc++_sharedSR.so"
+	patchelf ./SilkRoadAndroidTest/app/src/main/jniLibs/$2/libjscSR.so --replace-needed "libc++_shared.so" "libc++_sharedSR.so"
+	patchelf ./SilkRoadAndroidTest/app/src/main/jniLibs/$2/lib_FoundationICU.so --replace-needed "libc++_shared.so" "libc++_sharedSR.so"
+	patchelf ./SilkRoadAndroidTest/app/src/main/jniLibs/$2/libswift_Builtin_float.so --replace-needed "libc++_shared.so" "libc++_sharedSR.so"
+	patchelf ./SilkRoadAndroidTest/app/src/main/jniLibs/$2/libswift_Concurrency.so --replace-needed "libc++_shared.so" "libc++_sharedSR.so"
+	patchelf ./SilkRoadAndroidTest/app/src/main/jniLibs/$2/libswift_Differentiation.so --replace-needed "libc++_shared.so" "libc++_sharedSR.so"
+	patchelf ./SilkRoadAndroidTest/app/src/main/jniLibs/$2/libswift_math.so --replace-needed "libc++_shared.so" "libc++_sharedSR.so"
+	patchelf ./SilkRoadAndroidTest/app/src/main/jniLibs/$2/libswift_RegexParser.so --replace-needed "libc++_shared.so" "libc++_sharedSR.so"
+	patchelf ./SilkRoadAndroidTest/app/src/main/jniLibs/$2/libswift_StringProcessing.so --replace-needed "libc++_shared.so" "libc++_sharedSR.so"
+	patchelf ./SilkRoadAndroidTest/app/src/main/jniLibs/$2/libswift_Volatile.so --replace-needed "libc++_shared.so" "libc++_sharedSR.so"
+	patchelf ./SilkRoadAndroidTest/app/src/main/jniLibs/$2/libswiftAndroid.so --replace-needed "libc++_shared.so" "libc++_sharedSR.so"
+	patchelf ./SilkRoadAndroidTest/app/src/main/jniLibs/$2/libswiftCore.so --replace-needed "libc++_shared.so" "libc++_sharedSR.so"
+	patchelf ./SilkRoadAndroidTest/app/src/main/jniLibs/$2/libswiftDistributed.so --replace-needed "libc++_shared.so" "libc++_sharedSR.so"
+	patchelf ./SilkRoadAndroidTest/app/src/main/jniLibs/$2/libswiftObservation.so --replace-needed "libc++_shared.so" "libc++_sharedSR.so"
+	patchelf ./SilkRoadAndroidTest/app/src/main/jniLibs/$2/libswiftRegexBuilder.so --replace-needed "libc++_shared.so" "libc++_sharedSR.so"
+	patchelf ./SilkRoadAndroidTest/app/src/main/jniLibs/$2/libswiftSynchronization.so --replace-needed "libc++_shared.so" "libc++_sharedSR.so"
+	
+	
 endef
 
 build:
@@ -41,6 +71,11 @@ update:
 clean:
 	rm -rf .build
 	rm -rf ./AndroidNDK
+
+swift62-test: android-ndk
+	@$(call buildSwift62,"aarch64","arm64-v8a","aarch64-linux-android")
+	@$(call buildSwift62,"armv7","armeabi-v7a","arm-linux-androideabi")
+	@$(call buildSwift62,"x86_64","x86_64","x86_64-linux-android")
 
 libicu:
 	# NOTE: use the fork (https://github.com/KittyMac/termux-packages/tree/silkroad) to compile
@@ -80,11 +115,6 @@ update-libs:
 android-ndk:
 	mkdir -p ./AndroidNDK
 	@[ -f ./AndroidNDK/android-ndk-25c.zip ] && echo "skipping ndk download..." || wget -q -O ./AndroidNDK/android-ndk-25c.zip https://dl.google.com/android/repository/android-ndk-r25c-linux.zip
-
-swift62-test: android-ndk
-	@$(call buildSwift62,"aarch64","arm64-v8a","aarch64-linux-android")
-	@$(call buildSwift62,"armv7","armeabi-v7a","arm-linux-androideabi")
-	@$(call buildSwift62,"x86_64","x86_64","x86_64-linux-android")
 
 docker-release: android-ndk
 	-DOCKER_HOST=ssh://rjbowli@192.168.111.203 docker buildx create --name cluster_builder203 --platform linux/amd64

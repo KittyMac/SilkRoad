@@ -1,10 +1,11 @@
 import Foundation
 import Hitch
-/*
 import Spanker
 import Sextant
 import Flynn
 import Jib
+
+/*
 import Picaroon
 import Gzip
 import MailPacket
@@ -19,10 +20,10 @@ import FoundationNetworking
 #endif
 
 // Override print so that it goes to Android logcat
-//public func print(_ items: Any..., separator: String = " ", terminator: String = "\n") {
-    //let output = items.map { "\($0)" }.joined(separator: separator)
-    //Flynn.syslog("TAG", output)
-//}
+public func print(_ items: Any..., separator: String = " ", terminator: String = "\n") {
+    let output = items.map { "\($0)" }.joined(separator: separator)
+    Flynn.syslog("TAG", output)
+}
 
 public typealias VoidPtr = UnsafePointer<UInt8>
 public typealias UTF8Ptr = UnsafePointer<UInt8>
@@ -50,7 +51,7 @@ public func uppercase(string: UTF8Ptr?) -> UTF8Ptr? {
     guard let string = string else { return nil }
     return Hitch(utf8: string).uppercase().export().0
 }
-/*
+
 @_cdecl("silkroad_jsonpath")
 public func jsonpath(queryUTF8: UTF8Ptr?,
                      jsonUTF8: UTF8Ptr?) -> UTF8Ptr? {
@@ -88,6 +89,84 @@ public func eval(javascriptUTF8: UTF8Ptr?) -> UTF8Ptr? {
     return jib[hitch: HalfHitch(utf8: javascriptUTF8)]?.export().0
 }
 
+@_cdecl("silkroad_icudata")
+public func icudata(javascriptUTF8: UTF8Ptr?) -> UTF8Ptr? {
+    
+    // testLocaleCurrentAndLocaleDependentProperties
+    let localesToTest = ["fr_FR", "zh_Hant_TW", "de_DE", "en_US"]
+    for id in localesToTest {
+        let locale = Locale(identifier: id)
+        // Access currency code & symbol
+        let code = locale.currencyCode
+        let symbol = locale.currencySymbol
+        // Access a languageCode / regionCode
+        let lang = locale.languageCode
+        let reg = locale.regionCode
+        
+        print("Locale \(id): currencyCode = \(String(describing: code)), symbol = \(String(describing: symbol)), language = \(String(describing: lang)), region = \(String(describing: reg))")
+    }
+    
+    // testTimeZoneLoading
+    let tzIDs = ["America/New_York", "Europe/Paris", "Asia/Tokyo", "UTC"]
+    for tzid in tzIDs {
+        if let tz = TimeZone(identifier: tzid) {
+            print("TimeZone \(tzid): secondsFromGMT = \(tz.secondsFromGMT()), abbreviation = \(String(describing: tz.abbreviation()))")
+        } else {
+            print("TimeZone(identifier: \"\(tzid)\") returned nil under minimal ICU data")
+        }
+    }
+    
+    // Also test nextDaylightTransition / isDaylightSavingTime etc
+    if let ny = TimeZone(identifier: "America/New_York") {
+        let now = Date()
+        let isDST = ny.isDaylightSavingTime(for: now)
+        print("NY is DST? \(isDST)")
+    }
+    
+    // testStringEncodingConversions
+    let s = "Hello — café"  // includes non-ASCII
+    let encodings: [String.Encoding] = [.isoLatin1, .windowsCP1252, .ascii]
+    for enc in encodings {
+        if let data = s.data(using: enc) {
+            if let round = String(data: data, encoding: enc) {
+                print(s, round, "Round-trip encoding failed for encoding \(enc)")
+            } else {
+                print("String(data:…, encoding:) returned nil for encoding \(enc)")
+            }
+        } else {
+            print("s.data(using:) returned nil for encoding \(enc)")
+        }
+    }
+    
+    // testStringTransformTransliteration
+    let mstr = NSMutableString(string: "éÅß中文")
+    let did = mstr.applyingTransform(.toLatin, reverse: true)
+    print("After toLatin: \(mstr), did: \(did)")
+    
+    // testLocalizedStringCompareAndCollation
+    let a = "straße"
+    let b = "strasse"
+    let result = a.localizedStandardCompare(b)
+    print("localizedStandardCompare: \(result.rawValue)")
+    let nsA = a as NSString
+    let nsB = b as NSString
+    let comp = nsA.compare(nsB as String, options: [], range: NSRange(location: 0, length: nsA.length), locale: Locale(identifier: "de_DE"))
+    print("NSString compare: \(comp.rawValue)")
+        
+    // testUnicodeNormalization
+    let composed = "é"                 // U+00E9
+    let decomposed = "e\u{0301}"       // 'e' + combining acute
+    print(composed == decomposed, "By default Swift strings treat them as canonical equiv")
+    let ns1 = (composed as NSString).decomposedStringWithCanonicalMapping
+    let ns2 = (decomposed as NSString).precomposedStringWithCanonicalMapping
+    print("Decomposed: \(ns1), Precomposed: \(ns2)")
+    print(ns1, composed, "Decomposition gave something unexpected")
+    print(ns2, decomposed, "Precomposition gave something unexpected")
+
+    return Hitch(string: "").export().0
+}
+
+/*
 @_cdecl("silkroad_download")
 public func download(url urlUTF8: UTF8Ptr?,
                      _ returnCallback: CallbackPtr?,
@@ -168,7 +247,7 @@ public func imap() {
         }
     }
 }
-
+*/
 public class Lowercase: Actor {
     internal func _beToLowercase(string: String) -> String {
         return string.lowercased()
@@ -177,4 +256,4 @@ public class Lowercase: Actor {
         return hitch.lowercase()
     }
 }
-*/
+

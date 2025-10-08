@@ -11,12 +11,13 @@ extern void * retain(jobject obj);
 // From libSilkRoadFramework.so
 extern "C" int silkroad_add(jlong x, jlong y);
 extern "C" const char * silkroad_uppercase(const char * ptr);
-//extern "C" const char * silkroad_jsonpath(const char * path, const char * json);
-//extern "C" void silkroad_flynnTest(const char * ptr, void * functionPtr, void * infoPtr);
+extern "C" const char * silkroad_jsonpath(const char * path, const char * json);
+extern "C" void silkroad_flynnTest(const char * ptr, void * functionPtr, void * infoPtr);
 //extern "C" void silkroad_download(const char * ptr, void * functionPtr, void * infoPtr);
 //extern "C" void silkroad_ocr();
 //extern "C" void silkroad_imap();
-//extern "C" const char * silkroad_eval(const char * ptr);
+extern "C" const char * silkroad_eval(const char * ptr);
+extern "C" const char * silkroad_icudata(const char * ptr);
 
 // JNI methods
 extern "C" JNIEXPORT jlong JNICALL
@@ -37,7 +38,7 @@ Java_com_chimerasw_silkroadandroidtest_MainActivityKt_uppercase(JNIEnv *env,
     env->ReleaseStringUTFChars(string, jsonCString);
     return result;
 }
-/*
+
 extern "C"
 JNIEXPORT jstring JNICALL
 Java_com_chimerasw_silkroadandroidtest_MainActivityKt_jsonpath(JNIEnv *env,
@@ -74,6 +75,20 @@ Java_com_chimerasw_silkroadandroidtest_MainActivityKt_eval(JNIEnv *env,
     return result;
 
 }
+
+extern "C"
+JNIEXPORT jstring JNICALL
+Java_com_chimerasw_silkroadandroidtest_MainActivityKt_icudata(JNIEnv *env,
+                                                              jclass clazz,
+                                                              jstring jsJString) {
+    const char *jsCString = env->GetStringUTFChars(jsJString, nullptr);
+    jstring result = utf8ToJString(silkroad_icudata(jsCString));
+    env->ReleaseStringUTFChars(jsJString, jsCString);
+    return result;
+
+}
+
+/*
 extern "C"
 JNIEXPORT void JNICALL
 Java_com_chimerasw_silkroadandroidtest_MainActivityKt_download(JNIEnv *env, jclass clazz,
