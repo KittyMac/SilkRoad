@@ -36,14 +36,28 @@ define buildSwift62
 	@$(call termux,$1,$2,$3,"openssl_1_3.5.0-1","libcrypto.so.3","libcryptoSR.so")
 	
 	echo "swiftly run swift build  --configuration=release -Xcc -Oz -Xswiftc -Osize --swift-sdk $1-unknown-linux-android28 +6.2"
-	swiftly run swift build  --configuration=release \
+	swiftly run swift build --configuration release \
 		-Xcc -Oz \
+		-Xcc -fdata-sections \
+		-Xcc -ffunction-sections \
 		-Xswiftc -Osize \
 		-Xswiftc -whole-module-optimization \
+		-Xswiftc -cross-module-optimization \
 		-Xswiftc -gnone \
+		-Xswiftc -enable-library-evolution \
+		-Xlinker -s \
 		-Xcc "-I${ANDROID_SDK_HOME}/termux/usr/include" \
 		-Xlinker "-L${ANDROID_SDK_HOME}/termux/usr/lib" \
 		--swift-sdk $1-unknown-linux-android28 +6.2
+	
+	#swiftly run swift build  --configuration=release \
+	#	-Xcc -Oz \
+	#	-Xswiftc -Osize \
+	#	-Xswiftc -whole-module-optimization \
+	#	-Xswiftc -gnone \
+	#	-Xcc "-I${ANDROID_SDK_HOME}/termux/usr/include" \
+	#	-Xlinker "-L${ANDROID_SDK_HOME}/termux/usr/lib" \
+	#	--swift-sdk $1-unknown-linux-android28 +6.2
 		
 	# copy ndk .so
 	cp ${ANDROID_SDK_HOME}/swift-resources/usr/lib/swift-$1/android/*.so ./SilkRoadAndroidTest/app/src/main/jniLibs/$2/
