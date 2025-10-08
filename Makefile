@@ -57,6 +57,11 @@ define buildSwift62
 	rm ./SilkRoadAndroidTest/app/src/main/jniLibs/$2/libXCTest.so
 	rm ./SilkRoadAndroidTest/app/src/main/jniLibs/$2/libFoundationXML.so
 	rm ./SilkRoadAndroidTest/app/src/main/jniLibs/$2/libswiftSwiftOnoneSupport.so
+	rm ./SilkRoadAndroidTest/app/src/main/jniLibs/$2/libswift_Differentiation.so
+	rm ./SilkRoadAndroidTest/app/src/main/jniLibs/$2/libswiftDistributed.so
+	rm ./SilkRoadAndroidTest/app/src/main/jniLibs/$2/libswiftRegexBuilder.so
+	rm ./SilkRoadAndroidTest/app/src/main/jniLibs/$2/libswiftObservation.so
+	rm ./SilkRoadAndroidTest/app/src/main/jniLibs/$2/libswift_Volatile.so
 	rm ./SilkRoadAndroidTest/app/src/main/jniLibs/$2/lib_Testing_Foundation.so
 	
 	# strip all .so (only if they have not been stripped previously)
@@ -96,16 +101,11 @@ define buildSwift62
 	patchelf ./SilkRoadAndroidTest/app/src/main/jniLibs/$2/lib_FoundationICU.so --replace-needed "libc++_shared.so" "libc++_sharedSR.so"
 	patchelf ./SilkRoadAndroidTest/app/src/main/jniLibs/$2/libswift_Builtin_float.so --replace-needed "libc++_shared.so" "libc++_sharedSR.so"
 	patchelf ./SilkRoadAndroidTest/app/src/main/jniLibs/$2/libswift_Concurrency.so --replace-needed "libc++_shared.so" "libc++_sharedSR.so"
-	patchelf ./SilkRoadAndroidTest/app/src/main/jniLibs/$2/libswift_Differentiation.so --replace-needed "libc++_shared.so" "libc++_sharedSR.so"
 	patchelf ./SilkRoadAndroidTest/app/src/main/jniLibs/$2/libswift_math.so --replace-needed "libc++_shared.so" "libc++_sharedSR.so"
 	patchelf ./SilkRoadAndroidTest/app/src/main/jniLibs/$2/libswift_RegexParser.so --replace-needed "libc++_shared.so" "libc++_sharedSR.so"
 	patchelf ./SilkRoadAndroidTest/app/src/main/jniLibs/$2/libswift_StringProcessing.so --replace-needed "libc++_shared.so" "libc++_sharedSR.so"
-	patchelf ./SilkRoadAndroidTest/app/src/main/jniLibs/$2/libswift_Volatile.so --replace-needed "libc++_shared.so" "libc++_sharedSR.so"
 	patchelf ./SilkRoadAndroidTest/app/src/main/jniLibs/$2/libswiftAndroid.so --replace-needed "libc++_shared.so" "libc++_sharedSR.so"
 	patchelf ./SilkRoadAndroidTest/app/src/main/jniLibs/$2/libswiftCore.so --replace-needed "libc++_shared.so" "libc++_sharedSR.so"
-	patchelf ./SilkRoadAndroidTest/app/src/main/jniLibs/$2/libswiftDistributed.so --replace-needed "libc++_shared.so" "libc++_sharedSR.so"
-	patchelf ./SilkRoadAndroidTest/app/src/main/jniLibs/$2/libswiftObservation.so --replace-needed "libc++_shared.so" "libc++_sharedSR.so"
-	patchelf ./SilkRoadAndroidTest/app/src/main/jniLibs/$2/libswiftRegexBuilder.so --replace-needed "libc++_shared.so" "libc++_sharedSR.so"
 	patchelf ./SilkRoadAndroidTest/app/src/main/jniLibs/$2/libswiftSynchronization.so --replace-needed "libc++_shared.so" "libc++_sharedSR.so"
 endef
 
