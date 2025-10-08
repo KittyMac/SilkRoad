@@ -55,6 +55,15 @@
       }
     },
     {
+      "identity" : "mailpacket",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/KittyMac/MailPacket.git",
+      "state" : {
+        "revision" : "99ad405b30396171c3091bf31c242251da71cd47",
+        "version" : "0.0.38"
+      }
+    },
+    {
       "identity" : "pamphlet",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/KittyMac/Pamphlet.git",
@@ -88,6 +97,15 @@
       "state" : {
         "revision" : "ff05ac41aea633ca7a9fd966d3164373247ee8dd",
         "version" : "0.2.53"
+      }
+    },
+    {
+      "identity" : "spyglass",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/KittyMac/Spyglass.git",
+      "state" : {
+        "revision" : "2ffb5d8acd916adf2eafc5e72fbda2d61aa99ada",
+        "version" : "0.0.38"
       }
     },
     {

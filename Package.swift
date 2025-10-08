@@ -18,10 +18,9 @@ let package = Package(
         .package(url: "https://github.com/KittyMac/Jib.git", from: "0.0.52"),
         .package(url: "https://github.com/KittyMac/Picaroon.git", from: "0.4.15"),
         .package(url: "https://github.com/KittyMac/Pamphlet.git", from: "0.3.62"),
-        
-        //.package(url: "https://github.com/KittyMac/MailPacket.git", from: "0.0.1"),
-        //.package(url: "https://github.com/KittyMac/Spyglass.git", from: "0.0.7"),
-        //.package(url: "https://github.com/KittyMac/GzipSwift.git", from: "5.3.0"),
+        .package(url: "https://github.com/KittyMac/MailPacket.git", from: "0.0.1"),
+        .package(url: "https://github.com/KittyMac/Spyglass.git", from: "0.0.7"),
+        .package(url: "https://github.com/KittyMac/GzipSwift.git", from: "5.3.0"),
     ],
     targets: [
         .executableTarget(
@@ -36,9 +35,9 @@ let package = Package(
                 "Flynn",
                 "Jib",
                 "Picaroon",
-                //"Spyglass",
-                //"MailPacket",
-                //.product(name: "Gzip", package: "GzipSwift"),
+                "MailPacket",
+                "Spyglass",
+                .product(name: "Gzip", package: "GzipSwift"),
                 .product(name: "PamphletTool", package: "Pamphlet"),
             ],
             plugins: [

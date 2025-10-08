@@ -5,15 +5,12 @@ import Sextant
 import Flynn
 import Jib
 import Picaroon
-
-/*
-import Gzip
 import MailPacket
+import Gzip
 
 #if canImport(Spyglass)
 import Spyglass
 #endif
-*/
 
 #if canImport(FoundationNetworking)
 import FoundationNetworking
@@ -208,7 +205,7 @@ public func download(url urlUTF8: UTF8Ptr?,
     }
 }
 
-/*
+
 @_cdecl("silkroad_ocr")
 public func ocr() {
     guard let image = try? SilkRoadFrameworkPamphlet.Image6PngGzip().gunzipped() else {
@@ -244,7 +241,7 @@ public func imap() {
         }
     }
 }
-*/
+
 public class Lowercase: Actor {
     internal func _beToLowercase(string: String) -> String {
         return string.lowercased()
