@@ -1,0 +1,12 @@
+#!/bin/sh
+
+find /root/lib/ -name '*.so' | \
+while read sofile; do
+    if echo "$sofile" | grep -qE "libdispatch.so|libdispatch.so"; then
+        echo "skipping $sofile"
+    else
+        if /root/android-ndk/toolchains/llvm/prebuilt/linux-x86_64/bin/llvm-readobj --sections "$sofile" | grep -q '\.symtab'; then
+            /root/android-ndk/toolchains/llvm/prebuilt/linux-x86_64/bin/llvm-objcopy --strip-all "$sofile"
+        fi
+    fi
+done

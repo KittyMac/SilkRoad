@@ -98,7 +98,7 @@ docker-test: docker-release
 	rm -rf ./SilkRoadAndroidTest/app/src/main/jniLibs/
 	mkdir -p ./SilkRoadAndroidTest/app/src/main/jniLibs/
 	cp -r /tmp/jniLibs/* ./SilkRoadAndroidTest/app/src/main/jniLibs/
-	
+
 
 docker-test-shell: docker-test
 	docker pull --platform linux/amd64 kittymac/silkroadtest

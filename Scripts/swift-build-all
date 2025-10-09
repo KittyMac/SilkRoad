@@ -18,7 +18,6 @@ export SILKROAD=1
     -Xlinker -x \
     --destination "/root/android-x86_64.json" -Xlinker -rpath -Xlinker "/root/swift-release-android-x86_64-24-sdk/usr/lib/swift/android/x86_64"
 cp .build/x86_64-unknown-linux-android24/release/*.so /root/lib/x86_64/ || true
-cp *.so /root/lib/x86_64/ || true
 rm -f *.so
 
 /usr/bin/swift build "$@" \
@@ -34,7 +33,6 @@ rm -f *.so
     -Xlinker -x \
     --destination "/root/android-aarch64.json" -Xlinker -rpath -Xlinker "/root/swift-release-android-aarch64-24-sdk/usr/lib/swift/android/aarch64"
 cp .build/aarch64-unknown-linux-android24/release/*.so /root/lib/arm64-v8a/ || true
-cp *.so /root/lib/arm64-v8a/ || true
 rm -f *.so
 
 /usr/bin/swift build "$@" \
@@ -50,5 +48,4 @@ rm -f *.so
     -Xlinker -x \
     --destination "/root/android-armv7.json" -Xlinker -rpath -Xlinker "/root/swift-release-android-armv7-24-sdk/usr/lib/swift/android/armv7"
 cp .build/armv7-unknown-linux-androideabi24/release/*.so /root/lib/armeabi-v7a/ || true
-cp *.so /root/lib/armeabi-v7a/ || true
 rm -f *.so

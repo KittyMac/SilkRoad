@@ -7,120 +7,14 @@ COPY ./Package.swift ./Package.swift
 COPY ./Sources ./Sources
 COPY ./Tests ./Tests
 
-# Note: When SPM builds shared libraries, the shared libraries are not formed as correctly
-# as we need them to be. They are lacking in two areas:
-# 1. They lack the soname field being populated
-# 2. They lack the NEEDED fields being populated for the other libs they depend on
-#
-# For the libraries we need to recreate these fields using patchelf. There is a script
-# (/usr/bin/patch-elf) included which will run the patchelf command on all architectures
-# of the .so provided.
-#
-# Warning: we have experienced issues with calling patchelf too many times on the same
-# .so and/or adding soname field to all .so. To combat this, the recommendation is to
-# call patch-elf only once per .so, sending multiple modification commads at the same time
-# and to add the soname only when absolutely necessary.
+RUN /usr/bin/swift-build-all --product SilkRoadFramework
 
-RUN /usr/bin/swift-build-all --product PonyLib
-RUN /usr/bin/swift-build-all --product CTess
-RUN /usr/bin/swift-build-all --product libetpan
-
-RUN /usr/bin/swift-build-all --target SilkRoadFramework
-
-# It is not safe to generically strip all .so, so you need to manually specify which, if any, you want stripped
-
-RUN /usr/bin/strip-so libFoundation.so
-RUN /usr/bin/strip-so libswiftCore.so
-RUN /usr/bin/strip-so libcryptoSR.so
-RUN /usr/bin/strip-so libFoundationNetworking.so
-RUN /usr/bin/strip-so libc++_sharedSR.so
-RUN /usr/bin/strip-so libcurl.so
-RUN /usr/bin/strip-so libsslSR.so
-RUN /usr/bin/strip-so libswift_Concurrency.so
-RUN /usr/bin/strip-so libssh2.so
-RUN /usr/bin/strip-so libswiftDispatch.so
-RUN /usr/bin/strip-so libswift_StringProcessing.so
-RUN /usr/bin/strip-so libzSR.so
-RUN /usr/bin/strip-so libswiftGlibc.so
-RUN /usr/bin/strip-so libBlocksRuntime.so
-RUN /usr/bin/strip-so libnghttp2.so
-RUN /usr/bin/strip-so libnghttp3.so
-RUN /usr/bin/strip-so libCryptoSwift.so
-RUN /usr/bin/strip-so libStudding.so
-RUN /usr/bin/strip-so libGzip.so
-
-RUN /usr/bin/strip-so libSextant.so
-RUN /usr/bin/strip-so libSilkRoadFramework.so
-RUN /usr/bin/strip-so libPicaroon.so
-RUN /usr/bin/strip-so libHitch.so
-RUN /usr/bin/strip-so libSpanker.so
-RUN /usr/bin/strip-so libFlynn.so
-RUN /usr/bin/strip-so libSpyglass.so
-RUN /usr/bin/strip-so liblibetpan.so
-RUN /usr/bin/strip-so libMailPacket.so
-RUN /usr/bin/strip-so libJib.so
-RUN /usr/bin/strip-so libPonyLib.so
-RUN /usr/bin/strip-so libCTess.so
-RUN /usr/bin/strip-so libChronometer.so
-
-# Fix up the generated libraries; their sonames will be wrong
-# and they won't have their dependencies linked properly
-
-RUN /usr/bin/patch-elf libHitch.so --set-soname "libHitch.so"
-
-RUN /usr/bin/patch-elf libCryptoSwift.so --set-soname "libCryptoSwift.so"
-
-RUN /usr/bin/patch-elf libGzip.so --set-soname "libGzip.so"
-
-RUN /usr/bin/patch-elf libSpanker.so \
-    --add-needed "libHitch.so"
-    
-RUN /usr/bin/patch-elf libStudding.so \
-    --add-needed "libHitch.so"
-    
-RUN /usr/bin/patch-elf libSextant.so \
-    --add-needed "libSpanker.so" \
-    --add-needed "libChronometer.so" \
-    --add-needed "libHitch.so"
-
-RUN /usr/bin/patch-elf libJib.so \
-    --add-needed "libSpanker.so" \
-    --add-needed "libChronometer.so" \
-    --add-needed "libHitch.so" \
-    --add-needed "libjscSR.so"
-
-RUN /usr/bin/patch-elf libFlynn.so \
-    --add-needed "libPonyLib.so"
-    
-RUN /usr/bin/patch-elf libSpyglass.so \
-    --add-needed "libCTess.so"
-    
-RUN /usr/bin/patch-elf libSpyglass.so \
-    --add-needed "libtesseract.so" \
-    --add-needed "libleptonica.so"
-
-RUN /usr/bin/patch-elf libMailPacket.so \
-    --add-needed "liblibetpan.so"
-
-RUN /usr/bin/patch-elf libPicaroon.so \
-    --add-needed "libFlynn.so" \
-    --add-needed "libHitch.so" \
-    --add-needed "libSextant.so"
+RUN /usr/bin/strip-all-so
 
 RUN /usr/bin/patch-elf libSilkRoadFramework.so \
-    --add-needed "libMailPacket.so" \
-    --add-needed "libSpyglass.so" \
-    --add-needed "libFlynn.so" \
-    --add-needed "libSextant.so" \
-    --add-needed "libJib.so" \
-    --add-needed "libCryptoSwift.so" \
-    --add-needed "libStudding.so" \
-    --add-needed "libGzip.so" \
-    --add-needed "libPicaroon.so"
-
-RUN /usr/bin/patch-elf liblibetpan.so --set-soname "liblibetpan.so"
-RUN /usr/bin/patch-elf liblibetpan.so --replace-needed "libssl.so.3" "libsslSR.so"
-RUN /usr/bin/patch-elf liblibetpan.so --replace-needed "libcrypto.so.3" "libcryptoSR.so"
+    --replace-needed "libjsc.so" "libjscSR.so" \
+    --replace-needed "libssl.so.3" "libsslSR.so" \
+    --replace-needed "libcrypto.so.3" "libcryptoSR.so"
 
 # Remove any .so we don't actually need
 RUN /usr/bin/remove-so libFoundationXML.so
@@ -139,6 +33,7 @@ RUN /usr/bin/remove-so libtermcap.so
 RUN /usr/bin/remove-so libtic.so
 RUN /usr/bin/remove-so libtinfo.so
 
+RUN /usr/bin/remove-so libjsc.so
 RUN /usr/bin/remove-so libxml2.so
 RUN /usr/bin/remove-so libandroid-posix-semaphore.so
 RUN /usr/bin/remove-so libresolv_wrapper.so

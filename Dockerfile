@@ -44,6 +44,11 @@ RUN ln -sf /usr/lib/clang/13.0.0 "/root/swift-release-android-x86_64-24-sdk/usr/
 # Import vendored debian packages
 COPY "./AndroidLibs" "./AndroidLibs"
 
+# Install libjsc in order to compile
+RUN cp ./AndroidLibs/arm64-v8a/libjsc.so /root/swift-release-android-aarch64-24-sdk/usr/lib/
+RUN cp ./AndroidLibs/armeabi-v7a/libjsc.so /root/swift-release-android-armv7-24-sdk/usr/lib/
+RUN cp ./AndroidLibs/x86_64/libjsc.so /root/swift-release-android-x86_64-24-sdk/usr/lib/
+
 # Generate the lib folder for output libraries
 WORKDIR /root/lib
 WORKDIR /root/lib/x86_64
@@ -67,6 +72,7 @@ COPY ./Scripts/swift-build-all-debug /usr/bin/swift-build-all-debug
 COPY ./Scripts/patch-elf /usr/bin/patch-elf
 COPY ./Scripts/remove-so /usr/bin/remove-so
 COPY ./Scripts/strip-so /usr/bin/strip-so
+COPY ./Scripts/strip-all-so /usr/bin/strip-all-so
 COPY ./Scripts/termux-install /usr/bin/termux-install
 COPY ./Scripts/vendored-so-install /usr/bin/vendored-so-install
 COPY ./Scripts/silkroad-fix-so /usr/bin/silkroad-fix-so
@@ -75,6 +81,7 @@ RUN chmod 755 /usr/bin/swift-build-all-debug
 RUN chmod 755 /usr/bin/patch-elf
 RUN chmod 755 /usr/bin/remove-so
 RUN chmod 755 /usr/bin/strip-so
+RUN chmod 755 /usr/bin/strip-all-so
 RUN chmod 755 /usr/bin/termux-install
 RUN chmod 755 /usr/bin/vendored-so-install
 RUN chmod 755 /usr/bin/silkroad-fix-so
