@@ -5,9 +5,9 @@ shift
 
 set -e
 
-patchelf "$@" "/root/lib/x86_64/$SONAME"
-patchelf "$@" "/root/lib/arm64-v8a/$SONAME"
-patchelf "$@" "/root/lib/armeabi-v7a/$SONAME"
+patchelf $@ "/root/lib/x86_64/$SONAME"
+patchelf $@ "/root/lib/arm64-v8a/$SONAME"
+patchelf $@ "/root/lib/armeabi-v7a/$SONAME"
 
 cp "/root/lib/x86_64/$SONAME" "/root/swift-release-android-x86_64-24-sdk/usr/lib/$SONAME"
 cp "/root/lib/arm64-v8a/$SONAME" "/root/swift-release-android-aarch64-24-sdk/usr/lib/$SONAME"

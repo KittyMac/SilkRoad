@@ -71,7 +71,6 @@ COPY ./Scripts/swift-build-all /usr/bin/swift-build-all
 COPY ./Scripts/swift-build-all-debug /usr/bin/swift-build-all-debug
 COPY ./Scripts/patch-elf /usr/bin/patch-elf
 COPY ./Scripts/remove-so /usr/bin/remove-so
-COPY ./Scripts/strip-so /usr/bin/strip-so
 COPY ./Scripts/strip-all-so /usr/bin/strip-all-so
 COPY ./Scripts/termux-install /usr/bin/termux-install
 COPY ./Scripts/vendored-so-install /usr/bin/vendored-so-install
@@ -80,7 +79,6 @@ RUN chmod 755 /usr/bin/swift-build-all
 RUN chmod 755 /usr/bin/swift-build-all-debug
 RUN chmod 755 /usr/bin/patch-elf
 RUN chmod 755 /usr/bin/remove-so
-RUN chmod 755 /usr/bin/strip-so
 RUN chmod 755 /usr/bin/strip-all-so
 RUN chmod 755 /usr/bin/termux-install
 RUN chmod 755 /usr/bin/vendored-so-install
