@@ -12,6 +12,7 @@ RUN /usr/bin/swift-build-all --product SilkRoadFramework
 RUN /usr/bin/strip-all-so
 
 RUN /usr/bin/patch-elf libSilkRoadFramework.so \
+    --replace-needed "libz.so" "libzSR.so" \
     --replace-needed "libjsc.so" "libjscSR.so" \
     --replace-needed "libssl.so.3" "libsslSR.so" \
     --replace-needed "libcrypto.so.3" "libcryptoSR.so"
