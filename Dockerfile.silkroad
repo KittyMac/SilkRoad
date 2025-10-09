@@ -139,6 +139,10 @@ RUN /usr/bin/remove-so libtermcap.so
 RUN /usr/bin/remove-so libtic.so
 RUN /usr/bin/remove-so libtinfo.so
 
+RUN /usr/bin/remove-so libxml2.so
+RUN /usr/bin/remove-so libandroid-posix-semaphore.so
+RUN /usr/bin/remove-so libresolv_wrapper.so
+
 FROM ubuntu:20.04
 
 WORKDIR /root
