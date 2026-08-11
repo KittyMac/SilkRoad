@@ -12,6 +12,8 @@ RUN export DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true && ap
     xz-utils \
     patchelf \
     binutils
+    
+# RUN curl -fsSL https://github.com/NixOS/patchelf/releases/download/0.19.1/patchelf-0.19.1-x86_64.tar.gz | tar xz -C /usr/local ./bin/patchelf
 
 RUN rm -rf /var/lib/apt/lists/*
 
