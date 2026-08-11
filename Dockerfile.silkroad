@@ -7,6 +7,25 @@ COPY ./Package.swift ./Package.swift
 COPY ./Sources ./Sources
 COPY ./Tests ./Tests
 
+COPY ./.local_mirror ./.local_mirror
+
+RUN swift package config set-mirror --original-url https://github.com/KittyMac/Spyglass.git --mirror-url /root/SilkRoad/.local_mirror/Spyglass && \
+    swift package config set-mirror --original-url https://github.com/KittyMac/PDFtoJSON.git --mirror-url /root/SilkRoad/.local_mirror/PDFtoJSON && \
+    swift package config set-mirror --original-url https://github.com/KittyMac/MailPacket.git --mirror-url /root/SilkRoad/.local_mirror/MailPacket && \
+    swift package config set-mirror --original-url https://github.com/KittyMac/Jib.git --mirror-url /root/SilkRoad/.local_mirror/Jib && \
+    swift package config set-mirror --original-url https://github.com/KittyMac/Pamphlet.git --mirror-url /root/SilkRoad/.local_mirror/Pamphlet && \
+    swift package config set-mirror --original-url https://github.com/KittyMac/Hitch.git --mirror-url /root/SilkRoad/.local_mirror/Hitch && \
+    swift package config set-mirror --original-url https://github.com/KittyMac/Spanker.git --mirror-url /root/SilkRoad/.local_mirror/Spanker && \
+    swift package config set-mirror --original-url https://github.com/KittyMac/Sextant.git --mirror-url /root/SilkRoad/.local_mirror/Sextant && \
+    swift package config set-mirror --original-url https://github.com/KittyMac/Flynn.git --mirror-url /root/SilkRoad/.local_mirror/Flynn && \
+    swift package config set-mirror --original-url https://github.com/KittyMac/Picaroon.git --mirror-url /root/SilkRoad/.local_mirror/Picaroon && \
+    swift package config set-mirror --original-url https://github.com/KittyMac/Transom.git --mirror-url /root/SilkRoad/.local_mirror/Transom && \
+    swift package config set-mirror --original-url https://github.com/KittyMac/GzipSwift.git --mirror-url /root/SilkRoad/.local_mirror/GzipSwift && \
+    swift package config set-mirror --original-url https://github.com/krzyzanowskim/CryptoSwift.git --mirror-url /root/SilkRoad/.local_mirror/CryptoSwift && \
+    swift package config set-mirror --original-url https://github.com/apple/swift-argument-parser --mirror-url /root/SilkRoad/.local_mirror/swift-argument-parser
+
+RUN swift package resolve
+
 RUN /usr/bin/swift-build-all --product SilkRoadFramework
 
 RUN /usr/bin/strip-all-so
@@ -28,6 +47,7 @@ RUN /usr/bin/remove-so libcurses.so
 RUN /usr/bin/remove-so libncurses.so
 RUN /usr/bin/remove-so libncursesw.so
 RUN /usr/bin/remove-so libsqlite3.so
+RUN /usr/bin/remove-so libsqlite3.53.4.so
 RUN /usr/bin/remove-so libswiftDistributed.so
 RUN /usr/bin/remove-so libswiftRegexBuilder.so
 RUN /usr/bin/remove-so libtermcap.so

@@ -56,7 +56,7 @@ update-libs:
 android-ndk:
 	mkdir -p ./AndroidNDK
 	@[ -f ./AndroidNDK/android-ndk-25c.zip ] && echo "skipping ndk download..." || wget -q -O ./AndroidNDK/android-ndk-25c.zip https://dl.google.com/android/repository/android-ndk-r25c-linux.zip
-	
+
 docker-release: android-ndk
 	-DOCKER_HOST=ssh://rjbowli@192.168.111.203 docker buildx create --name cluster_builder203 --platform linux/amd64
 	-docker buildx create --name cluster_builder203 --platform linux/arm64 --append
@@ -77,7 +77,25 @@ docker-shell: docker-release
 	docker pull --platform linux/amd64 kittymac/silkroad
 	docker run --rm -it --entrypoint bash kittymac/silkroad
 
-docker-test: docker-release
+.PHONY: local-mirror
+local-mirror:
+	mkdir -p .local_mirror
+	-(cd .local_mirror && git -C Spyglass pull 2>/dev/null || git clone https://github.com/KittyMac/Spyglass.git)
+	-(cd .local_mirror && git -C PDFtoJSON pull 2>/dev/null || git clone https://github.com/KittyMac/PDFtoJSON.git)
+	-(cd .local_mirror && git -C MailPacket pull 2>/dev/null || git clone https://github.com/KittyMac/MailPacket.git)
+	-(cd .local_mirror && git -C Jib pull 2>/dev/null || git clone https://github.com/KittyMac/Jib.git)
+	-(cd .local_mirror && git -C Pamphlet pull 2>/dev/null || git clone https://github.com/KittyMac/Pamphlet.git)
+	-(cd .local_mirror && git -C Hitch pull 2>/dev/null || git clone https://github.com/KittyMac/Hitch.git)
+	-(cd .local_mirror && git -C Spanker pull 2>/dev/null || git clone https://github.com/KittyMac/Spanker)
+	-(cd .local_mirror && git -C Sextant pull 2>/dev/null || git clone https://github.com/KittyMac/Sextant.git)
+	-(cd .local_mirror && git -C Flynn pull 2>/dev/null || git clone https://github.com/KittyMac/Flynn.git)
+	-(cd .local_mirror && git -C Picaroon pull 2>/dev/null || git clone https://github.com/KittyMac/Picaroon)
+	-(cd .local_mirror && git -C Transom pull 2>/dev/null || git clone https://github.com/KittyMac/Transom.git)
+	-(cd .local_mirror && git -C GzipSwift pull 2>/dev/null || git clone https://github.com/KittyMac/GzipSwift.git)
+	-(cd .local_mirror && git -C CryptoSwift pull 2>/dev/null || git clone https://github.com/krzyzanowskim/CryptoSwift.git)
+	-(cd .local_mirror && git -C swift-argument-parser pull 2>/dev/null || git clone https://github.com/apple/swift-argument-parser.git)
+
+docker-test: local-mirror docker-release
 	docker pull --platform linux/amd64 kittymac/silkroad:latest
 	
 	# Build our Swift projects into shared libraries using Docker
